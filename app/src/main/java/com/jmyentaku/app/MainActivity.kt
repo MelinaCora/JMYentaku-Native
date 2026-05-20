@@ -1,5 +1,5 @@
 package com.jmyentaku.app
-
+import com.jmyentaku.app.ui.navigation.NavGraph
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-
+                    NavGraph()
                 }
             }
         }
