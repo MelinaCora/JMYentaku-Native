@@ -29,7 +29,9 @@ fun NavGraph() {
         }
 
         composable(Routes.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                navController = navController
+            )
         }
 
         composable(Routes.Detail.route) {
