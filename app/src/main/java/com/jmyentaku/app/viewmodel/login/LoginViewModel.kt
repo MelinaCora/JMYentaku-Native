@@ -25,9 +25,32 @@ class LoginViewModel : ViewModel() {
         )
     }
 
-    fun login() {
+    fun login(): Boolean {
+
+        if (
+            uiState.email.isBlank() ||
+            uiState.password.isBlank()
+        ) {
+
+            uiState = uiState.copy(
+                error = "Completa todos los campos"
+            )
+
+            return false
+        }
+
+        uiState = uiState.copy(
+            isLoading = true,
+            error = null
+        )
 
         println(uiState.email)
         println(uiState.password)
+
+        uiState = uiState.copy(
+            isLoading = false
+        )
+
+        return true
     }
 }

@@ -7,15 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.jmyentaku.app.ui.navigation.Routes
 import com.jmyentaku.app.ui.components.GeneralComponent.CustomButton
 import com.jmyentaku.app.ui.components.form.CustomTextField
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.jmyentaku.app.ui.navigation.Routes
 import com.jmyentaku.app.viewmodel.login.LoginViewModel
 
 @Composable
@@ -24,14 +24,6 @@ fun LoginScreen(
 ) {
 
     val viewModel: LoginViewModel = viewModel()
-
-    var email by remember {
-        mutableStateOf("")
-    }
-
-    var password by remember {
-        mutableStateOf("")
-    }
 
     Column(
         modifier = Modifier
@@ -67,13 +59,24 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        CustomButton(
-            text = "Login",
-            onClick = {
-                viewModel.login()
-                navController.navigate(Routes.Home.route)
-            }
-        )
+        if (viewModel.uiState.isLoading) {
+
+            Text(text = "Cargando...")
+
+        } else {
+
+            CustomButton(
+                text = "Login",
+                onClick = {
+
+                    val success = viewModel.login()
+
+                    if (success) {
+                        navController.navigate(Routes.Home.route)
+                    }
+                }
+            )
+        }
 
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -82,6 +85,12 @@ fun LoginScreen(
             onClick = {
                 navController.navigate(Routes.Register.route)
             }
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            text = viewModel.uiState.error ?: ""
         )
     }
 }
