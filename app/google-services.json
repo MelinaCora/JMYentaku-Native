@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "311154234868",
+    "project_id": "jmyentaku",
+    "storage_bucket": "jmyentaku.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311154234868:android:f57870ed392b2d805015a1",
+        "android_client_info": {
+          "package_name": "com.jmyentaku.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqRQMlor9GOQXYRhisAP6V-xVsNRadyEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

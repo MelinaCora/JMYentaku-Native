@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -55,10 +56,14 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    //ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.2")
     //navigation compose
     implementation("androidx.navigation:navigation-compose:2.7.7")
     //Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation(platform("com.google.firebase:firebase-bom:34.13.0"))
     //Firebase auth
     implementation("com.google.firebase:firebase-auth")
     //FireStore
