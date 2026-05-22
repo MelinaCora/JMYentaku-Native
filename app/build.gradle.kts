@@ -55,5 +55,15 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    //navigation compose
     implementation("androidx.navigation:navigation-compose:2.7.7")
+    //Firebase auth
+    implementation("com.google.firebase:firebase-auth-ktx")
+    //FireStore
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    //Coil (imagenes)
+    implementation("io.coil-kt:coil-compose:2.6.0")
 }
