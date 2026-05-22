@@ -57,10 +57,12 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     //navigation compose
     implementation("androidx.navigation:navigation-compose:2.7.7")
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     //Firebase auth
-    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-auth")
     //FireStore
-    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-firestore")
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
