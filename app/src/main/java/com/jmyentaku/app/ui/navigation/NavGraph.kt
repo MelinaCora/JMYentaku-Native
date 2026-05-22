@@ -8,6 +8,7 @@ import com.jmyentaku.app.ui.screens.details.DetailScreen
 import com.jmyentaku.app.ui.screens.home.HomeScreen
 import com.jmyentaku.app.ui.screens.login.LoginScreen
 import com.jmyentaku.app.ui.screens.register.RegisterScreen
+import com.jmyentaku.app.ui.screens.splash.SplashScreen
 
 @Composable
 fun NavGraph() {
@@ -16,7 +17,7 @@ fun NavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = Routes.Login.route
+        startDestination = Routes.Splash.route
     ) {
 
         composable(Routes.Login.route) {
@@ -33,6 +34,15 @@ fun NavGraph() {
 
         composable(Routes.Detail.route) {
             DetailScreen()
+        }
+
+        composable(
+            route = Routes.Splash.route
+        ) {
+
+            SplashScreen(
+                navController = navController
+            )
         }
     }
 }
