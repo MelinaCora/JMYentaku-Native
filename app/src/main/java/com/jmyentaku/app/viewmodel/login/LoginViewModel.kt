@@ -8,8 +8,11 @@ import com.jmyentaku.app.viewmodel.login.state.LoginUiState
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.jmyentaku.app.data.firebase.AuthRepository
 
 class LoginViewModel : ViewModel() {
+
+    private val repository = AuthRepository()
 
     var uiState by mutableStateOf(LoginUiState())
         private set
@@ -51,16 +54,26 @@ class LoginViewModel : ViewModel() {
                 error = null
             )
 
-            delay(3000)
-
-            println(uiState.email)
-            println(uiState.password)
+            val result = repository.login(
+                email = uiState.email,
+                password = uiState.password
+            )
 
             uiState = uiState.copy(
                 isLoading = false
             )
 
-            onSuccess()
+            result.onSuccess {
+
+                onSuccess()
+            }
+
+            result.onFailure {
+
+                uiState = uiState.copy(
+                    error = it.message
+                )
+            }
         }
     }
 }
