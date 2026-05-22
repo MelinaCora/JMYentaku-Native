@@ -15,11 +15,15 @@ import androidx.navigation.NavController
 import com.jmyentaku.app.ui.navigation.Routes
 import com.jmyentaku.app.ui.components.GeneralComponent.CustomButton
 import com.jmyentaku.app.ui.components.form.CustomTextField
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.jmyentaku.app.viewmodel.login.LoginViewModel
 
 @Composable
 fun LoginScreen(
     navController: NavController
 ) {
+
+    val viewModel: LoginViewModel = viewModel()
 
     var email by remember {
         mutableStateOf("")
@@ -44,9 +48,9 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         CustomTextField(
-            value = email,
+            value = viewModel.email,
             onValueChange = {
-                email = it
+                viewModel.onEmailChange(it)
             },
             label = "Email"
         )
@@ -54,9 +58,9 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         CustomTextField(
-            value = password,
+            value = viewModel.password,
             onValueChange = {
-                password = it
+                viewModel.onPasswordChange(it)
             },
             label = "Password"
         )
@@ -66,6 +70,7 @@ fun LoginScreen(
         CustomButton(
             text = "Login",
             onClick = {
+                viewModel.login()
                 navController.navigate(Routes.Home.route)
             }
         )
