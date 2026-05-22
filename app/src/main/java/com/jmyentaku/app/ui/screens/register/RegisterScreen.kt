@@ -6,40 +6,24 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.jmyentaku.app.ui.components.GeneralComponent.CustomButton
+import com.jmyentaku.app.ui.components.form.CustomTextField
 import com.jmyentaku.app.ui.navigation.Routes
+import com.jmyentaku.app.viewmodel.register.RegisterViewModel
 
 @Composable
 fun RegisterScreen(
     navController: NavController
 ) {
 
-    var username by remember {
-        mutableStateOf("")
-    }
-
-    var email by remember {
-        mutableStateOf("")
-    }
-
-    var password by remember {
-        mutableStateOf("")
-    }
-
-    var confirmPassword by remember {
-        mutableStateOf("")
-    }
-
-    var errorMessage by remember {
-        mutableStateOf("")
-    }
+    val viewModel: RegisterViewModel = viewModel()
 
     Column(
         modifier = Modifier
@@ -55,101 +39,77 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        OutlinedTextField(
-            value = username,
+        CustomTextField(
+            value = viewModel.uiState.username,
             onValueChange = {
-                username = it
+                viewModel.onUsernameChange(it)
             },
-            label = {
-                Text(text = "Username")
-            }
+            label = "Username"
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        OutlinedTextField(
-            value = email,
+        CustomTextField(
+            value = viewModel.uiState.email,
             onValueChange = {
-                email = it
+                viewModel.onEmailChange(it)
             },
-            label = {
-                Text(text = "Email")
-            }
+            label = "Email"
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        OutlinedTextField(
-            value = password,
+        CustomTextField(
+            value = viewModel.uiState.password,
             onValueChange = {
-                password = it
+                viewModel.onPasswordChange(it)
             },
-            label = {
-                Text(text = "Password")
-            }
+            label = "Password"
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        OutlinedTextField(
-            value = confirmPassword,
+        CustomTextField(
+            value = viewModel.uiState.confirmPassword,
             onValueChange = {
-                confirmPassword = it
+                viewModel.onConfirmPasswordChange(it)
             },
-            label = {
-                Text(text = "Confirm Password")
-            }
+            label = "Confirm Password"
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(
-            onClick = {
+        if (viewModel.uiState.isLoading) {
 
-                if (
-                    username.isBlank() ||
-                    email.isBlank() ||
-                    password.isBlank() ||
-                    confirmPassword.isBlank()
-                ) {
+            Text(text = "Cargando...")
 
-                    errorMessage = "Completa todos los campos"
+        } else {
 
-                    return@Button
+            CustomButton(
+                text = "Registrarse",
+                onClick = {
+
+                    viewModel.register {
+
+                        navController.navigate(Routes.Home.route)
+                    }
                 }
-
-                if (password != confirmPassword) {
-
-                    errorMessage = "Las contraseñas no coinciden"
-
-                    return@Button
-                }
-
-                errorMessage = ""
-
-                println(username)
-                println(email)
-                println(password)
-
-                navController.navigate(Routes.Home.route)
-            }
-        ) {
-
-            Text(text = "Registrarse")
+            )
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Button(
+        CustomButton(
+            text = "Volver al Login",
             onClick = {
                 navController.navigate(Routes.Login.route)
             }
-        ) {
-            Text(text = "Volver al Login")
-        }
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(text = errorMessage)
+        Text(
+            text = viewModel.uiState.error ?: ""
+        )
     }
 }

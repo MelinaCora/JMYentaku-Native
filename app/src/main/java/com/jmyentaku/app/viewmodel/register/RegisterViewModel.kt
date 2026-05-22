@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.jmyentaku.app.viewmodel.register.state.RegisterUiState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class RegisterViewModel : ViewModel() {
 
@@ -39,7 +42,9 @@ class RegisterViewModel : ViewModel() {
         )
     }
 
-    fun register(): Boolean {
+    fun register(
+        onSuccess: () -> Unit
+    ) {
 
         if (
             uiState.username.isBlank() ||
@@ -52,7 +57,7 @@ class RegisterViewModel : ViewModel() {
                 error = "Completa todos los campos"
             )
 
-            return false
+            return
         }
 
         if (
@@ -63,21 +68,26 @@ class RegisterViewModel : ViewModel() {
                 error = "Las contraseñas no coinciden"
             )
 
-            return false
+            return
         }
 
-        uiState = uiState.copy(
-            isLoading = true,
-            error = null
-        )
+        viewModelScope.launch {
 
-        println(uiState.username)
-        println(uiState.email)
+            uiState = uiState.copy(
+                isLoading = true,
+                error = null
+            )
 
-        uiState = uiState.copy(
-            isLoading = false
-        )
+            delay(3000)
 
-        return true
+            println(uiState.username)
+            println(uiState.email)
+
+            uiState = uiState.copy(
+                isLoading = false
+            )
+
+            onSuccess()
+        }
     }
 }
