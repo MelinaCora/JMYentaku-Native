@@ -68,4 +68,6 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     //Coil (imagenes)
     implementation("io.coil-kt:coil-compose:2.6.0")
+    //Await - corrutinas
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 }

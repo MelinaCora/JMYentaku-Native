@@ -8,8 +8,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.jmyentaku.app.data.firebase.AuthRepository
 
 class RegisterViewModel : ViewModel() {
+
+    private val repository = AuthRepository()
 
     var uiState by mutableStateOf(RegisterUiState())
         private set
@@ -78,16 +81,26 @@ class RegisterViewModel : ViewModel() {
                 error = null
             )
 
-            delay(3000)
-
-            println(uiState.username)
-            println(uiState.email)
+            val result = repository.register(
+                email = uiState.email,
+                password = uiState.password
+            )
 
             uiState = uiState.copy(
                 isLoading = false
             )
 
-            onSuccess()
+            result.onSuccess {
+
+                onSuccess()
+            }
+
+            result.onFailure {
+
+                uiState = uiState.copy(
+                    error = it.message
+                )
+            }
         }
     }
 }
