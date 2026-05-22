@@ -71,7 +71,7 @@ fun LoginScreen(
                     viewModel.login {
 
                         navController.navigate(Routes.Home.route)
-                    }git
+                    }
                 }
             )
         }
