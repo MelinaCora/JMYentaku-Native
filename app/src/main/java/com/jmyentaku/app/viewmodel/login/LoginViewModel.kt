@@ -5,6 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.jmyentaku.app.viewmodel.login.state.LoginUiState
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
 
@@ -25,7 +28,9 @@ class LoginViewModel : ViewModel() {
         )
     }
 
-    fun login(): Boolean {
+    fun login(
+        onSuccess: () -> Unit
+    ) {
 
         if (
             uiState.email.isBlank() ||
@@ -36,21 +41,26 @@ class LoginViewModel : ViewModel() {
                 error = "Completa todos los campos"
             )
 
-            return false
+            return
         }
 
-        uiState = uiState.copy(
-            isLoading = true,
-            error = null
-        )
+        viewModelScope.launch {
 
-        println(uiState.email)
-        println(uiState.password)
+            uiState = uiState.copy(
+                isLoading = true,
+                error = null
+            )
 
-        uiState = uiState.copy(
-            isLoading = false
-        )
+            delay(3000)
 
-        return true
+            println(uiState.email)
+            println(uiState.password)
+
+            uiState = uiState.copy(
+                isLoading = false
+            )
+
+            onSuccess()
+        }
     }
 }

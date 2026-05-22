@@ -68,12 +68,10 @@ fun LoginScreen(
             CustomButton(
                 text = "Login",
                 onClick = {
+                    viewModel.login {
 
-                    val success = viewModel.login()
-
-                    if (success) {
                         navController.navigate(Routes.Home.route)
-                    }
+                    }git
                 }
             )
         }
