@@ -48,7 +48,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         CustomTextField(
-            value = viewModel.email,
+            value = viewModel.uiState.email,
             onValueChange = {
                 viewModel.onEmailChange(it)
             },
@@ -58,7 +58,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         CustomTextField(
-            value = viewModel.password,
+            value = viewModel.uiState.password,
             onValueChange = {
                 viewModel.onPasswordChange(it)
             },

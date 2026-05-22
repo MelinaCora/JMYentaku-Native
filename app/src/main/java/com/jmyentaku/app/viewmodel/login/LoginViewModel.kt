@@ -4,26 +4,30 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.jmyentaku.app.viewmodel.login.state.LoginUiState
 
 class LoginViewModel : ViewModel() {
 
-    var email by mutableStateOf("")
-        private set
-
-    var password by mutableStateOf("")
+    var uiState by mutableStateOf(LoginUiState())
         private set
 
     fun onEmailChange(newEmail: String) {
-        email = newEmail
+
+        uiState = uiState.copy(
+            email = newEmail
+        )
     }
 
     fun onPasswordChange(newPassword: String) {
-        password = newPassword
+
+        uiState = uiState.copy(
+            password = newPassword
+        )
     }
 
     fun login() {
 
-        println(email)
-        println(password)
+        println(uiState.email)
+        println(uiState.password)
     }
 }
