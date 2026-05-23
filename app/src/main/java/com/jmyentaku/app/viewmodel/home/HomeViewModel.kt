@@ -9,6 +9,7 @@ import com.jmyentaku.app.data.repository.AnimeRepository
 import com.jmyentaku.app.data.repository.MangaRepository
 import com.jmyentaku.app.viewmodel.home.state.HomeUiState
 import kotlinx.coroutines.launch
+import com.jmyentaku.app.data.repository.VoiceActorRepository
 
 class HomeViewModel : ViewModel() {
 
@@ -17,6 +18,9 @@ class HomeViewModel : ViewModel() {
 
     // Repository de mangas
     private val mangaRepository = MangaRepository()
+
+    //Repository de actores
+    private val voiceActorRepository = VoiceActorRepository()
 
     var uiState by mutableStateOf(
         HomeUiState()
@@ -46,9 +50,14 @@ class HomeViewModel : ViewModel() {
                 val mangaList =
                     mangaRepository.getTopManga()
 
+                //traer actores
+                val voiceActorList =
+                    voiceActorRepository.getTopVoiceActors()
+
                 uiState = uiState.copy(
                     animeList = animeList,
                     mangas = mangaList,
+                    voiceActors = voiceActorList,
                     isLoading = false
                 )
 

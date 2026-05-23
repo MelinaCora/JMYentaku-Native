@@ -3,6 +3,7 @@ package com.jmyentaku.app.ui.screens.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,6 +14,8 @@ import com.jmyentaku.app.ui.components.GeneralComponent.CustomButton
 import com.jmyentaku.app.ui.navigation.Routes
 import com.jmyentaku.app.viewmodel.home.HomeViewModel
 import com.jmyentaku.app.ui.components.GeneralComponent.SectionAnimeRow
+import com.jmyentaku.app.ui.components.GeneralComponent.VoiceActorCard
+import androidx.compose.foundation.lazy.items
 
 @Composable
 fun HomeScreen(
@@ -62,10 +65,19 @@ fun HomeScreen(
                         animes = viewModel.uiState.mangas
                     )
 
-                    SectionAnimeRow(
-                        title = "Best Voice Actors",
-                        animes = viewModel.uiState.animeList
+                    Text(
+                        text = "Best Voice Actors"
                     )
+
+                    LazyRow {
+
+                        items(viewModel.uiState.voiceActors) { actor ->
+
+                            VoiceActorCard(
+                                actor = actor
+                            )
+                        }
+                    }
                 }
             }
         }

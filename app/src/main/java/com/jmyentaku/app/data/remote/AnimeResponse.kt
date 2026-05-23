@@ -1,8 +1,7 @@
-package com.jmyentaku.app.data.model
+package com.jmyentaku.app.data.remote
 
 import com.jmyentaku.app.data.model.Anime
 
-data class MangaResponse(
-
+data class AnimeResponse(
     val data: List<Anime>
 )
