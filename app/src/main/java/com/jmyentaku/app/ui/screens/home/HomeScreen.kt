@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.jmyentaku.app.ui.components.GeneralComponent.CustomButton
 import com.jmyentaku.app.ui.navigation.Routes
 import com.jmyentaku.app.viewmodel.home.HomeViewModel
+import com.jmyentaku.app.ui.components.GeneralComponent.AnimeCard
 
 @Composable
 fun HomeScreen(
@@ -53,14 +54,9 @@ fun HomeScreen(
 
             LazyColumn {
 
-                items(
-                    viewModel.uiState.animeList
-                ) { anime ->
+                items(viewModel.uiState.animeList) { anime ->
 
-                    Text(
-                        text = anime.title,
-                        modifier = Modifier.padding(16.dp)
-                    )
+                    AnimeCard(anime = anime)
                 }
             }
         }
