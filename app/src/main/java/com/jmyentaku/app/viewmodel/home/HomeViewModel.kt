@@ -6,12 +6,17 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jmyentaku.app.data.repository.AnimeRepository
+import com.jmyentaku.app.data.repository.MangaRepository
 import com.jmyentaku.app.viewmodel.home.state.HomeUiState
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
 
+    // Repository de animes
     private val repository = AnimeRepository()
+
+    // Repository de mangas
+    private val mangaRepository = MangaRepository()
 
     var uiState by mutableStateOf(
         HomeUiState()
@@ -20,10 +25,10 @@ class HomeViewModel : ViewModel() {
 
     init {
 
-        getTopAnime()
+        getHomeData()
     }
 
-    private fun getTopAnime() {
+    private fun getHomeData() {
 
         viewModelScope.launch {
 
@@ -33,11 +38,17 @@ class HomeViewModel : ViewModel() {
 
             try {
 
+                // Traer animes
                 val animeList =
                     repository.getTopAnime()
 
+                // Traer mangas
+                val mangaList =
+                    mangaRepository.getTopManga()
+
                 uiState = uiState.copy(
                     animeList = animeList,
+                    mangas = mangaList,
                     isLoading = false
                 )
 

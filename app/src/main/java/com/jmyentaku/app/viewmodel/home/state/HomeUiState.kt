@@ -6,6 +6,8 @@ data class HomeUiState(
 
     val animeList: List<Anime> = emptyList(),
 
+    val mangas: List<Anime> = emptyList(),
+
     val isLoading: Boolean = false,
 
     val error: String? = null

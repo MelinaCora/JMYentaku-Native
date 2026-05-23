@@ -59,7 +59,7 @@ fun HomeScreen(
 
                     SectionAnimeRow(
                         title = "Top Mangas",
-                        animes = viewModel.uiState.animeList
+                        animes = viewModel.uiState.mangas
                     )
 
                     SectionAnimeRow(
