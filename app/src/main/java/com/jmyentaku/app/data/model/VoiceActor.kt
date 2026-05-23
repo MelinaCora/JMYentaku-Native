@@ -1,11 +1,9 @@
 package com.jmyentaku.app.data.model
 
 data class VoiceActor(
-
+    val mal_id: Int,
     val name: String,
-
     val favorites: Int,
-
     val images: VoiceActorImages
 )
 

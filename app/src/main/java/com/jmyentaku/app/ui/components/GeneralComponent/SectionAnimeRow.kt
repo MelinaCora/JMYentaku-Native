@@ -16,26 +16,24 @@ import com.jmyentaku.app.data.model.Anime
 @Composable
 fun SectionAnimeRow(
     title: String,
-    animes: List<Anime>
+    animes: List<Anime>,
+    onAnimeClick: (Anime) -> Unit
 ) {
-
     Text(
         text = title,
-
         fontSize = 24.sp,
-
         fontWeight = FontWeight.Bold,
-
         modifier = Modifier.padding(horizontal = 16.dp)
     )
 
     Spacer(modifier = Modifier.height(12.dp))
 
     LazyRow {
-
         items(animes) { anime ->
-
-            AnimeCard(anime = anime)
+            AnimeCard(
+                anime = anime,
+                onClick = { onAnimeClick(anime) }
+            )
         }
     }
 

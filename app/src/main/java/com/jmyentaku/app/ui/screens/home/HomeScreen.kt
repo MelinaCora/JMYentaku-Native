@@ -20,7 +20,9 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +30,7 @@ import com.jmyentaku.app.ui.components.GeneralComponent.DrawerContent
 import com.jmyentaku.app.ui.components.GeneralComponent.SectionAnimeRow
 import com.jmyentaku.app.ui.components.GeneralComponent.VoiceActorCard
 import com.jmyentaku.app.ui.navigation.Routes
+import com.jmyentaku.app.ui.navigation.passIdAndType
 import com.jmyentaku.app.viewmodel.home.HomeViewModel
 import kotlinx.coroutines.launch
 
@@ -36,7 +39,6 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     navController: NavController
 ) {
-
     val viewModel: HomeViewModel = viewModel()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -58,7 +60,7 @@ fun HomeScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("JMyentaku") },
+                    title = { Text("JMYEntaku") },
                     navigationIcon = {
                         IconButton(
                             onClick = {
@@ -67,42 +69,54 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Menu,
-                                contentDescription = "Menú"
+                                contentDescription = "Menu"
                             )
                         }
                     }
                 )
             }
         ) { paddingValues ->
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
                 if (viewModel.uiState.isLoading) {
-                    Text(text = "Loading...")
+                    Text(text = "Loading...", modifier = Modifier.padding(16.dp))
                 } else {
                     LazyColumn {
                         item {
                             SectionAnimeRow(
                                 title = "Top Animes",
-                                animes = viewModel.uiState.animeList
+                                animes = viewModel.uiState.animeList,
+                                onAnimeClick = { anime ->
+                                    navController.navigate(passIdAndType(anime.mal_id, "anime"))
+                                }
                             )
 
                             SectionAnimeRow(
                                 title = "Top Mangas",
-                                animes = viewModel.uiState.mangas
+                                animes = viewModel.uiState.mangas,
+                                onAnimeClick = { manga ->
+                                    navController.navigate(passIdAndType(manga.mal_id, "manga"))
+                                }
                             )
 
                             Text(
                                 text = "Best Voice Actors",
-                                modifier = Modifier.padding(horizontal = 16.dp)
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(16.dp)
                             )
 
                             LazyRow {
                                 items(viewModel.uiState.voiceActors) { actor ->
-                                    VoiceActorCard(actor = actor)
+                                    VoiceActorCard(
+                                        actor = actor,
+                                        onClick = {
+                                            navController.navigate(passIdAndType(actor.mal_id, "actor"))
+                                        }
+                                    )
                                 }
                             }
                         }
