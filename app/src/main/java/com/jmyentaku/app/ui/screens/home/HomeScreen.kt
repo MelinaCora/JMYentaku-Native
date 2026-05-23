@@ -2,7 +2,9 @@ package com.jmyentaku.app.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -18,6 +20,8 @@ import com.jmyentaku.app.ui.components.GeneralComponent.CustomButton
 import com.jmyentaku.app.ui.navigation.Routes
 import com.jmyentaku.app.viewmodel.home.HomeViewModel
 import com.jmyentaku.app.ui.components.GeneralComponent.AnimeCard
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun HomeScreen(
@@ -53,13 +57,23 @@ fun HomeScreen(
 
         } else {
 
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.padding(vertical = 16.dp)
+            ) {
 
                 item {
 
                     Text(
-                        text = "Top Animes"
+                        text = "Top Animes",
+
+                        fontSize = 24.sp,
+
+                        fontWeight = FontWeight.Bold,
+
+                        modifier = Modifier.padding(horizontal = 16.dp)
                     )
+
+                    Spacer(modifier = Modifier.height(12.dp))
 
                     LazyRow {
 

@@ -35,6 +35,7 @@ fun AnimeCard(
     Card(
         modifier = Modifier
             .width(220.dp)
+            .height(420.dp)
             .padding(8.dp),
 
         elevation = CardDefaults.cardElevation(
