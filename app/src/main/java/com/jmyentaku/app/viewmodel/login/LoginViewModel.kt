@@ -40,7 +40,7 @@ class LoginViewModel : ViewModel() {
         ) {
 
             uiState = uiState.copy(
-                error = "Completa todos los campos"
+                error = "Complete all fields"
             )
 
             return

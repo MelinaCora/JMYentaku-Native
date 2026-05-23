@@ -30,7 +30,7 @@ fun DrawerContent(
         ) {
 
             Text(
-                text = "JMYentaku",
+                text = "JMyentaku",
                 fontSize = 24.sp
             )
 
@@ -44,11 +44,11 @@ fun DrawerContent(
                 icon = {
                     Icon(
                         imageVector = Icons.Default.ExitToApp,
-                        contentDescription = "Cerrar Sesión"
+                        contentDescription = "Log Out"
                     )
                 },
                 label = {
-                    Text(text = "Cerrar Sesión")
+                    Text(text = "Log Out")
                 },
                 selected = false,
                 onClick = onLogout

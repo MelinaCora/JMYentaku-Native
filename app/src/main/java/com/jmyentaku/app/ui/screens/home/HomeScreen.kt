@@ -58,7 +58,7 @@ fun HomeScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("JMYentaku") },
+                    title = { Text("JMyentaku") },
                     navigationIcon = {
                         IconButton(
                             onClick = {
@@ -81,7 +81,7 @@ fun HomeScreen(
                     .padding(paddingValues)
             ) {
                 if (viewModel.uiState.isLoading) {
-                    Text(text = "Cargando...")
+                    Text(text = "Loading...")
                 } else {
                     LazyColumn {
                         item {

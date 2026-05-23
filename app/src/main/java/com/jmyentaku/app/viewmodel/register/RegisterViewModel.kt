@@ -57,7 +57,7 @@ class RegisterViewModel : ViewModel() {
         ) {
 
             uiState = uiState.copy(
-                error = "Completa todos los campos"
+                error = "Complete all fiels"
             )
 
             return
@@ -68,7 +68,7 @@ class RegisterViewModel : ViewModel() {
         ) {
 
             uiState = uiState.copy(
-                error = "Las contraseñas no coinciden"
+                error = "Password do not match"
             )
 
             return

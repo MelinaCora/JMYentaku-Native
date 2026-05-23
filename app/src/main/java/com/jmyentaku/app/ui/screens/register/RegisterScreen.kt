@@ -35,7 +35,7 @@ fun RegisterScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(text = "Registro")
+        Text(text = "Sign Up")
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -81,12 +81,12 @@ fun RegisterScreen(
 
         if (viewModel.uiState.isLoading) {
 
-            Text(text = "Cargando...")
+            Text(text = "Loading...")
 
         } else {
 
             CustomButton(
-                text = "Registrarse",
+                text = "Sign Up",
                 onClick = {
 
                     viewModel.register {
@@ -100,7 +100,7 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         CustomButton(
-            text = "Volver al Login",
+            text = "Back to login",
             onClick = {
                 navController.navigate(Routes.Login.route)
             }

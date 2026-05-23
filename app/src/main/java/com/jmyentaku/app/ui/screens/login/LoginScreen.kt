@@ -61,7 +61,7 @@ fun LoginScreen(
 
         if (viewModel.uiState.isLoading) {
 
-            Text(text = "Cargando...")
+            Text(text = "Loading...")
 
         } else {
 
@@ -79,7 +79,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         CustomButton(
-            text = "Registro",
+            text = "Sign Up",
             onClick = {
                 navController.navigate(Routes.Register.route)
             }
