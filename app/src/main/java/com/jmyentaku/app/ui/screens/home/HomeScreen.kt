@@ -3,29 +3,30 @@ package com.jmyentaku.app.ui.screens.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.jmyentaku.app.ui.components.GeneralComponent.CustomButton
 import com.jmyentaku.app.ui.navigation.Routes
+import com.jmyentaku.app.viewmodel.home.HomeViewModel
 
 @Composable
 fun HomeScreen(
     navController: NavController
 ) {
 
+    val viewModel: HomeViewModel = viewModel()
+
     Column(
-        modifier = Modifier.fillMaxSize(),
-
-        verticalArrangement = Arrangement.Center,
-
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxSize()
     ) {
-
-        Text(text = "Home Screen")
 
         CustomButton(
             text = "Cerrar sesión",
@@ -43,5 +44,25 @@ fun HomeScreen(
                 }
             }
         )
+
+        if (viewModel.uiState.isLoading) {
+
+            Text(text = "Cargando...")
+
+        } else {
+
+            LazyColumn {
+
+                items(
+                    viewModel.uiState.animeList
+                ) { anime ->
+
+                    Text(
+                        text = anime.title,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+        }
     }
 }
