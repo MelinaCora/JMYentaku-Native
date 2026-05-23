@@ -5,7 +5,8 @@ data class Anime(
     val title: String,
     val synopsis: String?,
     val score: Double?,
-    val images: AnimeImages
+    val images: AnimeImages,
+    val favorites: Int
 )
 
 data class AnimeImages(
