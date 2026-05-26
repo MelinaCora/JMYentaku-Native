@@ -7,6 +7,8 @@ sealed class Routes(val route: String) {
     object Detail : Routes("detail/{id}/{type}")
     object Splash : Routes("splash")
 
+    object Profile : Routes("profile")
+
 }
 //funcion aux
 fun passIdAndType(id: Int, type: String): String {

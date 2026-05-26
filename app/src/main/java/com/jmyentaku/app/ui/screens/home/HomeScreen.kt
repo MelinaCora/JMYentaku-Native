@@ -88,6 +88,18 @@ fun HomeScreen(
 
                         popUpTo(0)
                     }
+                },
+
+                onProfileClick = {
+
+                    scope.launch {
+
+                        drawerState.close()
+                    }
+
+                    navController.navigate(
+                        Routes.Profile.route
+                    )
                 }
             )
         }

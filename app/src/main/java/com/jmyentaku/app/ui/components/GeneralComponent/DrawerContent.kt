@@ -34,7 +34,8 @@ import com.jmyentaku.app.R
 @Composable
 fun DrawerContent(
 
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
 
     Column(
@@ -129,7 +130,12 @@ fun DrawerContent(
 
             icon = Icons.Default.Person,
 
-            title = "Profile"
+            title = "Profile",
+
+            onClick = {
+
+                onProfileClick()
+            }
         )
 
         Spacer(
