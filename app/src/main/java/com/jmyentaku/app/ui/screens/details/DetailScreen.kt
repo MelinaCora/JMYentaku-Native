@@ -10,17 +10,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +28,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -53,338 +52,811 @@ fun DetailScreen(
     id: Int,
     type: String
 ) {
+
     val viewModel: DetailViewModel = viewModel()
-    val uiState = viewModel.uiState.collectAsState().value
+
+    val uiState =
+        viewModel.uiState.collectAsState().value
 
     LaunchedEffect(id, type) {
+
         viewModel.loadDetails(id, type)
     }
 
-    when {
-        uiState.isLoading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-        uiState.error != null -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+
+                brush = Brush.verticalGradient(
+
+                    colors = listOf(
+
+                        Color(0xFF0F172A),
+                        Color(0xFF111827),
+                        Color(0xFF1E1B4B)
+                    )
+                )
+            )
+    ) {
+
+        when {
+
+            uiState.isLoading -> {
+
+                Box(
+
+                    modifier = Modifier.fillMaxSize(),
+
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "Error: ${uiState.error}")
-                    Spacer(modifier = Modifier.height(16.dp))
-                    CustomButton(
-                        text = "Go Back",
-                        onClick = {
-                            viewModel.clearState()
-                            navController.popBackStack()
-                        }
+
+                    CircularProgressIndicator(
+                        color = Color(0xFF38BDF8)
                     )
                 }
             }
-        }
-        type == "anime" && uiState.animeDetail != null -> {
-            AnimeDetailContent(anime = uiState.animeDetail!!)
-        }
-        type == "manga" && uiState.mangaDetail != null -> {
-            MangaDetailContent(manga = uiState.mangaDetail!!)
-        }
-        type == "actor" && uiState.voiceActorDetail != null -> {
-            VoiceActorDetailContent(actor = uiState.voiceActorDetail!!)
+
+            uiState.error != null -> {
+
+                Box(
+
+                    modifier = Modifier.fillMaxSize(),
+
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    Column(
+
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Text(
+                            text = "Error: ${uiState.error}",
+                            color = Color.White
+                        )
+
+                        Spacer(
+                            modifier = Modifier.height(16.dp)
+                        )
+
+                        CustomButton(
+
+                            text = "Go Back",
+
+                            onClick = {
+
+                                viewModel.clearState()
+
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                }
+            }
+
+            type == "anime" && uiState.animeDetail != null -> {
+
+                AnimeDetailContent(
+
+                    anime = uiState.animeDetail!!,
+
+                    onBack = {
+
+                        navController.popBackStack()
+                    }
+                )
+            }
+
+            type == "manga" && uiState.mangaDetail != null -> {
+
+                MangaDetailContent(
+
+                    manga = uiState.mangaDetail!!,
+
+                    onBack = {
+
+                        navController.popBackStack()
+                    }
+                )
+            }
+
+            type == "actor" && uiState.voiceActorDetail != null -> {
+
+                VoiceActorDetailContent(
+
+                    actor = uiState.voiceActorDetail!!,
+
+                    onBack = {
+
+                        navController.popBackStack()
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
-fun AnimeDetailContent(anime: AnimeDetail) {
-    val context = LocalContext.current
+fun AnimeDetailContent(
+    anime: AnimeDetail,
+    onBack: () -> Unit
+) {
+
+    val context =
+        LocalContext.current
 
     Column(
+
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-        ) {
+
+        Box {
+
             AsyncImage(
+
                 model = ImageRequest.Builder(context)
                     .data(anime.images.jpg.image_url)
                     .crossfade(true)
                     .build(),
+
                 contentDescription = anime.title,
-                modifier = Modifier.fillMaxSize(),
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(420.dp),
+
                 contentScale = ContentScale.Crop
             )
 
             Box(
+
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 200.dp)
+                    .fillMaxWidth()
+                    .height(420.dp)
                     .background(
+
                         Brush.verticalGradient(
+
                             colors = listOf(
+
                                 Color.Transparent,
-                                MaterialTheme.colorScheme.surface
+                                Color(0xFF0F172A)
                             )
                         )
                     )
             )
+
+            IconButton(
+
+                onClick = onBack,
+
+                modifier = Modifier
+                    .padding(16.dp)
+                    .background(
+                        Color.Black.copy(alpha = 0.4f),
+                        shape = RoundedCornerShape(50)
+                    )
+            ) {
+
+                Icon(
+
+                    imageVector = Icons.Default.ArrowBack,
+
+                    contentDescription = "Back",
+
+                    tint = Color.White
+                )
+            }
         }
 
         Column(
+
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(20.dp)
         ) {
+
             Text(
+
                 text = anime.title,
-                fontSize = 28.sp,
+
+                color = Color.White,
+
+                fontSize = 30.sp,
+
                 fontWeight = FontWeight.Bold
             )
 
+            Spacer(
+                modifier = Modifier.height(6.dp)
+            )
+
             if (anime.title_japanese != null) {
+
                 Text(
+
                     text = anime.title_japanese,
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+
+                    color = Color.LightGray,
+
+                    fontSize = 16.sp
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(
+                modifier = Modifier.height(18.dp)
+            )
 
-            if (anime.title_english != null && anime.title_english != anime.title) {
-                Text(
-                    text = anime.title_english,
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color(0xFF38BDF8)
+            )
+
+            Spacer(
+                modifier = Modifier.height(20.dp)
+            )
+
+            Row(
+
+                modifier = Modifier.fillMaxWidth(),
+
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                StatItem(
+                    value = String.format("%.1f", anime.score ?: 0.0),
+                    label = "Score"
+                )
+
+                StatItem(
+                    value = "${anime.favorites}",
+                    label = "Favorites"
+                )
+
+                StatItem(
+                    value = "${anime.episodes ?: "?"}",
+                    label = "Episodes"
+                )
+
+                StatItem(
+                    value = "#${anime.rank ?: "?"}",
+                    label = "Rank"
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                StatItem(value = String.format("%.1f", anime.score ?: 0.0), label = "Score", icon = "⭐")
-                StatItem(value = "${anime.favorites}", label = "Favorites", icon = "❤️")
-                StatItem(value = "${anime.episodes ?: "?"}", label = "Episodes", icon = "📺")
-                StatItem(value = "${anime.rank ?: "?"}", label = "Rank", icon = "🏆")
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                if (anime.status != null) {
-                    InfoChip(text = anime.status, icon = "📌")
-                }
-                if (anime.season != null) {
-                    InfoChip(text = "${anime.season.capitalize()} ${anime.year ?: ""}", icon = "📅")
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            if (anime.rating != null) {
-                InfoChip(text = anime.rating, icon = "🔞")
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(
+                modifier = Modifier.height(24.dp)
+            )
 
             if (!anime.genres.isNullOrEmpty()) {
-                SectionTitle(title = "Genres")
-                ChipsRow(items = anime.genres.map { it.name })
-                Spacer(modifier = Modifier.height(12.dp))
+
+                SectionTitle(
+                    title = "Genres"
+                )
+
+                ChipsRow(
+                    items = anime.genres.map { it.name }
+                )
+
+                Spacer(
+                    modifier = Modifier.height(20.dp)
+                )
             }
 
             if (!anime.studios.isNullOrEmpty()) {
-                SectionTitle(title = "Studios")
-                Text(
-                    text = anime.studios.joinToString(", ") { it.name },
-                    fontSize = 14.sp
+
+                SectionTitle(
+                    title = "Studios"
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+
+                    text = anime.studios.joinToString(", ") { it.name },
+
+                    color = Color.LightGray,
+
+                    fontSize = 15.sp
+                )
+
+                Spacer(
+                    modifier = Modifier.height(20.dp)
+                )
             }
 
             if (anime.synopsis != null) {
-                SectionTitle(title = "Synopsis")
-                Text(
-                    text = anime.synopsis,
-                    fontSize = 14.sp,
-                    lineHeight = 22.sp
+
+                SectionTitle(
+                    title = "Synopsis"
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+
+                Card(
+
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF1E293B)
+                    ),
+
+                    shape = RoundedCornerShape(20.dp)
+                ) {
+
+                    Text(
+
+                        text = anime.synopsis,
+
+                        color = Color.White,
+
+                        fontSize = 14.sp,
+
+                        lineHeight = 24.sp,
+
+                        modifier = Modifier.padding(18.dp)
+                    )
+                }
+            }
+
+            Spacer(
+                modifier = Modifier.height(30.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun MangaDetailContent(
+    manga: MangaDetail,
+    onBack: () -> Unit
+) {
+
+    val context =
+        LocalContext.current
+
+    Column(
+
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+
+        Box {
+
+            AsyncImage(
+
+                model = ImageRequest.Builder(context)
+                    .data(manga.images.jpg.image_url)
+                    .crossfade(true)
+                    .build(),
+
+                contentDescription = manga.title,
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(420.dp),
+
+                contentScale = ContentScale.Crop
+            )
+
+            Box(
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(420.dp)
+                    .background(
+
+                        Brush.verticalGradient(
+
+                            colors = listOf(
+
+                                Color.Transparent,
+                                Color(0xFF0F172A)
+                            )
+                        )
+                    )
+            )
+
+            IconButton(
+
+                onClick = onBack,
+
+                modifier = Modifier
+                    .padding(16.dp)
+                    .background(
+                        Color.Black.copy(alpha = 0.4f),
+                        shape = RoundedCornerShape(50)
+                    )
+            ) {
+
+                Icon(
+
+                    imageVector = Icons.Default.ArrowBack,
+
+                    contentDescription = "Back",
+
+                    tint = Color.White
+                )
+            }
+        }
+
+        Column(
+
+            modifier = Modifier.padding(20.dp)
+        ) {
+
+            Text(
+
+                text = manga.title,
+
+                color = Color.White,
+
+                fontSize = 30.sp,
+
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(
+                modifier = Modifier.height(20.dp)
+            )
+
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color(0xFF38BDF8)
+            )
+
+            Spacer(
+                modifier = Modifier.height(20.dp)
+            )
+
+            Row(
+
+                modifier = Modifier.fillMaxWidth(),
+
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                StatItem(
+                    value = String.format("%.1f", manga.score ?: 0.0),
+                    label = "Score"
+                )
+
+                StatItem(
+                    value = "${manga.favorites}",
+                    label = "Favorites"
+                )
+
+                StatItem(
+                    value = "${manga.chapters ?: "?"}",
+                    label = "Chapters"
+                )
+
+                StatItem(
+                    value = "${manga.volumes ?: "?"}",
+                    label = "Volumes"
+                )
+            }
+
+            Spacer(
+                modifier = Modifier.height(24.dp)
+            )
+
+            if (!manga.genres.isNullOrEmpty()) {
+
+                SectionTitle(
+                    title = "Genres"
+                )
+
+                ChipsRow(
+                    items = manga.genres.map { it.name }
+                )
+
+                Spacer(
+                    modifier = Modifier.height(20.dp)
+                )
+            }
+
+            if (manga.synopsis != null) {
+
+                SectionTitle(
+                    title = "Synopsis"
+                )
+
+                Card(
+
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF1E293B)
+                    ),
+
+                    shape = RoundedCornerShape(20.dp)
+                ) {
+
+                    Text(
+
+                        text = manga.synopsis,
+
+                        color = Color.White,
+
+                        fontSize = 14.sp,
+
+                        lineHeight = 24.sp,
+
+                        modifier = Modifier.padding(18.dp)
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun StatItem(value: String, label: String, icon: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = icon, fontSize = 24.sp)
-        Text(text = value, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Text(text = label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
-    }
-}
+fun VoiceActorDetailContent(
+    actor: VoiceActorDetail,
+    onBack: () -> Unit
+) {
 
-@Composable
-fun InfoChip(text: String, icon: String) {
-    Surface(
-        modifier = Modifier.padding(vertical = 4.dp),
-        shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.primaryContainer
+    val context =
+        LocalContext.current
+
+    Column(
+
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+
+        Box {
+
+            AsyncImage(
+
+                model = ImageRequest.Builder(context)
+                    .data(actor.images.jpg.image_url)
+                    .crossfade(true)
+                    .build(),
+
+                contentDescription = actor.name,
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(420.dp),
+
+                contentScale = ContentScale.Crop
+            )
+
+            Box(
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(420.dp)
+                    .background(
+
+                        Brush.verticalGradient(
+
+                            colors = listOf(
+
+                                Color.Transparent,
+                                Color(0xFF0F172A)
+                            )
+                        )
+                    )
+            )
+
+            IconButton(
+
+                onClick = onBack,
+
+                modifier = Modifier
+                    .padding(16.dp)
+                    .background(
+                        Color.Black.copy(alpha = 0.4f),
+                        shape = RoundedCornerShape(50)
+                    )
+            ) {
+
+                Icon(
+
+                    imageVector = Icons.Default.ArrowBack,
+
+                    contentDescription = "Back",
+
+                    tint = Color.White
+                )
+            }
+        }
+
+        Column(
+
+            modifier = Modifier.padding(20.dp)
         ) {
-            Text(text = icon, fontSize = 12.sp)
-            Text(text = text, fontSize = 12.sp, color = MaterialTheme.colorScheme.onPrimaryContainer)
+
+            Text(
+
+                text = actor.name,
+
+                color = Color.White,
+
+                fontSize = 30.sp,
+
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(
+                modifier = Modifier.height(20.dp)
+            )
+
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Color(0xFF38BDF8)
+            )
+
+            Spacer(
+                modifier = Modifier.height(20.dp)
+            )
+
+            StatItem(
+                value = "${actor.favorites}",
+                label = "Favorites"
+            )
+
+            Spacer(
+                modifier = Modifier.height(24.dp)
+            )
+
+            if (actor.about != null) {
+
+                SectionTitle(
+                    title = "About"
+                )
+
+                Card(
+
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF1E293B)
+                    ),
+
+                    shape = RoundedCornerShape(20.dp)
+                ) {
+
+                    Text(
+
+                        text = actor.about,
+
+                        color = Color.White,
+
+                        fontSize = 14.sp,
+
+                        lineHeight = 24.sp,
+
+                        modifier = Modifier.padding(18.dp)
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
-fun SectionTitle(title: String) {
-    Text(
-        text = title,
-        fontSize = 18.sp,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(bottom = 8.dp)
-    )
+fun StatItem(
+    value: String,
+    label: String
+) {
+
+    Card(
+
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF1E293B)
+        ),
+
+        shape = RoundedCornerShape(18.dp)
+    ) {
+
+        Column(
+
+            modifier = Modifier
+                .padding(
+                    horizontal = 18.dp,
+                    vertical = 14.dp
+                ),
+
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Text(
+
+                text = value,
+
+                color = Color.White,
+
+                fontSize = 18.sp,
+
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(
+                modifier = Modifier.height(4.dp)
+            )
+
+            Text(
+
+                text = label,
+
+                color = Color.LightGray,
+
+                fontSize = 12.sp
+            )
+        }
+    }
 }
 
 @Composable
-fun ChipsRow(items: List<String>) {
+fun SectionTitle(
+    title: String
+) {
+
+    Column {
+
+        Text(
+
+            text = title,
+
+            color = Color.White,
+
+            fontSize = 22.sp,
+
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(
+            modifier = Modifier.height(6.dp)
+        )
+
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = Color(0xFF38BDF8)
+        )
+
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
+    }
+}
+
+@Composable
+fun ChipsRow(
+    items: List<String>
+) {
+
     Row(
-        modifier = Modifier.fillMaxWidth(),
+
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+
         items.take(5).forEach { item ->
+
             Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.secondaryContainer
+
+                shape = RoundedCornerShape(20.dp),
+
+                color = Color(0xFF2563EB)
             ) {
+
                 Text(
+
                     text = item,
+
+                    color = Color.White,
+
                     fontSize = 12.sp,
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+
+                    modifier = Modifier.padding(
+                        horizontal = 14.dp,
+                        vertical = 8.dp
+                    ),
+
                     maxLines = 1,
+
                     overflow = TextOverflow.Ellipsis
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun MangaDetailContent(manga: MangaDetail) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
-    ) {
-        AsyncImage(
-            model = manga.images.jpg.image_url,
-            contentDescription = manga.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp),
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(text = manga.title, fontSize = 28.sp, fontWeight = FontWeight.Bold)
-
-        if (manga.title_japanese != null) {
-            Text(
-                text = manga.title_japanese,
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            StatItem(value = String.format("%.1f", manga.score ?: 0.0), label = "Score", icon = "⭐")
-            StatItem(value = "${manga.favorites}", label = "Favorites", icon = "❤️")
-            StatItem(value = "${manga.chapters ?: "?"}", label = "Chapters", icon = "📚")
-            StatItem(value = "${manga.volumes ?: "?"}", label = "Volumes", icon = "📖")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        if (manga.status != null) {
-            InfoChip(text = manga.status, icon = "📌")
-        }
-
-        if (!manga.genres.isNullOrEmpty()) {
-            Spacer(modifier = Modifier.height(16.dp))
-            SectionTitle(title = "Genres")
-            ChipsRow(items = manga.genres.map { it.name })
-        }
-
-        if (manga.synopsis != null) {
-            Spacer(modifier = Modifier.height(16.dp))
-            SectionTitle(title = "Synopsis")
-            Text(text = manga.synopsis, fontSize = 14.sp, lineHeight = 22.sp)
-        }
-    }
-}
-
-@Composable
-fun VoiceActorDetailContent(actor: VoiceActorDetail) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
-    ) {
-        AsyncImage(
-            model = actor.images.jpg.image_url,
-            contentDescription = actor.name,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp),
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(text = actor.name, fontSize = 28.sp, fontWeight = FontWeight.Bold)
-
-        if (actor.given_name != null || actor.family_name != null) {
-            val fullName = listOfNotNull(actor.given_name, actor.family_name).joinToString(" ")
-            Text(
-                text = fullName,
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        StatItem(value = "${actor.favorites}", label = "Favorites", icon = "❤️")
-
-        if (actor.about != null) {
-            Spacer(modifier = Modifier.height(16.dp))
-            SectionTitle(title = "About")
-            Text(text = actor.about, fontSize = 14.sp, lineHeight = 22.sp)
         }
     }
 }
