@@ -46,6 +46,8 @@ import com.jmyentaku.app.ui.navigation.Routes
 import com.jmyentaku.app.ui.navigation.passIdAndType
 import com.jmyentaku.app.viewmodel.home.HomeViewModel
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Box
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -224,7 +226,7 @@ fun HomeScreen(
                             // TOP ANIMES
                             SectionAnimeRow(
 
-                                title = "🔥 Top Animes",
+                                title = "Top Animes",
 
                                 animes = viewModel.uiState.animeList,
 
@@ -247,7 +249,7 @@ fun HomeScreen(
                             // TOP MANGAS
                             SectionAnimeRow(
 
-                                title = "📚 Top Mangas",
+                                title = "Top Mangas",
 
                                 animes = viewModel.uiState.mangas,
 
@@ -268,20 +270,40 @@ fun HomeScreen(
                             )
 
                             // VOICE ACTORS TITLE
-                            Text(
+                            Column(
 
-                                text = "🎙 Best Voice Actors",
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp)
+                            ) {
 
-                                color = Color.White,
+                                Text(
 
-                                fontSize = 24.sp,
+                                    text = "Best Voice Actors",
 
-                                fontWeight = FontWeight.Bold,
+                                    color = Color.White,
 
-                                modifier = Modifier.padding(
-                                    horizontal = 16.dp
+                                    fontSize = 24.sp,
+
+                                    fontWeight = FontWeight.Bold
                                 )
-                            )
+
+                                Spacer(
+                                    modifier = Modifier.height(6.dp)
+                                )
+
+                                Box(
+
+                                    modifier = Modifier
+                                        .height(3.dp)
+                                        .fillMaxWidth()
+                                        .background(
+
+                                            color = Color(0xFF38BDF8),
+
+                                            shape = RoundedCornerShape(50.dp)
+                                        )
+                                )
+                            }
 
                             Spacer(
                                 modifier = Modifier.height(10.dp)
