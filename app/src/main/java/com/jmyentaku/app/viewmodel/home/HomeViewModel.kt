@@ -10,6 +10,7 @@ import com.jmyentaku.app.data.repository.MangaRepository
 import com.jmyentaku.app.viewmodel.home.state.HomeUiState
 import kotlinx.coroutines.launch
 import com.jmyentaku.app.data.repository.VoiceActorRepository
+import com.jmyentaku.app.data.firebase.AuthRepository
 
 class HomeViewModel : ViewModel() {
 
@@ -21,6 +22,9 @@ class HomeViewModel : ViewModel() {
 
     //Repository de actores
     private val voiceActorRepository = VoiceActorRepository()
+
+    //Repository de Auth
+    private val authRepository = AuthRepository()
 
     var uiState by mutableStateOf(
         HomeUiState()
@@ -69,5 +73,10 @@ class HomeViewModel : ViewModel() {
                 )
             }
         }
+    }
+
+    fun logout() {
+
+        authRepository.logout()
     }
 }

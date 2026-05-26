@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
 import com.jmyentaku.app.ui.components.GeneralComponent.DrawerContent
 import com.jmyentaku.app.ui.components.GeneralComponent.SectionAnimeRow
 import com.jmyentaku.app.ui.components.GeneralComponent.VoiceActorCard
@@ -49,7 +48,7 @@ fun HomeScreen(
             DrawerContent(
                 onLogout = {
                     scope.launch { drawerState.close() }
-                    FirebaseAuth.getInstance().signOut()
+                    viewModel.logout()
                     navController.navigate(Routes.Login.route) {
                         popUpTo(0)
                     }

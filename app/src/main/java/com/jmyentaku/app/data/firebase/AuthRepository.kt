@@ -46,4 +46,14 @@ class AuthRepository {
             Result.failure(e)
         }
     }
+
+    fun logout() {
+
+        auth.signOut()
+    }
+
+    fun isUserLogged(): Boolean {
+
+        return auth.currentUser != null
+    }
 }
