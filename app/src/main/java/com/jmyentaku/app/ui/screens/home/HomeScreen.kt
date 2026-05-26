@@ -109,7 +109,7 @@ fun HomeScreen(
                     title = {
 
                         Text(
-                            text = "JMYEntaku",
+                            text = "JMYentaku",
                             fontWeight = FontWeight.Bold
                         )
                     },
