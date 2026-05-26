@@ -77,7 +77,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Your anime universe in one place ✨",
+            text = "Your anime universe in one place",
             color = Color.LightGray,
             fontSize = 16.sp
         )
@@ -119,7 +119,7 @@ fun LoginScreen(
                     label = "Password"
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(350.dp))
 
                 if (viewModel.uiState.isLoading) {
 
