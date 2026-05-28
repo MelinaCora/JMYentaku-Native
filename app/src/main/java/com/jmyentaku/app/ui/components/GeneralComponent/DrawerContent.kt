@@ -87,7 +87,7 @@ fun DrawerContent(
             Column {
 
                 Text(
-                    text = "JMYEntaku",
+                    text = "JMYentaku",
                     color = Color.White,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold
