@@ -119,7 +119,9 @@ fun LoginScreen(
                     label = "Password"
                 )
 
-                Spacer(modifier = Modifier.height(350.dp))
+                Spacer(
+                    modifier = Modifier.weight(1f)
+                )
 
                 if (viewModel.uiState.isLoading) {
 
