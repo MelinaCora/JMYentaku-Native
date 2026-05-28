@@ -20,51 +20,179 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.jmyentaku.app.data.model.Anime
+//imports para listas
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.*
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.jmyentaku.app.viewmodel.home.HomeViewModel
+import androidx.compose.ui.Alignment
 
 @Composable
 fun AnimeCard(
     anime: Anime,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    viewModel: HomeViewModel = viewModel()
 ) {
+
+    var expanded by remember {
+
+        mutableStateOf(false)
+    }
+
     Card(
         modifier = Modifier
             .width(220.dp)
             .height(420.dp)
             .padding(8.dp)
             .clickable { onClick() },
+
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         )
     ) {
-        Column {
-            AsyncImage(
-                model = anime.images.jpg.image_url,
-                contentDescription = anime.title,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp),
-                contentScale = ContentScale.Crop
-            )
 
-            Column(
-                modifier = Modifier.padding(12.dp)
-            ) {
-                Text(
-                    text = anime.title,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 2
+        Box {
+
+            Column {
+
+                AsyncImage(
+
+                    model = anime.images.jpg.image_url,
+
+                    contentDescription = anime.title,
+
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp),
+
+                    contentScale = ContentScale.Crop
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Column(
 
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.padding(12.dp)
                 ) {
-                    Text(text = "⭐ ${anime.score}")
-                    Text(text = "❤️ ${anime.favorites}")
+
+                    Text(
+                        text = anime.title,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 2
+                    )
+
+                    Spacer(
+                        modifier = Modifier.height(8.dp)
+                    )
+
+                    Row(
+
+                        horizontalArrangement = Arrangement.SpaceBetween,
+
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+
+                        Text(
+                            text = "⭐ ${anime.score}"
+                        )
+
+                        Text(
+                            text = "❤️ ${anime.favorites}"
+                        )
+                    }
                 }
+            }
+
+            // =========================
+            // BOTON 3 PUNTITOS
+            // =========================
+
+            IconButton(
+
+                onClick = {
+
+                    expanded = true
+                },
+
+                modifier = Modifier.align(Alignment.TopEnd)
+            ) {
+
+                Icon(
+
+                    imageVector = Icons.Default.MoreVert,
+
+                    contentDescription = "Menu"
+                )
+            }
+
+            DropdownMenu(
+
+                expanded = expanded,
+
+                onDismissRequest = {
+
+                    expanded = false
+                }
+            ) {
+
+                DropdownMenuItem(
+
+                    text = {
+
+                        Text("In Progress")
+                    },
+
+                    onClick = {
+
+                        expanded = false
+
+                        viewModel.saveAnimeStatus(
+                            anime,
+                            "in_progress"
+                        )
+                    }
+                )
+
+                DropdownMenuItem(
+
+                    text = {
+
+                        Text("Completed")
+                    },
+
+                    onClick = {
+
+                        expanded = false
+
+                        viewModel.saveAnimeStatus(
+                            anime,
+                            "completed"
+                        )
+                    }
+                )
+
+                DropdownMenuItem(
+
+                    text = {
+
+                        Text("Planned")
+                    },
+
+                    onClick = {
+
+                        expanded = false
+
+                        viewModel.saveAnimeStatus(
+                            anime,
+                            "planned"
+                        )
+                    }
+                )
             }
         }
     }

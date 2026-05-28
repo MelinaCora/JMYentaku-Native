@@ -11,6 +11,10 @@ import com.jmyentaku.app.viewmodel.home.state.HomeUiState
 import kotlinx.coroutines.launch
 import com.jmyentaku.app.data.repository.VoiceActorRepository
 import com.jmyentaku.app.data.firebase.AuthRepository
+import com.jmyentaku.app.data.model.Anime
+//temporal para probar el firebase
+import com.jmyentaku.app.data.firebase.AnimeListRepository
+import com.jmyentaku.app.data.model.UserAnime
 
 class HomeViewModel : ViewModel() {
 
@@ -25,6 +29,9 @@ class HomeViewModel : ViewModel() {
 
     //Repository de Auth
     private val authRepository = AuthRepository()
+
+    //Repositoryy temporal de listas de animes
+    private val animeListRepository = AnimeListRepository()
 
     var uiState by mutableStateOf(
         HomeUiState()
@@ -78,5 +85,28 @@ class HomeViewModel : ViewModel() {
     fun logout() {
 
         authRepository.logout()
+    }
+
+    fun saveAnimeStatus(
+        anime: Anime,
+        status: String
+    ) {
+
+        viewModelScope.launch {
+
+            animeListRepository.saveAnime(
+
+                UserAnime(
+
+                    animeId = anime.mal_id,
+
+                    title = anime.title,
+
+                    imageUrl = anime.images.jpg.image_url,
+
+                    status = status
+                )
+            )
+        }
     }
 }
