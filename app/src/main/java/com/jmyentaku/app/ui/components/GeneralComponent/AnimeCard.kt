@@ -112,87 +112,92 @@ fun AnimeCard(
             // BOTON 3 PUNTITOS
             // =========================
 
-            IconButton(
+            Box(
 
-                onClick = {
-
-                    expanded = true
-                },
-
-                modifier = Modifier.align(Alignment.TopEnd)
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
             ) {
 
-                Icon(
+                IconButton(
 
-                    imageVector = Icons.Default.MoreVert,
+                    onClick = {
 
-                    contentDescription = "Menu"
-                )
-            }
+                        expanded = true
+                    }
+                ) {
 
-            DropdownMenu(
+                    Icon(
 
-                expanded = expanded,
+                        imageVector = Icons.Default.MoreVert,
 
-                onDismissRequest = {
-
-                    expanded = false
+                        contentDescription = "Menu"
+                    )
                 }
-            ) {
 
-                DropdownMenuItem(
+                DropdownMenu(
 
-                    text = {
+                    expanded = expanded,
 
-                        Text("In Progress")
-                    },
-
-                    onClick = {
+                    onDismissRequest = {
 
                         expanded = false
-
-                        viewModel.saveAnimeStatus(
-                            anime,
-                            "in_progress"
-                        )
                     }
-                )
+                ) {
 
-                DropdownMenuItem(
+                    DropdownMenuItem(
 
-                    text = {
+                        text = {
 
-                        Text("Completed")
-                    },
+                            Text("In Progress")
+                        },
 
-                    onClick = {
+                        onClick = {
 
-                        expanded = false
+                            expanded = false
 
-                        viewModel.saveAnimeStatus(
-                            anime,
-                            "completed"
-                        )
-                    }
-                )
+                            viewModel.saveAnimeStatus(
+                                anime,
+                                "in_progress"
+                            )
+                        }
+                    )
 
-                DropdownMenuItem(
+                    DropdownMenuItem(
 
-                    text = {
+                        text = {
 
-                        Text("Planned")
-                    },
+                            Text("Completed")
+                        },
 
-                    onClick = {
+                        onClick = {
 
-                        expanded = false
+                            expanded = false
 
-                        viewModel.saveAnimeStatus(
-                            anime,
-                            "planned"
-                        )
-                    }
-                )
+                            viewModel.saveAnimeStatus(
+                                anime,
+                                "completed"
+                            )
+                        }
+                    )
+
+                    DropdownMenuItem(
+
+                        text = {
+
+                            Text("Planned")
+                        },
+
+                        onClick = {
+
+                            expanded = false
+
+                            viewModel.saveAnimeStatus(
+                                anime,
+                                "planned"
+                            )
+                        }
+                    )
+                }
             }
         }
     }
