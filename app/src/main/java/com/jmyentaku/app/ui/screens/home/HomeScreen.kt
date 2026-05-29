@@ -107,6 +107,16 @@ fun HomeScreen(
                     }
                 },
 
+                onContactClick = {
+
+                    scope.launch {
+
+                        drawerState.close()
+                    }
+
+                    navController.navigate(Routes.Contact.route)
+                },
+
                 onBookmarksClick = {
 
                     scope.launch {
@@ -118,6 +128,7 @@ fun HomeScreen(
                         Routes.Bookmarks.route
                     )
                 }
+
             )
         }
     ) {

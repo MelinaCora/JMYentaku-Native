@@ -6,6 +6,7 @@ sealed class Routes(val route: String) {
     object Home : Routes("home")
     object Detail : Routes("detail/{id}/{type}")
     object Splash : Routes("splash")
+    object Contact : Routes("contact")
 
     object Profile : Routes("profile")
 

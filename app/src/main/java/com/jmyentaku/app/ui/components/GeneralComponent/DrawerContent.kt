@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ContactSupport
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -38,6 +39,7 @@ fun DrawerContent(
     onLogout: () -> Unit,
     onProfileClick: () -> Unit,
     onBookmarksClick: () -> Unit,
+    onContactClick: () -> Unit,
     onHomeClick: () -> Unit
 ) {
 
@@ -166,6 +168,23 @@ fun DrawerContent(
         Spacer(
             modifier = Modifier.height(20.dp)
         )
+
+        DrawerItem(
+
+            icon = Icons.Default.ContactSupport,
+
+            title = "Contact",
+
+            onClick = {
+
+                onContactClick()
+            }
+        )
+
+        Spacer(
+            modifier = Modifier.height(20.dp)
+        )
+
 
         // LOGOUT
         DrawerItem(

@@ -80,4 +80,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     //para iconos
     implementation("androidx.compose.material:material-icons-extended:1.6.0")
+    //mapa
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
+    implementation("androidx.preference:preference-ktx:1.2.1")
 }

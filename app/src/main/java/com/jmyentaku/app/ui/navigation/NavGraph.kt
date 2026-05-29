@@ -13,6 +13,7 @@ import com.jmyentaku.app.ui.screens.register.RegisterScreen
 import com.jmyentaku.app.ui.screens.splash.SplashScreen
 import com.jmyentaku.app.ui.screens.profile.ProfileScreen
 import com.jmyentaku.app.ui.screens.bookmarks.BookmarksScreen
+import com.jmyentaku.app.ui.screens.contact.ContactScreen
 
 @Composable
 fun NavGraph() {
@@ -32,6 +33,9 @@ fun NavGraph() {
 
         composable(Routes.Register.route) {
             RegisterScreen(navController)
+        }
+        composable(Routes.Contact.route) {
+            ContactScreen(navController = navController)
         }
 
         composable(Routes.Home.route) {

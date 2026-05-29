@@ -102,6 +102,15 @@ fun BookmarksScreen(
                     )
                 },
 
+                onContactClick = {
+
+                    scope.launch {
+                        drawerState.close()
+                    }
+
+                    navController.navigate(Routes.Contact.route)
+                },
+
                 onBookmarksClick = {
 
                     scope.launch {

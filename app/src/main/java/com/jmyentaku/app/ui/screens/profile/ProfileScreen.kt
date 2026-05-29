@@ -99,6 +99,14 @@ fun ProfileScreen(
                         drawerState.close()
                     }
                 },
+                onContactClick = {
+
+                    scope.launch {
+                        drawerState.close()
+                    }
+
+                    navController.navigate(Routes.Contact.route)
+                },
 
                 onBookmarksClick = {
 
