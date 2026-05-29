@@ -13,6 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jmyentaku.app.viewmodel.bookmarks.BookmarksViewModel
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.foundation.layout.height
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun BookmarksScreen() {
@@ -41,7 +45,33 @@ fun BookmarksScreen() {
 
             selectedTabIndex = tabs.indexOf(
                 uiState.selectedStatus
-            )
+            ),
+
+            containerColor = Color(0xFF111827),
+
+            contentColor = Color(0xFF38BDF8),
+
+            divider = { },
+
+            indicator = { tabPositions ->
+
+                Box(
+
+                    modifier = Modifier
+                        .tabIndicatorOffset(
+
+                            tabPositions[
+                                tabs.indexOf(
+                                    uiState.selectedStatus
+                                )
+                            ]
+                        )
+                        .height(3.dp)
+                        .background(
+                            Color(0xFF38BDF8)
+                        )
+                )
+            }
         ) {
 
             tabs.forEach { status ->
@@ -49,6 +79,10 @@ fun BookmarksScreen() {
                 Tab(
 
                     selected = uiState.selectedStatus == status,
+
+                    selectedContentColor = Color(0xFF38BDF8),
+
+                    unselectedContentColor = Color.LightGray,
 
                     onClick = {
 
@@ -60,7 +94,13 @@ fun BookmarksScreen() {
                     text = {
 
                         Text(
-                            text = status.replace("_", " ")
+
+                            text = status
+                                .replace("_", " ")
+                                .replaceFirstChar {
+
+                                    it.uppercase()
+                                }
                         )
                     }
                 )
