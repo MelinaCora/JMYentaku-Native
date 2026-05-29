@@ -104,6 +104,18 @@ fun HomeScreen(
                     navController.navigate(
                         Routes.Profile.route
                     )
+                },
+
+                onBookmarksClick = {
+
+                    scope.launch {
+
+                        drawerState.close()
+                    }
+
+                    navController.navigate(
+                        Routes.Bookmarks.route
+                    )
                 }
             )
         }

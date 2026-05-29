@@ -9,6 +9,10 @@ sealed class Routes(val route: String) {
 
     object Profile : Routes("profile")
 
+    object Bookmarks : Routes(
+        "bookmarks"
+    )
+
 }
 //funcion aux
 fun passIdAndType(id: Int, type: String): String {

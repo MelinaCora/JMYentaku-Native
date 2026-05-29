@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -35,7 +36,8 @@ import com.jmyentaku.app.R
 fun DrawerContent(
 
     onLogout: () -> Unit,
-    onProfileClick: () -> Unit
+    onProfileClick: () -> Unit,
+    onBookmarksClick: () -> Unit
 ) {
 
     Column(
@@ -135,6 +137,23 @@ fun DrawerContent(
             onClick = {
 
                 onProfileClick()
+            }
+        )
+
+        Spacer(
+            modifier = Modifier.height(20.dp)
+        )
+
+        // BOOKMARKS
+        DrawerItem(
+
+            icon = Icons.Default.Bookmarks,
+
+            title = "Bookmarks",
+
+            onClick = {
+
+                onBookmarksClick()
             }
         )
 
