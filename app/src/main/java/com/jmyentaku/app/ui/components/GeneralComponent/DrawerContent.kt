@@ -37,7 +37,8 @@ fun DrawerContent(
 
     onLogout: () -> Unit,
     onProfileClick: () -> Unit,
-    onBookmarksClick: () -> Unit
+    onBookmarksClick: () -> Unit,
+    onHomeClick: () -> Unit
 ) {
 
     Column(
@@ -120,7 +121,12 @@ fun DrawerContent(
 
             icon = Icons.Default.Home,
 
-            title = "Home"
+            title = "Home",
+
+            onClick = {
+
+                onHomeClick()
+            }
         )
 
         Spacer(

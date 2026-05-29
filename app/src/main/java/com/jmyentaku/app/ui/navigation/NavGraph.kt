@@ -62,7 +62,7 @@ fun NavGraph() {
             Routes.Bookmarks.route
         ) {
 
-            BookmarksScreen()
+            BookmarksScreen(navController)
         }
     }
 }
