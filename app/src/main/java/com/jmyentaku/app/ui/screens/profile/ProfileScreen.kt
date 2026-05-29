@@ -24,11 +24,30 @@ import com.jmyentaku.app.ui.components.profile.ProfileHeader
 import com.jmyentaku.app.ui.components.profile.ProfileStatCard
 import com.jmyentaku.app.ui.components.profile.UserListCard
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.rememberCoroutineScope
+import com.jmyentaku.app.ui.components.GeneralComponent.DrawerContent
+import com.jmyentaku.app.ui.components.GeneralComponent.MainTopBar
+import com.jmyentaku.app.ui.navigation.Routes
+import kotlinx.coroutines.launch
+import androidx.compose.foundation.layout.padding
 
 @Composable
 fun ProfileScreen(
     navController: NavController
 ) {
+
+    val drawerState =
+        rememberDrawerState(
+
+            initialValue = DrawerValue.Closed
+        )
+
+    val scope =
+        rememberCoroutineScope()
 
     val challenges = listOf(
 
@@ -50,192 +69,283 @@ fun ProfileScreen(
         "Dropped"
     )
 
-    Column(
+    ModalNavigationDrawer(
 
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
+        drawerState = drawerState,
 
-                brush = Brush.verticalGradient(
+        drawerContent = {
 
-                    colors = listOf(
+            DrawerContent(
 
-                        Color(0xFF0F172A),
-                        Color(0xFF111827),
-                        Color(0xFF1E1B4B)
-                    )
-                )
-            )
-    ) {
+                onLogout = {
 
-        LazyColumn(
+                    scope.launch {
 
-            contentPadding = PaddingValues(16.dp),
+                        drawerState.close()
+                    }
 
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-
-            // HEADER
-            item {
-
-                ProfileHeader()
-            }
-
-            // STATS
-            item {
-
-                Text(
-
-                    text = "Your Stats",
-
-                    color = Color.White,
-
-                    fontSize = 22.sp,
-
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(
-                    modifier = Modifier.height(16.dp)
-                )
-
-                Column(
-
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-
-                    Row(
-
-                        modifier = Modifier.fillMaxWidth(),
-
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    navController.navigate(
+                        Routes.Login.route
                     ) {
 
-                        ProfileStatCard(
-                            title = "Watched",
-                            value = "248",
-                            emoji = "🎬",
-                            modifier = Modifier.weight(1f)
+                        popUpTo(0)
+                    }
+                },
+
+                onProfileClick = {
+
+                    scope.launch {
+
+                        drawerState.close()
+                    }
+                },
+
+                onBookmarksClick = {
+
+                    scope.launch {
+
+                        drawerState.close()
+                    }
+
+                    navController.navigate(
+                        Routes.Bookmarks.route
+                    )
+                },
+
+                onHomeClick = {
+
+                    scope.launch {
+
+                        drawerState.close()
+                    }
+
+                    navController.navigate(
+                        Routes.Home.route
+                    )
+                }
+            )
+        }
+    ) {
+
+        Scaffold(
+
+            containerColor = Color.Transparent,
+
+            topBar = {
+
+                MainTopBar(
+
+                    title = "Profile",
+
+                    onMenuClick = {
+
+                        scope.launch {
+
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+        ) { paddingValues ->
+
+            Column(
+
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+
+                        brush = Brush.verticalGradient(
+
+                            colors = listOf(
+
+                                Color(0xFF0F172A),
+                                Color(0xFF111827),
+                                Color(0xFF1E1B4B)
+                            )
+                        )
+                    )
+                    .padding(paddingValues)
+            ) {
+
+                LazyColumn(
+
+                    contentPadding = PaddingValues(16.dp),
+
+                    verticalArrangement =
+                        Arrangement.spacedBy(10.dp)
+                ) {
+
+                    // HEADER
+                    item {
+
+                        ProfileHeader()
+                    }
+
+                    // STATS
+                    item {
+
+                        Text(
+
+                            text = "Your Stats",
+
+                            color = Color.White,
+
+                            fontSize = 22.sp,
+
+                            fontWeight = FontWeight.Bold
                         )
 
-                        ProfileStatCard(
-                            title = "Favorites",
-                            value = "67",
-                            emoji = "❤️",
-                            modifier = Modifier.weight(1f)
+                        Spacer(
+                            modifier = Modifier.height(16.dp)
+                        )
+
+                        Column(
+
+                            verticalArrangement =
+                                Arrangement.spacedBy(10.dp)
+                        ) {
+
+                            Row(
+
+                                modifier =
+                                    Modifier.fillMaxWidth(),
+
+                                horizontalArrangement =
+                                    Arrangement.spacedBy(12.dp)
+                            ) {
+
+                                ProfileStatCard(
+                                    title = "Watched",
+                                    value = "248",
+                                    emoji = "🎬",
+                                    modifier = Modifier.weight(1f)
+                                )
+
+                                ProfileStatCard(
+                                    title = "Favorites",
+                                    value = "67",
+                                    emoji = "❤️",
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
+
+                            Row(
+
+                                modifier =
+                                    Modifier.fillMaxWidth(),
+
+                                horizontalArrangement =
+                                    Arrangement.spacedBy(12.dp)
+                            ) {
+
+                                ProfileStatCard(
+                                    title = "Manga Read",
+                                    value = "93",
+                                    emoji = "📚",
+                                    modifier = Modifier.weight(1f)
+                                )
+
+                                ProfileStatCard(
+                                    title = "Hours",
+                                    value = "1.2K",
+                                    emoji = "⏳",
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
+                        }
+                    }
+
+                    // CHALLENGES
+                    item {
+
+                        Text(
+
+                            text = "Daily Challenges",
+
+                            color = Color.White,
+
+                            fontSize = 22.sp,
+
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Spacer(
+                            modifier = Modifier.height(12.dp)
                         )
                     }
 
-                    Row(
+                    items(challenges) { challenge ->
 
-                        modifier = Modifier.fillMaxWidth(),
+                        ChallengeCard(
+                            title = challenge
+                        )
+                    }
 
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
+                    // LISTS
+                    item {
 
-                        ProfileStatCard(
-                            title = "Manga Read",
-                            value = "93",
-                            emoji = "📚",
-                            modifier = Modifier.weight(1f)
+                        Spacer(
+                            modifier = Modifier.height(10.dp)
                         )
 
-                        ProfileStatCard(
-                            title = "Hours",
-                            value = "1.2K",
-                            emoji = "⏳",
-                            modifier = Modifier.weight(1f)
+                        Text(
+
+                            text = "My Lists",
+
+                            color = Color.White,
+
+                            fontSize = 22.sp,
+
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Spacer(
+                            modifier = Modifier.height(12.dp)
+                        )
+                    }
+
+                    items(lists) { list ->
+
+                        UserListCard(
+                            title = list
+                        )
+                    }
+
+                    // ACHIEVEMENTS
+                    item {
+
+                        Spacer(
+                            modifier = Modifier.height(10.dp)
+                        )
+
+                        Text(
+
+                            text = "Achievements",
+
+                            color = Color.White,
+
+                            fontSize = 22.sp,
+
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Spacer(
+                            modifier = Modifier.height(14.dp)
+                        )
+                    }
+
+                    item {
+
+                        Text(
+
+                            text = "🏆 Otaku Beginner   ⭐ Manga Master   🔥 Night Watcher",
+
+                            color = Color.LightGray,
+
+                            lineHeight = 28.sp
                         )
                     }
                 }
-            }
-
-            // CHALLENGES
-            item {
-
-                Text(
-
-                    text = "Daily Challenges",
-
-                    color = Color.White,
-
-                    fontSize = 22.sp,
-
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(
-                    modifier = Modifier.height(12.dp)
-                )
-            }
-
-            items(challenges) { challenge ->
-
-                ChallengeCard(
-                    title = challenge
-                )
-            }
-
-            // LISTS
-            item {
-
-                Spacer(
-                    modifier = Modifier.height(10.dp)
-                )
-
-                Text(
-
-                    text = "My Lists",
-
-                    color = Color.White,
-
-                    fontSize = 22.sp,
-
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(
-                    modifier = Modifier.height(12.dp)
-                )
-            }
-
-            items(lists) { list ->
-
-                UserListCard(
-                    title = list
-                )
-            }
-
-            // ACHIEVEMENTS
-            item {
-
-                Spacer(
-                    modifier = Modifier.height(10.dp)
-                )
-
-                Text(
-
-                    text = "Achievements",
-
-                    color = Color.White,
-
-                    fontSize = 22.sp,
-
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(
-                    modifier = Modifier.height(14.dp)
-                )
-            }
-
-            item {
-
-                Text(
-                    text = "🏆 Otaku Beginner   ⭐ Manga Master   🔥 Night Watcher",
-                    color = Color.LightGray,
-                    lineHeight = 28.sp
-                )
             }
         }
     }
