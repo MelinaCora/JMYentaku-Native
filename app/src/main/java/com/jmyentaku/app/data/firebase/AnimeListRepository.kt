@@ -97,4 +97,34 @@ class AnimeListRepository {
             Result.failure(e)
         }
     }
+
+    suspend fun getAllUserAnime(): Result<List<UserAnime>> {
+
+        return try {
+
+            val userId =
+                auth.currentUser?.uid
+                    ?: throw Exception("User not authenticated")
+
+            val snapshot =
+                firestore
+                    .collection("users")
+                    .document(userId)
+                    .collection("anime_lists")
+                    .get()
+                    .await()
+
+            val animeList =
+                snapshot.documents.mapNotNull {
+
+                    it.toObject(UserAnime::class.java)
+                }
+
+            Result.success(animeList)
+
+        } catch (e: Exception) {
+
+            Result.failure(e)
+        }
+    }
 }

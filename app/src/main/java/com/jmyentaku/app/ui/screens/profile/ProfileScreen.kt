@@ -34,11 +34,17 @@ import com.jmyentaku.app.ui.components.GeneralComponent.MainTopBar
 import com.jmyentaku.app.ui.navigation.Routes
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.padding
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.jmyentaku.app.viewmodel.profile.ProfileViewModel
 
 @Composable
 fun ProfileScreen(
     navController: NavController
 ) {
+
+    val viewModel: ProfileViewModel = viewModel()
+
+    val uiState = viewModel.uiState
 
     val drawerState =
         rememberDrawerState(
@@ -224,14 +230,14 @@ fun ProfileScreen(
 
                                 ProfileStatCard(
                                     title = "Watched",
-                                    value = "248",
+                                    value = uiState.watchingCount.toString(),
                                     emoji = "🎬",
                                     modifier = Modifier.weight(1f)
                                 )
 
                                 ProfileStatCard(
                                     title = "Favorites",
-                                    value = "67",
+                                    value = uiState.completedCount.toString(),
                                     emoji = "❤️",
                                     modifier = Modifier.weight(1f)
                                 )
@@ -248,14 +254,14 @@ fun ProfileScreen(
 
                                 ProfileStatCard(
                                     title = "Manga Read",
-                                    value = "93",
+                                    value = uiState.plannedCount.toString(),
                                     emoji = "📚",
                                     modifier = Modifier.weight(1f)
                                 )
 
                                 ProfileStatCard(
                                     title = "Hours",
-                                    value = "1.2K",
+                                    value = uiState.totalAnime.toString(),
                                     emoji = "⏳",
                                     modifier = Modifier.weight(1f)
                                 )
