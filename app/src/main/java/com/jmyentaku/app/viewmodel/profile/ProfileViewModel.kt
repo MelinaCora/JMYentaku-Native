@@ -18,6 +18,7 @@ import com.jmyentaku.app.data.challenges.ChallengeEngine
 import com.jmyentaku.app.data.streaks.StreakEngine
 
 import com.jmyentaku.app.viewmodel.profile.state.ProfileUiState
+import com.jmyentaku.app.data.levels.LevelEngine
 
 class ProfileViewModel : ViewModel() {
 
@@ -84,6 +85,21 @@ class ProfileViewModel : ViewModel() {
                         plannedCount = planned
                     )
 
+                val level =
+
+                    LevelEngine.calculateLevel(
+
+                        completedCount = completed,
+
+                        watchingCount = watching,
+
+                        plannedCount = planned,
+
+                        achievementCount = achievements.size,
+
+                        currentStreak = uiState.currentStreak
+                    )
+
                 uiState = uiState.copy(
 
                     watchingCount = watching,
@@ -97,6 +113,12 @@ class ProfileViewModel : ViewModel() {
                     achievements = achievements,
 
                     challenges = challenges,
+
+                    level = level.level,
+
+                    currentXp = level.currentXp,
+
+                    xpForNextLevel = level.xpForNextLevel,
 
                     isLoading = false
                 )
