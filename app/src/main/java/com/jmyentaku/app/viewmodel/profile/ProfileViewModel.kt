@@ -4,12 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.jmyentaku.app.data.firebase.AnimeListRepository
 import com.jmyentaku.app.viewmodel.profile.state.ProfileUiState
-import kotlinx.coroutines.launch
+import com.google.firebase.firestore.ListenerRegistration
 
 class ProfileViewModel : ViewModel() {
+
+    private var listener: ListenerRegistration? = null
 
     private val repository =
         AnimeListRepository()
@@ -21,62 +22,64 @@ class ProfileViewModel : ViewModel() {
 
     init {
 
-        loadProfileData()
+        observeProfileData()
     }
 
-    private fun loadProfileData() {
+    private fun observeProfileData() {
 
-        viewModelScope.launch {
+        listener = repository.observeUserAnime(
 
-            uiState = uiState.copy(
-                isLoading = true
-            )
+            onUpdate = { animeList ->
 
-            repository.getAllUserAnime()
+                val watching =
+                    animeList.count {
 
-                .onSuccess { animeList ->
+                        it.status == "in_progress"
+                    }
 
-                    val watching =
-                        animeList.count {
+                val completed =
+                    animeList.count {
 
-                            it.status == "in_progress"
-                        }
+                        it.status == "completed"
+                    }
 
-                    val completed =
-                        animeList.count {
+                val planned =
+                    animeList.count {
 
-                            it.status == "completed"
-                        }
+                        it.status == "planned"
+                    }
 
-                    val planned =
-                        animeList.count {
+                uiState = uiState.copy(
 
-                            it.status == "planned"
-                        }
+                    watchingCount = watching,
 
-                    uiState = uiState.copy(
+                    completedCount = completed,
 
-                        watchingCount = watching,
+                    plannedCount = planned,
 
-                        completedCount = completed,
+                    totalAnime = animeList.size,
 
-                        plannedCount = planned,
+                    isLoading = false
+                )
+            },
 
-                        totalAnime = animeList.size,
+            onError = { exception ->
 
-                        isLoading = false
-                    )
-                }
+                uiState = uiState.copy(
 
-                .onFailure { exception ->
+                    error = exception.message,
 
-                    uiState = uiState.copy(
+                    isLoading = false
+                )
+            }
+        )
+    }
 
-                        error = exception.message,
+    override fun onCleared() {
 
-                        isLoading = false
-                    )
-                }
-        }
+        super.onCleared()
+
+        listener?.remove()
     }
 }
+

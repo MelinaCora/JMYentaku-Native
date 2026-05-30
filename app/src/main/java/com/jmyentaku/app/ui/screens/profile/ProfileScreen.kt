@@ -229,16 +229,16 @@ fun ProfileScreen(
                             ) {
 
                                 ProfileStatCard(
-                                    title = "Watched",
+                                    title = "Watching",
                                     value = uiState.watchingCount.toString(),
                                     emoji = "🎬",
                                     modifier = Modifier.weight(1f)
                                 )
 
                                 ProfileStatCard(
-                                    title = "Favorites",
+                                    title = "Completed",
                                     value = uiState.completedCount.toString(),
-                                    emoji = "❤️",
+                                    emoji = "✅",
                                     modifier = Modifier.weight(1f)
                                 )
                             }
@@ -253,9 +253,9 @@ fun ProfileScreen(
                             ) {
 
                                 ProfileStatCard(
-                                    title = "Manga Read",
+                                    title = "Planned",
                                     value = uiState.plannedCount.toString(),
-                                    emoji = "📚",
+                                    emoji = "📅",
                                     modifier = Modifier.weight(1f)
                                 )
 

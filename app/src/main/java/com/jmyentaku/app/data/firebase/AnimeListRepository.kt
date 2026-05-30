@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.jmyentaku.app.data.model.UserAnime
 import kotlinx.coroutines.tasks.await
+import com.google.firebase.firestore.ListenerRegistration
 
 class AnimeListRepository {
 
@@ -107,7 +108,7 @@ class AnimeListRepository {
                     ?: throw Exception("User not authenticated")
 
             val snapshot =
-                firestore
+                db
                     .collection("users")
                     .document(userId)
                     .collection("anime_lists")
@@ -126,5 +127,40 @@ class AnimeListRepository {
 
             Result.failure(e)
         }
+    }
+
+    fun observeUserAnime(
+
+        onUpdate: (List<UserAnime>) -> Unit,
+
+        onError: (Exception) -> Unit
+    ): ListenerRegistration {
+
+        val userId =
+            auth.currentUser?.uid
+                ?: throw Exception("Usuario no autenticado")
+
+        return db
+            .collection("users")
+            .document(userId)
+            .collection("anime_lists")
+            .addSnapshotListener { snapshot, error ->
+
+                if (error != null) {
+
+                    onError(error)
+                    return@addSnapshotListener
+                }
+
+                val animeList =
+                    snapshot?.documents
+                        ?.mapNotNull {
+
+                            it.toObject(UserAnime::class.java)
+                        }
+                        ?: emptyList()
+
+                onUpdate(animeList)
+            }
     }
 }
