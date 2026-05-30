@@ -87,12 +87,8 @@ class AnimeListRepository {
     // =========================
     // Obtener animes por estado
     // =========================
-    suspend fun getAnimeByStatus(
-        status: String
-    ): Result<List<UserAnime>> {
-
+    suspend fun getAnimeByStatus(status: String): Result<List<UserAnime>> {
         return try {
-
             val userId = auth.currentUser?.uid
                 ?: throw Exception("Usuario no autenticado")
 
@@ -103,15 +99,36 @@ class AnimeListRepository {
                 .get()
                 .await()
 
-            val animeList = result.documents.mapNotNull {
+            val animeList = result.documents.mapNotNull { doc ->
+                val data = doc.data ?: return@mapNotNull null
 
-                it.toObject<UserAnime>()
+                if (!data.containsKey("type")) {
+                    val animeId = data["animeId"] as? Int ?: return@mapNotNull null
+                    val title = data["title"] as? String ?: ""
+                    val imageUrl = data["imageUrl"] as? String ?: ""
+                    val oldStatus = data["status"] as? String ?: "planned"
+                    val updatedAt = data["updatedAt"] as? Long ?: System.currentTimeMillis()
+
+                    val updatedAnime = UserAnime(
+                        animeId = animeId,
+                        title = title,
+                        imageUrl = imageUrl,
+                        type = "anime",
+                        status = oldStatus,
+                        updatedAt = updatedAt
+                    )
+
+                    // Actualizar en Firestore automáticamente
+                    doc.reference.set(updatedAnime)
+
+                    updatedAnime
+                } else {
+                    doc.toObject<UserAnime>()
+                }
             }
 
             Result.success(animeList)
-
         } catch (e: Exception) {
-
             Result.failure(e)
         }
     }

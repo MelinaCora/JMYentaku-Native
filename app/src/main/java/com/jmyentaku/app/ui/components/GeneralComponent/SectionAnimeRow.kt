@@ -21,9 +21,9 @@ import com.jmyentaku.app.data.model.Anime
 fun SectionAnimeRow(
     title: String,
     animes: List<Anime>,
+    itemType: String = "anime",
     onAnimeClick: (Anime) -> Unit
 ) {
-
     Text(
         text = title,
         color = Color.White,
@@ -32,35 +32,25 @@ fun SectionAnimeRow(
         modifier = Modifier.padding(horizontal = 16.dp)
     )
 
-    // Línea celeste
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(2.dp)
             .padding(horizontal = 16.dp)
-            .background(
-                Color(0xFF38BDF8)
-            )
+            .background(Color(0xFF38BDF8))
     )
 
-    Spacer(
-        modifier = Modifier.height(12.dp)
-    )
+    Spacer(modifier = Modifier.height(12.dp))
 
     LazyRow {
-
         items(animes) { anime ->
-
             AnimeCard(
                 anime = anime,
-                onClick = {
-                    onAnimeClick(anime)
-                }
+                type = itemType,
+                onClick = { onAnimeClick(anime) }
             )
         }
     }
 
-    Spacer(
-        modifier = Modifier.height(24.dp)
-    )
+    Spacer(modifier = Modifier.height(24.dp))
 }

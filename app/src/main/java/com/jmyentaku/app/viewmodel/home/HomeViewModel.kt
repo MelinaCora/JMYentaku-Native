@@ -87,23 +87,29 @@ class HomeViewModel : ViewModel() {
         authRepository.logout()
     }
 
-    fun saveAnimeStatus(
-        anime: Anime,
-        status: String
-    ) {
-
+    // Para guardar anime
+    fun saveAnimeStatus(anime: Anime, status: String) {
         viewModelScope.launch {
-
             animeListRepository.saveAnime(
-
                 UserAnime(
-
                     animeId = anime.mal_id,
-
                     title = anime.title,
-
                     imageUrl = anime.images.jpg.image_url,
+                    type = "anime",
+                    status = status
+                )
+            )
+        }
+    }
 
+    fun saveMangaStatus(manga: Anime, status: String) { // manga es Anime pero es manga
+        viewModelScope.launch {
+            animeListRepository.saveAnime(
+                UserAnime(
+                    animeId = manga.mal_id,
+                    title = manga.title,
+                    imageUrl = manga.images.jpg.image_url,
+                    type = "manga", //especifico
                     status = status
                 )
             )
