@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
@@ -29,13 +30,35 @@ import androidx.compose.ui.unit.sp
 import com.jmyentaku.app.R
 
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(
+
+    username: String,
+
+    level: Int,
+
+    currentXp: Int,
+
+    xpForNextLevel: Int,
+
+    streak: Int,
+
+    totalAnime: Int,
+
+    achievementCount: Int
+) {
+
+    val progress =
+
+        if (xpForNextLevel > 0)
+            currentXp.toFloat() / xpForNextLevel
+        else
+            0f
 
     Card(
 
         modifier = Modifier.fillMaxWidth(),
 
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(24.dp),
 
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
@@ -61,7 +84,8 @@ fun ProfileHeader() {
 
             Row(
 
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment =
+                    Alignment.CenterVertically
             ) {
 
                 Image(
@@ -70,7 +94,7 @@ fun ProfileHeader() {
                         id = R.drawable.bonsai_logo
                     ),
 
-                    contentDescription = "Profile Image",
+                    contentDescription = null,
 
                     modifier = Modifier
                         .size(90.dp)
@@ -81,14 +105,11 @@ fun ProfileHeader() {
                     modifier = Modifier.width(18.dp)
                 )
 
-                Column(
-
-                    verticalArrangement = Arrangement.Center
-                ) {
+                Column {
 
                     Text(
 
-                        text = "Melina",
+                        text = username,
 
                         color = Color.White,
 
@@ -103,7 +124,7 @@ fun ProfileHeader() {
 
                     Text(
 
-                        text = "Anime Explorer Lv.12",
+                        text = "Anime Explorer Lv.$level",
 
                         color = Color(0xFF38BDF8),
 
@@ -116,7 +137,7 @@ fun ProfileHeader() {
 
                     Text(
 
-                        text = "🔥 27 Day Streak",
+                        text = "🔥 $streak Day Streak",
 
                         color = Color.LightGray,
 
@@ -144,7 +165,7 @@ fun ProfileHeader() {
 
             LinearProgressIndicator(
 
-                progress = { 0.72f },
+                progress = { progress },
 
                 modifier = Modifier
                     .fillMaxWidth()
@@ -156,17 +177,22 @@ fun ProfileHeader() {
             )
 
             Spacer(
-                modifier = Modifier.height(6.dp)
+                modifier = Modifier.height(8.dp)
             )
 
             Text(
 
-                text = "720 XP / 1000 XP",
+                text = "$currentXp XP / $xpForNextLevel XP",
 
                 color = Color.LightGray,
 
                 fontSize = 12.sp
             )
+
+            Spacer(
+                modifier = Modifier.height(18.dp)
+            )
+
+            }
         }
     }
-}

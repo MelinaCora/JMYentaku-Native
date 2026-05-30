@@ -5,6 +5,8 @@ import com.jmyentaku.app.data.model.Challenge
 
 data class ProfileUiState(
 
+    val username: String = "Otaku",
+
     val watchingCount: Int = 0,
 
     val completedCount: Int = 0,

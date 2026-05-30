@@ -194,9 +194,16 @@ fun ProfileScreen(
                     // HEADER
                     item {
 
-                        ProfileHeader()
+                        ProfileHeader(
+                            username = uiState.username,
+                            level = uiState.level,
+                            currentXp = uiState.currentXp,
+                            xpForNextLevel = uiState.xpForNextLevel,
+                            streak = uiState.currentStreak,
+                            totalAnime = uiState.totalAnime,
+                            achievementCount = uiState.achievements.size
+                        )
                     }
-
                     // STATS
                     item {
 

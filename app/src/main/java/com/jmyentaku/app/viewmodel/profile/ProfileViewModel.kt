@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.auth.FirebaseAuth
 
 import kotlinx.coroutines.launch
 
@@ -24,6 +25,9 @@ class ProfileViewModel : ViewModel() {
 
     private var listener: ListenerRegistration? = null
 
+    private val auth =
+        FirebaseAuth.getInstance()
+
     private val repository =
         AnimeListRepository()
 
@@ -37,6 +41,7 @@ class ProfileViewModel : ViewModel() {
 
     init {
 
+        loadUserData()
         observeProfileData()
         loadStreaks()
     }
@@ -166,6 +171,24 @@ class ProfileViewModel : ViewModel() {
 
             }
         }
+    }
+
+    private fun loadUserData() {
+
+        val firebaseUser =
+            auth.currentUser
+
+        val username =
+
+            firebaseUser?.displayName
+                ?: firebaseUser?.email
+                    ?.substringBefore("@")
+                ?: "Otaku"
+
+        uiState = uiState.copy(
+
+            username = username
+        )
     }
 
     override fun onCleared() {
