@@ -13,6 +13,12 @@ data class ProfileUiState(
 
     val totalAnime: Int = 0,
 
+    val currentStreak: Int = 0,
+
+    val longestStreak: Int = 0,
+
+    val activeDays: Int = 0,
+
     val isLoading: Boolean = false,
 
     val error: String? = null,

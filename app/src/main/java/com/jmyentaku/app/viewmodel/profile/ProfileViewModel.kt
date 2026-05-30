@@ -4,11 +4,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.jmyentaku.app.data.firebase.AnimeListRepository
-import com.jmyentaku.app.viewmodel.profile.state.ProfileUiState
+import androidx.lifecycle.viewModelScope
+
 import com.google.firebase.firestore.ListenerRegistration
+
+import kotlinx.coroutines.launch
+
+import com.jmyentaku.app.data.firebase.AnimeListRepository
+import com.jmyentaku.app.data.firebase.ActivityRepository
+
 import com.jmyentaku.app.data.achievements.AchievementEngine
 import com.jmyentaku.app.data.challenges.ChallengeEngine
+import com.jmyentaku.app.data.streaks.StreakEngine
+
+import com.jmyentaku.app.viewmodel.profile.state.ProfileUiState
 
 class ProfileViewModel : ViewModel() {
 
@@ -16,6 +25,9 @@ class ProfileViewModel : ViewModel() {
 
     private val repository =
         AnimeListRepository()
+
+    private val activityRepository =
+        ActivityRepository()
 
     var uiState by mutableStateOf(
         ProfileUiState()
@@ -25,6 +37,7 @@ class ProfileViewModel : ViewModel() {
     init {
 
         observeProfileData()
+        loadStreaks()
     }
 
     private fun observeProfileData() {
@@ -99,6 +112,38 @@ class ProfileViewModel : ViewModel() {
                 )
             }
         )
+    }
+
+    private fun loadStreaks() {
+
+        viewModelScope.launch {
+
+            try {
+
+                val activities =
+                    activityRepository.getActivities()
+
+                val streak =
+                    StreakEngine.calculateStreak(
+                        activities
+                    )
+
+                uiState = uiState.copy(
+
+                    currentStreak =
+                        streak.currentStreak,
+
+                    longestStreak =
+                        streak.longestStreak,
+
+                    activeDays =
+                        streak.activeDays
+                )
+
+            } catch (_: Exception) {
+
+            }
+        }
     }
 
     override fun onCleared() {
