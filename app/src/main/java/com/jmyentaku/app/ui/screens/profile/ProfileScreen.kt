@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.padding
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jmyentaku.app.viewmodel.profile.ProfileViewModel
+import com.jmyentaku.app.ui.components.profile.AchievementCard
 
 @Composable
 fun ProfileScreen(
@@ -348,15 +349,13 @@ fun ProfileScreen(
                         )
                     }
 
-                    item {
+                    items(
+                        uiState.achievements
+                    ) { achievement ->
 
-                        Text(
+                        AchievementCard(
 
-                            text = "🏆 Otaku Beginner   ⭐ Manga Master   🔥 Night Watcher",
-
-                            color = Color.LightGray,
-
-                            lineHeight = 28.sp
+                            achievement = achievement
                         )
                     }
                 }
