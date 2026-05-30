@@ -6,8 +6,12 @@ import com.google.firebase.firestore.toObject
 import com.jmyentaku.app.data.model.UserAnime
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.firestore.ListenerRegistration
+import com.jmyentaku.app.data.model.UserActivity
 
 class AnimeListRepository {
+
+    private val activityRepository =
+        ActivityRepository()
 
     private val auth = FirebaseAuth.getInstance()
 
@@ -31,6 +35,19 @@ class AnimeListRepository {
                 .document(anime.animeId.toString())
                 .set(anime)
                 .await()
+
+            // Registrar actividad del usuario
+            activityRepository.registerActivity(
+
+                UserActivity(
+
+                    type = "anime_saved",
+
+                    animeId = anime.animeId,
+
+                    timestamp = System.currentTimeMillis()
+                )
+            )
 
             Result.success(Unit)
 
