@@ -8,6 +8,7 @@ import com.jmyentaku.app.data.firebase.AnimeListRepository
 import com.jmyentaku.app.viewmodel.profile.state.ProfileUiState
 import com.google.firebase.firestore.ListenerRegistration
 import com.jmyentaku.app.data.achievements.AchievementEngine
+import com.jmyentaku.app.data.challenges.ChallengeEngine
 
 class ProfileViewModel : ViewModel() {
 
@@ -60,6 +61,16 @@ class ProfileViewModel : ViewModel() {
                         plannedCount = planned
                     )
 
+                val challenges =
+                    ChallengeEngine.calculateChallenges(
+
+                        completedCount = completed,
+
+                        watchingCount = watching,
+
+                        plannedCount = planned
+                    )
+
                 uiState = uiState.copy(
 
                     watchingCount = watching,
@@ -71,6 +82,8 @@ class ProfileViewModel : ViewModel() {
                     totalAnime = animeList.size,
 
                     achievements = achievements,
+
+                    challenges = challenges,
 
                     isLoading = false
                 )

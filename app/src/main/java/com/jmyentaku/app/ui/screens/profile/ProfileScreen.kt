@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jmyentaku.app.viewmodel.profile.ProfileViewModel
 import com.jmyentaku.app.ui.components.profile.AchievementCard
+import com.jmyentaku.app.ui.components.profile.ChallengeProgressCard
 
 @Composable
 fun ProfileScreen(
@@ -289,40 +290,13 @@ fun ProfileScreen(
                         )
                     }
 
-                    items(challenges) { challenge ->
+                    items(
+                        uiState.challenges
+                    ) { challenge ->
 
-                        ChallengeCard(
-                            title = challenge
-                        )
-                    }
+                        ChallengeProgressCard(
 
-                    // LISTS
-                    item {
-
-                        Spacer(
-                            modifier = Modifier.height(10.dp)
-                        )
-
-                        Text(
-
-                            text = "My Lists",
-
-                            color = Color.White,
-
-                            fontSize = 22.sp,
-
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Spacer(
-                            modifier = Modifier.height(12.dp)
-                        )
-                    }
-
-                    items(lists) { list ->
-
-                        UserListCard(
-                            title = list
+                            challenge = challenge
                         )
                     }
 

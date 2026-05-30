@@ -1,6 +1,7 @@
 package com.jmyentaku.app.viewmodel.profile.state
 
 import com.jmyentaku.app.data.model.Achievement
+import com.jmyentaku.app.data.model.Challenge
 
 data class ProfileUiState(
 
@@ -16,5 +17,7 @@ data class ProfileUiState(
 
     val error: String? = null,
 
-    val achievements: List<Achievement> = emptyList()
+    val achievements: List<Achievement> = emptyList(),
+
+    val challenges: List<Challenge> = emptyList()
 )
