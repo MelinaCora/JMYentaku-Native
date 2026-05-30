@@ -1,5 +1,7 @@
 package com.jmyentaku.app.viewmodel.profile.state
 
+import com.jmyentaku.app.data.model.Achievement
+
 data class ProfileUiState(
 
     val watchingCount: Int = 0,
@@ -12,5 +14,7 @@ data class ProfileUiState(
 
     val isLoading: Boolean = false,
 
-    val error: String? = null
+    val error: String? = null,
+
+    val achievements: List<Achievement> = emptyList()
 )

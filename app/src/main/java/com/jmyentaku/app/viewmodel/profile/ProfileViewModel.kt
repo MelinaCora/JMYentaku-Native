@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.jmyentaku.app.data.firebase.AnimeListRepository
 import com.jmyentaku.app.viewmodel.profile.state.ProfileUiState
 import com.google.firebase.firestore.ListenerRegistration
+import com.jmyentaku.app.data.achievements.AchievementEngine
 
 class ProfileViewModel : ViewModel() {
 
@@ -49,6 +50,16 @@ class ProfileViewModel : ViewModel() {
                         it.status == "planned"
                     }
 
+                val achievements =
+                    AchievementEngine.calculateAchievements(
+
+                        completedCount = completed,
+
+                        watchingCount = watching,
+
+                        plannedCount = planned
+                    )
+
                 uiState = uiState.copy(
 
                     watchingCount = watching,
@@ -58,6 +69,8 @@ class ProfileViewModel : ViewModel() {
                     plannedCount = planned,
 
                     totalAnime = animeList.size,
+
+                    achievements = achievements,
 
                     isLoading = false
                 )
