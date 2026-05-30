@@ -42,9 +42,6 @@ fun ProfileHeader(
 
     streak: Int,
 
-    totalAnime: Int,
-
-    achievementCount: Int
 ) {
 
     val progress =

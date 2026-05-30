@@ -175,18 +175,16 @@ class ProfileViewModel : ViewModel() {
 
     private fun loadUserData() {
 
-        val firebaseUser =
-            auth.currentUser
+        val firebaseUser = auth.currentUser
 
         val username =
-
             firebaseUser?.displayName
+                ?.takeIf { it.isNotBlank() }
                 ?: firebaseUser?.email
                     ?.substringBefore("@")
                 ?: "Otaku"
 
         uiState = uiState.copy(
-
             username = username
         )
     }

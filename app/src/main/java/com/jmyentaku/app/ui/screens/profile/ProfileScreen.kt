@@ -199,9 +199,7 @@ fun ProfileScreen(
                             level = uiState.level,
                             currentXp = uiState.currentXp,
                             xpForNextLevel = uiState.xpForNextLevel,
-                            streak = uiState.currentStreak,
-                            totalAnime = uiState.totalAnime,
-                            achievementCount = uiState.achievements.size
+                            streak = uiState.currentStreak
                         )
                     }
                     // STATS
