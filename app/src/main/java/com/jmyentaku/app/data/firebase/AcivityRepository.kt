@@ -28,4 +28,22 @@ class ActivityRepository {
             .add(activity)
             .await()
     }
+
+    suspend fun getActivities(): List<UserActivity> {
+
+        val userId =
+            auth.currentUser?.uid
+                ?: return emptyList()
+
+        val snapshot = db.collection("users")
+            .document(userId)
+            .collection("activities")
+            .get()
+            .await()
+
+        return snapshot.documents.mapNotNull {
+
+            it.toObject(UserActivity::class.java)
+        }
+    }
 }
