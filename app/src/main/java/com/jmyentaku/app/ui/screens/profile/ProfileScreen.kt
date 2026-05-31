@@ -1,43 +1,27 @@
 package com.jmyentaku.app.ui.screens.profile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.jmyentaku.app.ui.components.profile.ChallengeCard
-import com.jmyentaku.app.ui.components.profile.ProfileHeader
-import com.jmyentaku.app.ui.components.profile.ProfileStatCard
-import com.jmyentaku.app.ui.components.profile.UserListCard
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.rememberCoroutineScope
 import com.jmyentaku.app.ui.components.GeneralComponent.DrawerContent
 import com.jmyentaku.app.ui.components.GeneralComponent.MainTopBar
+import com.jmyentaku.app.ui.components.profile.*
 import com.jmyentaku.app.ui.navigation.Routes
-import kotlinx.coroutines.launch
-import androidx.compose.foundation.layout.padding
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.jmyentaku.app.ui.navigation.passIdAndType
 import com.jmyentaku.app.viewmodel.profile.ProfileViewModel
-import com.jmyentaku.app.ui.components.profile.AchievementCard
-import com.jmyentaku.app.ui.components.profile.ChallengeProgressCard
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(
@@ -50,7 +34,6 @@ fun ProfileScreen(
 
     val drawerState =
         rememberDrawerState(
-
             initialValue = DrawerValue.Closed
         )
 
@@ -58,57 +41,41 @@ fun ProfileScreen(
         rememberCoroutineScope()
 
     val challenges = listOf(
-
         "Watch 5 anime episodes",
-
         "Read 10 manga chapters",
-
         "Maintain your streak"
     )
 
     val lists = listOf(
-
         "Watching",
-
         "Completed",
-
         "Plan To Watch",
-
         "Dropped"
     )
 
     ModalNavigationDrawer(
-
         drawerState = drawerState,
-
         drawerContent = {
-
             DrawerContent(
-
                 onLogout = {
-
                     scope.launch {
-
                         drawerState.close()
                     }
 
                     navController.navigate(
                         Routes.Login.route
                     ) {
-
                         popUpTo(0)
                     }
                 },
 
                 onProfileClick = {
-
                     scope.launch {
-
                         drawerState.close()
                     }
                 },
-                onContactClick = {
 
+                onContactClick = {
                     scope.launch {
                         drawerState.close()
                     }
@@ -117,9 +84,7 @@ fun ProfileScreen(
                 },
 
                 onBookmarksClick = {
-
                     scope.launch {
-
                         drawerState.close()
                     }
 
@@ -129,9 +94,7 @@ fun ProfileScreen(
                 },
 
                 onHomeClick = {
-
                     scope.launch {
-
                         drawerState.close()
                     }
 
@@ -143,202 +106,159 @@ fun ProfileScreen(
         }
     ) {
 
-        Scaffold(
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
 
-            containerColor = Color.Transparent,
+            Scaffold(
+                containerColor = Color.Transparent
+            ) { paddingValues ->
 
-            topBar = {
-
-                MainTopBar(
-
-                    title = "Profile",
-
-                    onMenuClick = {
-
-                        scope.launch {
-
-                            drawerState.open()
-                        }
-                    }
-                )
-            }
-        ) { paddingValues ->
-
-            Column(
-
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-
-                        brush = Brush.verticalGradient(
-
-                            colors = listOf(
-
-                                Color(0xFF0F172A),
-                                Color(0xFF111827),
-                                Color(0xFF1E1B4B)
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color(0xFF0F172A),
+                                    Color(0xFF111827),
+                                    Color(0xFF1E1B4B)
+                                )
                             )
                         )
-                    )
-                    .padding(paddingValues)
-            ) {
-
-                LazyColumn(
-
-                    contentPadding = PaddingValues(16.dp),
-
-                    verticalArrangement =
-                        Arrangement.spacedBy(10.dp)
+                        .padding(paddingValues)
+                        .padding(top = 64.dp)
                 ) {
 
-                    // HEADER
-                    item {
+                    LazyColumn(
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
 
-                        ProfileHeader(
-                            username = uiState.username,
-                            level = uiState.level,
-                            currentXp = uiState.currentXp,
-                            xpForNextLevel = uiState.xpForNextLevel,
-                            streak = uiState.currentStreak
-                        )
-                    }
-                    // STATS
-                    item {
+                        // HEADER
+                        item {
 
-                        Text(
+                            ProfileHeader(
+                                username = uiState.username,
+                                level = uiState.level,
+                                currentXp = uiState.currentXp,
+                                xpForNextLevel = uiState.xpForNextLevel,
+                                streak = uiState.currentStreak
+                            )
+                        }
 
-                            text = "Your Stats",
+                        // STATS
+                        item {
 
-                            color = Color.White,
+                            Text(
+                                text = "Your Stats",
+                                color = Color.White,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold
+                            )
 
-                            fontSize = 22.sp,
+                            Spacer(modifier = Modifier.height(16.dp))
 
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Spacer(
-                            modifier = Modifier.height(16.dp)
-                        )
-
-                        Column(
-
-                            verticalArrangement =
-                                Arrangement.spacedBy(10.dp)
-                        ) {
-
-                            Row(
-
-                                modifier =
-                                    Modifier.fillMaxWidth(),
-
-                                horizontalArrangement =
-                                    Arrangement.spacedBy(12.dp)
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
 
-                                ProfileStatCard(
-                                    title = "Watching",
-                                    value = uiState.watchingCount.toString(),
-                                    emoji = "🎬",
-                                    modifier = Modifier.weight(1f)
-                                )
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                ) {
 
-                                ProfileStatCard(
-                                    title = "Completed",
-                                    value = uiState.completedCount.toString(),
-                                    emoji = "✅",
-                                    modifier = Modifier.weight(1f)
-                                )
-                            }
+                                    ProfileStatCard(
+                                        title = "Watching",
+                                        value = uiState.watchingCount.toString(),
+                                        emoji = "🎬",
+                                        modifier = Modifier.weight(1f)
+                                    )
 
-                            Row(
+                                    ProfileStatCard(
+                                        title = "Completed",
+                                        value = uiState.completedCount.toString(),
+                                        emoji = "✅",
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                }
 
-                                modifier =
-                                    Modifier.fillMaxWidth(),
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                ) {
 
-                                horizontalArrangement =
-                                    Arrangement.spacedBy(12.dp)
-                            ) {
+                                    ProfileStatCard(
+                                        title = "Planned",
+                                        value = uiState.plannedCount.toString(),
+                                        emoji = "📅",
+                                        modifier = Modifier.weight(1f)
+                                    )
 
-                                ProfileStatCard(
-                                    title = "Planned",
-                                    value = uiState.plannedCount.toString(),
-                                    emoji = "📅",
-                                    modifier = Modifier.weight(1f)
-                                )
-
-                                ProfileStatCard(
-                                    title = "Hours",
-                                    value = uiState.totalAnime.toString(),
-                                    emoji = "⏳",
-                                    modifier = Modifier.weight(1f)
-                                )
+                                    ProfileStatCard(
+                                        title = "Hours",
+                                        value = uiState.totalAnime.toString(),
+                                        emoji = "⏳",
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                }
                             }
                         }
-                    }
 
-                    // CHALLENGES
-                    item {
+                        // CHALLENGES
+                        item {
 
-                        Text(
+                            Text(
+                                text = "Daily Challenges",
+                                color = Color.White,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold
+                            )
 
-                            text = "Daily Challenges",
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
 
-                            color = Color.White,
+                        items(uiState.challenges) { challenge ->
+                            ChallengeProgressCard(
+                                challenge = challenge
+                            )
+                        }
 
-                            fontSize = 22.sp,
+                        // ACHIEVEMENTS
+                        item {
 
-                            fontWeight = FontWeight.Bold
-                        )
+                            Spacer(modifier = Modifier.height(10.dp))
 
-                        Spacer(
-                            modifier = Modifier.height(12.dp)
-                        )
-                    }
+                            Text(
+                                text = "Achievements",
+                                color = Color.White,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold
+                            )
 
-                    items(
-                        uiState.challenges
-                    ) { challenge ->
+                            Spacer(modifier = Modifier.height(14.dp))
+                        }
 
-                        ChallengeProgressCard(
-
-                            challenge = challenge
-                        )
-                    }
-
-                    // ACHIEVEMENTS
-                    item {
-
-                        Spacer(
-                            modifier = Modifier.height(10.dp)
-                        )
-
-                        Text(
-
-                            text = "Achievements",
-
-                            color = Color.White,
-
-                            fontSize = 22.sp,
-
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Spacer(
-                            modifier = Modifier.height(14.dp)
-                        )
-                    }
-
-                    items(
-                        uiState.achievements
-                    ) { achievement ->
-
-                        AchievementCard(
-
-                            achievement = achievement
-                        )
+                        items(uiState.achievements) { achievement ->
+                            AchievementCard(
+                                achievement = achievement
+                            )
+                        }
                     }
                 }
             }
+
+            MainTopBar(
+                title = "Profile",
+                onMenuClick = {
+                    scope.launch {
+                        drawerState.open()
+                    }
+                },
+                onSearchResultClick = { id, type ->
+                    navController.navigate(passIdAndType(id, type))
+                }
+            )
         }
     }
 }

@@ -11,6 +11,7 @@ import com.jmyentaku.app.data.remote.VoiceActorDetailResponse
 import com.jmyentaku.app.data.remote.VoiceActorResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface AnimeApiService {
 
@@ -33,4 +34,14 @@ interface AnimeApiService {
 
     @GET("people/{id}")
     suspend fun getVoiceActorDetails(@Path("id") id: Int): VoiceActorDetailResponse
+
+    @GET("anime")
+    suspend fun searchAnime(@Query("q") query: String): AnimeResponse
+
+    @GET("manga")
+    suspend fun searchManga(@Query("q") query: String): MangaResponse
+
+    @GET("people")
+    suspend fun searchPeople(@Query("q") query: String): VoiceActorResponse
+
 }
