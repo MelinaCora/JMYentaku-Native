@@ -1,9 +1,6 @@
 package com.jmyentaku.app.ui.screens.contact
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -75,65 +73,83 @@ fun ContactScreen(navController: NavController) {
     var mapView by remember { mutableStateOf<MapView?>(null) }
 
     Scaffold(
+        containerColor = Color(0xFF0F172A),
         topBar = {
             TopAppBar(
-                title = { Text("Contact", fontWeight = FontWeight.Bold) },
+                title = { Text("Contact", fontWeight = FontWeight.Bold, color = Color.White) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent
+                )
             )
         }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0xFF0F172A),
+                            Color(0xFF111827),
+                            Color(0xFF1E1B4B)
+                        )
+                    )
+                )
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-
-            Text(text = "About Us", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            // About Us
+            Text(
+                text = "About Us",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(3.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(50.dp)
-                    )
+                    .background(Color(0xFF38BDF8), RoundedCornerShape(50.dp))
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "We are two passionate developers creating amazing apps. JMYentaku is our project born from the love for anime and manga.",
                 fontSize = 14.sp,
-                lineHeight = 20.sp
+                lineHeight = 20.sp,
+                color = Color.LightGray
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-
-            Text(text = "Developers", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            // Developers
+            Text(
+                text = "Developers",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(3.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(50.dp)
-                    )
+                    .background(Color(0xFF38BDF8), RoundedCornerShape(50.dp))
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-
+            // Developer 1
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
                 ContactRow(
                     name = "Melina Cora",
@@ -144,10 +160,12 @@ fun ContactScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Developer 2
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
                 ContactRow(
                     name = "Jonathan Lekander",
@@ -158,22 +176,26 @@ fun ContactScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text(text = "Location", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            // Location
+            Text(
+                text = "Location",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(3.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(50.dp)
-                    )
+                    .background(Color(0xFF38BDF8), RoundedCornerShape(50.dp))
             )
             Spacer(modifier = Modifier.height(16.dp))
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B)),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
                 Column {
@@ -202,10 +224,7 @@ fun ContactScreen(navController: NavController) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(
-                                color = MaterialTheme.colorScheme.surfaceVariant,
-                                shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
-                            )
+                            .background(Color(0xFF0F172A), RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
                             .padding(16.dp)
                     ) {
                         Column {
@@ -217,21 +236,21 @@ fun ContactScreen(navController: NavController) {
                                     imageVector = Icons.Default.LocationOn,
                                     contentDescription = null,
                                     modifier = Modifier.size(20.dp),
-                                    tint = MaterialTheme.colorScheme.primary
+                                    tint = Color(0xFF38BDF8)
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
                                     text = "Instituto Arturo Jauretche",
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.Medium,
-                                    color = MaterialTheme.colorScheme.onSurface
+                                    color = Color.White
                                 )
                             }
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = "Av. Calchaquí 5999, Florencio Varela, Buenos Aires",
                                 fontSize = 12.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                color = Color.LightGray,
                                 modifier = Modifier.padding(start = 28.dp)
                             )
                         }
@@ -271,21 +290,26 @@ fun ContactRow(name: String, email: String, phone: String) {
             modifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer),
+                .background(Color(0xFF2563EB).copy(alpha = 0.2f)),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = name.take(2).uppercase(),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = Color(0xFF38BDF8)
             )
         }
 
         Spacer(modifier = Modifier.width(16.dp))
 
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = name, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+            Text(
+                text = name,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
 
             Spacer(modifier = Modifier.height(4.dp))
 
@@ -299,10 +323,14 @@ fun ContactRow(name: String, email: String, phone: String) {
                     imageVector = Icons.Default.Email,
                     contentDescription = null,
                     modifier = Modifier.size(14.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = Color(0xFF38BDF8)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
-                Text(email, fontSize = 12.sp, color = MaterialTheme.colorScheme.primary)
+                Text(
+                    text = email,
+                    fontSize = 12.sp,
+                    color = Color(0xFF38BDF8)
+                )
             }
 
             Row(
@@ -315,10 +343,14 @@ fun ContactRow(name: String, email: String, phone: String) {
                     imageVector = Icons.Default.Phone,
                     contentDescription = null,
                     modifier = Modifier.size(14.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = Color(0xFF38BDF8)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
-                Text(phone, fontSize = 12.sp, color = MaterialTheme.colorScheme.primary)
+                Text(
+                    text = phone,
+                    fontSize = 12.sp,
+                    color = Color(0xFF38BDF8)
+                )
             }
         }
     }
