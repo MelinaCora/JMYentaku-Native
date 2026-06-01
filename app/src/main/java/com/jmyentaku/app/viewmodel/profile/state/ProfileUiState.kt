@@ -7,6 +7,8 @@ data class ProfileUiState(
 
     val username: String = "Otaku",
 
+    val title: String = "Anime Explorer",
+
     val watchingCount: Int = 0,
 
     val completedCount: Int = 0,

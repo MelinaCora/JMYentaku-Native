@@ -17,6 +17,7 @@ import com.jmyentaku.app.data.firebase.ActivityRepository
 import com.jmyentaku.app.data.achievements.AchievementEngine
 import com.jmyentaku.app.data.challenges.ChallengeEngine
 import com.jmyentaku.app.data.streaks.StreakEngine
+import com.jmyentaku.app.data.title.TitleEngine
 
 import com.jmyentaku.app.viewmodel.profile.state.ProfileUiState
 import com.jmyentaku.app.data.levels.LevelEngine
@@ -105,6 +106,11 @@ class ProfileViewModel : ViewModel() {
                         currentStreak = uiState.currentStreak
                     )
 
+                val title =
+                    TitleEngine.calculateTitle(
+                        level.level
+                    )
+
                 uiState = uiState.copy(
 
                     watchingCount = watching,
@@ -124,6 +130,8 @@ class ProfileViewModel : ViewModel() {
                     currentXp = level.currentXp,
 
                     xpForNextLevel = level.xpForNextLevel,
+
+                    title = title,
 
                     isLoading = false
                 )

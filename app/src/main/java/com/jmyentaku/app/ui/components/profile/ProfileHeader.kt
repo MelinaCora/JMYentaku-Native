@@ -34,6 +34,8 @@ fun ProfileHeader(
 
     username: String,
 
+    title: String,
+
     level: Int,
 
     currentXp: Int,
@@ -121,7 +123,7 @@ fun ProfileHeader(
 
                     Text(
 
-                        text = "Anime Explorer Lv.$level",
+                        text = "$title Lv.$level",
 
                         color = Color(0xFF38BDF8),
 

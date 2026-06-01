@@ -140,6 +140,7 @@ fun ProfileScreen(
 
                             ProfileHeader(
                                 username = uiState.username,
+                                title = uiState.title,
                                 level = uiState.level,
                                 currentXp = uiState.currentXp,
                                 xpForNextLevel = uiState.xpForNextLevel,
