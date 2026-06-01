@@ -511,6 +511,12 @@ fun MangaDetailContent(
     val context =
         LocalContext.current
 
+    val homeViewModel: HomeViewModel = viewModel()
+
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+
     Column(
 
         modifier = Modifier
@@ -554,26 +560,111 @@ fun MangaDetailContent(
                     )
             )
 
-            IconButton(
-
-                onClick = onBack,
+            Row(
 
                 modifier = Modifier
-                    .padding(16.dp)
-                    .background(
-                        Color.Black.copy(alpha = 0.4f),
-                        shape = RoundedCornerShape(50)
-                    )
+                    .fillMaxWidth()
+                    .padding(16.dp),
+
+                horizontalArrangement =
+                    Arrangement.SpaceBetween
             ) {
 
-                Icon(
+                IconButton(
 
-                    imageVector = Icons.Default.ArrowBack,
+                    onClick = onBack,
 
-                    contentDescription = "Back",
+                    modifier = Modifier.background(
 
-                    tint = Color.White
-                )
+                        Color.Black.copy(alpha = 0.4f),
+
+                        shape = RoundedCornerShape(50)
+                    )
+                ) {
+
+                    Icon(
+
+                        imageVector = Icons.Default.ArrowBack,
+
+                        contentDescription = "Back",
+
+                        tint = Color.White
+                    )
+                }
+
+                Box {
+
+                    IconButton(
+
+                        onClick = {
+
+                            expanded = true
+                        },
+
+                        modifier = Modifier.background(
+
+                            Color.Black.copy(alpha = 0.4f),
+
+                            shape = RoundedCornerShape(50)
+                        )
+                    ) {
+
+                        Icon(
+
+                            imageVector = Icons.Default.MoreVert,
+
+                            contentDescription = "Menu",
+
+                            tint = Color.White
+                        )
+                    }
+
+                    AnimeStatusMenu(
+
+                        expanded = expanded,
+
+                        onDismiss = {
+
+                            expanded = false
+                        },
+
+                        onInProgress = {
+
+                            expanded = false
+
+                            homeViewModel.saveMangaStatus(
+
+                                manga = manga.toAnime(),
+
+                                status = "in_progress"
+                            )
+                        },
+
+                        onCompleted = {
+
+                            expanded = false
+
+                            homeViewModel.saveMangaStatus(
+
+                                manga = manga.toAnime(),
+
+                                status = "completed"
+                            )
+                        },
+
+                        onPlanned = {
+
+                            expanded = false
+
+                            homeViewModel.saveMangaStatus(
+
+                                manga = manga.toAnime(),
+
+                                status = "planned"
+                            )
+                        }
+                    )
+                }
             }
         }
 
