@@ -92,46 +92,75 @@ fun AnimeCard(
                     )
                 }
 
-                DropdownMenu(
+                AnimeStatusMenu(
+
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("In Progress") },
-                        onClick = {
-                            expanded = false
-                            if (type == "anime") {
-                                viewModel.saveAnimeStatus(anime, "in_progress")
-                            } else {
-                                viewModel.saveMangaStatus(anime, "in_progress")
-                            }
-                        }
-                    )
 
-                    DropdownMenuItem(
-                        text = { Text("Completed") },
-                        onClick = {
-                            expanded = false
-                            if (type == "anime") {
-                                viewModel.saveAnimeStatus(anime, "completed")
-                            } else {
-                                viewModel.saveMangaStatus(anime, "completed")
-                            }
-                        }
-                    )
+                    onDismiss = {
 
-                    DropdownMenuItem(
-                        text = { Text("Planned") },
-                        onClick = {
-                            expanded = false
-                            if (type == "anime") {
-                                viewModel.saveAnimeStatus(anime, "planned")
-                            } else {
-                                viewModel.saveMangaStatus(anime, "planned")
-                            }
+                        expanded = false
+                    },
+
+                    onInProgress = {
+
+                        expanded = false
+
+                        if (type == "anime") {
+
+                            viewModel.saveAnimeStatus(
+                                anime,
+                                "in_progress"
+                            )
+
+                        } else {
+
+                            viewModel.saveMangaStatus(
+                                anime,
+                                "in_progress"
+                            )
                         }
-                    )
-                }
+                    },
+
+                    onCompleted = {
+
+                        expanded = false
+
+                        if (type == "anime") {
+
+                            viewModel.saveAnimeStatus(
+                                anime,
+                                "completed"
+                            )
+
+                        } else {
+
+                            viewModel.saveMangaStatus(
+                                anime,
+                                "completed"
+                            )
+                        }
+                    },
+
+                    onPlanned = {
+
+                        expanded = false
+
+                        if (type == "anime") {
+
+                            viewModel.saveAnimeStatus(
+                                anime,
+                                "planned"
+                            )
+
+                        } else {
+
+                            viewModel.saveMangaStatus(
+                                anime,
+                                "planned"
+                            )
+                        }
+                    }
+                )
             }
         }
     }

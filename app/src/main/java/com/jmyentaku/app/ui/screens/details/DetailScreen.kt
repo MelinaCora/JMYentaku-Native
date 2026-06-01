@@ -20,12 +20,17 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -43,8 +48,11 @@ import coil.request.ImageRequest
 import com.jmyentaku.app.data.model.AnimeDetail
 import com.jmyentaku.app.data.model.MangaDetail
 import com.jmyentaku.app.data.model.VoiceActorDetail
+import com.jmyentaku.app.data.model.toAnime
+import com.jmyentaku.app.ui.components.GeneralComponent.AnimeStatusMenu
 import com.jmyentaku.app.ui.components.GeneralComponent.CustomButton
 import com.jmyentaku.app.viewmodel.detail.DetailViewModel
+import com.jmyentaku.app.viewmodel.home.HomeViewModel
 
 @Composable
 fun DetailScreen(
@@ -187,6 +195,12 @@ fun AnimeDetailContent(
     val context =
         LocalContext.current
 
+    val homeViewModel: HomeViewModel = viewModel()
+
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+
     Column(
 
         modifier = Modifier
@@ -230,26 +244,110 @@ fun AnimeDetailContent(
                     )
             )
 
-            IconButton(
-
-                onClick = onBack,
+            Row(
 
                 modifier = Modifier
-                    .padding(16.dp)
-                    .background(
-                        Color.Black.copy(alpha = 0.4f),
-                        shape = RoundedCornerShape(50)
-                    )
+                    .fillMaxWidth()
+                    .padding(16.dp),
+
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                Icon(
+                IconButton(
 
-                    imageVector = Icons.Default.ArrowBack,
+                    onClick = onBack,
 
-                    contentDescription = "Back",
+                    modifier = Modifier.background(
 
-                    tint = Color.White
-                )
+                        Color.Black.copy(alpha = 0.4f),
+
+                        shape = RoundedCornerShape(50)
+                    )
+                ) {
+
+                    Icon(
+
+                        imageVector = Icons.Default.ArrowBack,
+
+                        contentDescription = "Back",
+
+                        tint = Color.White
+                    )
+                }
+
+                Box {
+
+                    IconButton(
+
+                        onClick = {
+
+                            expanded = true
+                        },
+
+                        modifier = Modifier.background(
+
+                            Color.Black.copy(alpha = 0.4f),
+
+                            shape = RoundedCornerShape(50)
+                        )
+                    ) {
+
+                        Icon(
+
+                            imageVector = Icons.Default.MoreVert,
+
+                            contentDescription = "Menu",
+
+                            tint = Color.White
+                        )
+                    }
+
+                    AnimeStatusMenu(
+
+                        expanded = expanded,
+
+                        onDismiss = {
+
+                            expanded = false
+                        },
+
+                        onInProgress = {
+
+                            expanded = false
+
+                            homeViewModel.saveAnimeStatus(
+
+                                anime = anime.toAnime(),
+
+                                status = "in_progress"
+                            )
+                        },
+
+                        onCompleted = {
+
+                            expanded = false
+
+                            homeViewModel.saveAnimeStatus(
+
+                                anime = anime.toAnime(),
+
+                                status = "completed"
+                            )
+                        },
+
+                        onPlanned = {
+
+                            expanded = false
+
+                            homeViewModel.saveAnimeStatus(
+
+                                anime = anime.toAnime(),
+
+                                status = "planned"
+                            )
+                        }
+                    )
+                }
             }
         }
 
