@@ -197,4 +197,40 @@ class AnimeListRepository {
                 onUpdate(animeList)
             }
     }
+
+    suspend fun saveAnimeWithTotal(
+        anime: UserAnime
+    ): Result<Unit> {
+
+        return saveAnime(anime)
+    }
+
+    suspend fun updateProgress(
+        animeId: Int,
+        newProgress: Int
+    ): Result<Unit> {
+
+        return try {
+
+            val userId =
+                auth.currentUser?.uid
+                    ?: throw Exception("Usuario no autenticado")
+
+            db.collection("users")
+                .document(userId)
+                .collection("anime_lists")
+                .document(animeId.toString())
+                .update(
+                    "progress",
+                    newProgress
+                )
+                .await()
+
+            Result.success(Unit)
+
+        } catch (e: Exception) {
+
+            Result.failure(e)
+        }
+    }
 }

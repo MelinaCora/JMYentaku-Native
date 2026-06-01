@@ -315,10 +315,11 @@ fun AnimeDetailContent(
 
                             expanded = false
 
-                            homeViewModel.saveAnimeStatus(
-
-                                anime = anime.toAnime(),
-
+                            homeViewModel.saveAnimeDetailStatus(
+                                animeId = anime.mal_id,
+                                title = anime.title,
+                                imageUrl = anime.images.jpg.image_url,
+                                totalEpisodes = anime.episodes ?: 0,
                                 status = "in_progress"
                             )
                         },
@@ -327,10 +328,11 @@ fun AnimeDetailContent(
 
                             expanded = false
 
-                            homeViewModel.saveAnimeStatus(
-
-                                anime = anime.toAnime(),
-
+                            homeViewModel.saveAnimeDetailStatus(
+                                animeId = anime.mal_id,
+                                title = anime.title,
+                                imageUrl = anime.images.jpg.image_url,
+                                totalEpisodes = anime.episodes ?: 0,
                                 status = "completed"
                             )
                         },
@@ -339,10 +341,11 @@ fun AnimeDetailContent(
 
                             expanded = false
 
-                            homeViewModel.saveAnimeStatus(
-
-                                anime = anime.toAnime(),
-
+                            homeViewModel.saveAnimeDetailStatus(
+                                animeId = anime.mal_id,
+                                title = anime.title,
+                                imageUrl = anime.images.jpg.image_url,
+                                totalEpisodes = anime.episodes ?: 0,
                                 status = "planned"
                             )
                         }
@@ -632,10 +635,11 @@ fun MangaDetailContent(
 
                             expanded = false
 
-                            homeViewModel.saveMangaStatus(
-
-                                manga = manga.toAnime(),
-
+                            homeViewModel.saveMangaDetailStatus(
+                                mangaId = manga.mal_id,
+                                title = manga.title,
+                                imageUrl = manga.images.jpg.image_url,
+                                totalChapters = manga.chapters ?: 0,
                                 status = "in_progress"
                             )
                         },
@@ -644,10 +648,11 @@ fun MangaDetailContent(
 
                             expanded = false
 
-                            homeViewModel.saveMangaStatus(
-
-                                manga = manga.toAnime(),
-
+                            homeViewModel.saveMangaDetailStatus(
+                                mangaId = manga.mal_id,
+                                title = manga.title,
+                                imageUrl = manga.images.jpg.image_url,
+                                totalChapters = manga.chapters ?: 0,
                                 status = "completed"
                             )
                         },
@@ -656,10 +661,11 @@ fun MangaDetailContent(
 
                             expanded = false
 
-                            homeViewModel.saveMangaStatus(
-
-                                manga = manga.toAnime(),
-
+                            homeViewModel.saveMangaDetailStatus(
+                                mangaId = manga.mal_id,
+                                title = manga.title,
+                                imageUrl = manga.images.jpg.image_url,
+                                totalChapters = manga.chapters ?: 0,
                                 status = "planned"
                             )
                         }

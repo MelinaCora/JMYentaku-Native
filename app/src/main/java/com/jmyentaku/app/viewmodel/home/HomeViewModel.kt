@@ -115,4 +115,52 @@ class HomeViewModel : ViewModel() {
             )
         }
     }
+
+    fun saveAnimeDetailStatus(
+        animeId: Int,
+        title: String,
+        imageUrl: String,
+        totalEpisodes: Int,
+        status: String
+    ) {
+        viewModelScope.launch {
+
+            animeListRepository.saveAnime(
+
+                UserAnime(
+                    animeId = animeId,
+                    title = title,
+                    imageUrl = imageUrl,
+                    type = "anime",
+                    status = status,
+                    progress = 0,
+                    total = totalEpisodes
+                )
+            )
+        }
+    }
+
+    fun saveMangaDetailStatus(
+        mangaId: Int,
+        title: String,
+        imageUrl: String,
+        totalChapters: Int,
+        status: String
+    ) {
+        viewModelScope.launch {
+
+            animeListRepository.saveAnime(
+
+                UserAnime(
+                    animeId = mangaId,
+                    title = title,
+                    imageUrl = imageUrl,
+                    type = "manga",
+                    status = status,
+                    progress = 0,
+                    total = totalChapters
+                )
+            )
+        }
+    }
 }
