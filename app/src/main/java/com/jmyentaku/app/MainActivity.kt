@@ -28,8 +28,6 @@ class MainActivity : ComponentActivity() {
             )
         }
 
-        NotificationChannels.create(this)
-
         // 🔔 Notificaciones
         NotificationChannels.create(this)
 

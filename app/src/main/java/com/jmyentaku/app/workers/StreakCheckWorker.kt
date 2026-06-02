@@ -23,8 +23,8 @@ class StreakCheckWorker(
 
             NotificationHelper.show(
                 applicationContext,
-                "⚠️ No pierdas tu racha",
-                "Hace rato que no avanzás anime"
+                "⚠️ ¿En serio vas a perder tu racha?",
+                "Hace rato que no avanzás en tus animes"
             )
         }
 
