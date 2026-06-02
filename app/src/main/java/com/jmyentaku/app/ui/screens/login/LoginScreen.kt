@@ -32,6 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.jmyentaku.app.R
 
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+
 @Composable
 fun LoginScreen(
     navController: NavController
@@ -116,7 +118,8 @@ fun LoginScreen(
                     onValueChange = {
                         viewModel.onPasswordChange(it)
                     },
-                    label = "Password"
+                    label = "Password",
+                    visualTransformation = PasswordVisualTransformation()
                 )
 
                 Spacer( modifier = Modifier.weight(1f))

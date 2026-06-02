@@ -10,14 +10,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+import androidx.compose.ui.text.input.VisualTransformation
+
 @Composable
 fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    label: String
+    label: String,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
 
     OutlinedTextField(
+
         value = value,
 
         onValueChange = onValueChange,
@@ -32,6 +36,8 @@ fun CustomTextField(
         modifier = Modifier.fillMaxWidth(),
 
         shape = RoundedCornerShape(16.dp),
+
+        visualTransformation = visualTransformation,
 
         colors = OutlinedTextFieldDefaults.colors(
 
