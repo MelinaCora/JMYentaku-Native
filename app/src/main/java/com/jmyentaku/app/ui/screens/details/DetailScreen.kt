@@ -477,7 +477,7 @@ fun AnimeDetailContent(
 
                             userAnime?.let {
 
-                                if (it.progress > 0) {
+                                if (it.progress < it.total) {
 
                                     val newProgress =
                                         it.progress + 1
@@ -489,7 +489,7 @@ fun AnimeDetailContent(
                                         newProgress = newProgress
                                     )
 
-                                    if (newProgress >= total) {
+                                    if (newProgress >= it.total) {
 
                                         homeViewModel.updateStatus(
 
@@ -503,10 +503,11 @@ fun AnimeDetailContent(
 
                                         progress = newProgress,
 
-                                        status = if (newProgress >= total)
-                                            "completed"
-                                        else
-                                            it.status
+                                        status =
+                                            if (newProgress >= it.total)
+                                                "completed"
+                                            else
+                                                it.status
                                     )
                                 }
                             }
