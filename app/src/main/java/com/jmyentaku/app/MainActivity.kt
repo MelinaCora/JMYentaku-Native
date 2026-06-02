@@ -12,6 +12,7 @@ import com.jmyentaku.app.notifications.NotificationChannels
 
 import com.jmyentaku.app.workers.scheduleDailyReminder
 import com.jmyentaku.app.workers.scheduleStreakCheck
+import com.jmyentaku.app.notifications.NotificationHelper
 
 import android.os.Build
 
@@ -45,6 +46,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        NotificationHelper.show(
+            this,
+            "TEST AUTOMÁTICO 🔔",
+            "Se ejecuta al abrir la app"
+        )
     }
 
 

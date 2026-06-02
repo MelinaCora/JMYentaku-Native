@@ -35,6 +35,8 @@ import com.jmyentaku.app.ui.navigation.passIdAndType
 import com.jmyentaku.app.viewmodel.home.HomeViewModel
 import kotlinx.coroutines.launch
 
+import com.jmyentaku.app.ui.components.workerTest.TestWorkerButton
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -100,6 +102,8 @@ fun HomeScreen(navController: NavController) {
                         .padding(paddingValues)
                         .padding(top = 64.dp)
                 ) {
+
+                    //TestWorkerButton()
 
                     if (viewModel.uiState.isLoading) {
 

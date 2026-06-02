@@ -6,6 +6,8 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
 
+import androidx.work.OneTimeWorkRequestBuilder
+
 fun scheduleDailyReminder(context: Context) {
 
     val request = PeriodicWorkRequestBuilder<DailyReminderWorker>(
@@ -32,4 +34,13 @@ fun scheduleStreakCheck(context: Context) {
             ExistingPeriodicWorkPolicy.KEEP,
             request
         )
+}
+
+fun runTestWorker(context: Context) {
+
+    val request = OneTimeWorkRequestBuilder<TestWorker>()
+        .build()
+
+    WorkManager.getInstance(context)
+        .enqueue(request)
 }
