@@ -204,7 +204,6 @@ class AnimeListRepository {
 
         return saveAnime(anime)
     }
-
     suspend fun updateProgress(
         animeId: Int,
         newProgress: Int
@@ -225,6 +224,18 @@ class AnimeListRepository {
                     newProgress
                 )
                 .await()
+
+            activityRepository.registerActivity(
+
+                UserActivity(
+
+                    type = "episode_watched",
+
+                    animeId = animeId,
+
+                    timestamp = System.currentTimeMillis()
+                )
+            )
 
             Result.success(Unit)
 

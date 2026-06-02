@@ -163,4 +163,20 @@ class HomeViewModel : ViewModel() {
             )
         }
     }
+
+    fun updateProgress(
+        animeId: Int,
+        newProgress: Int
+    ) {
+
+        viewModelScope.launch {
+
+            animeListRepository.updateProgress(
+
+                animeId = animeId,
+
+                newProgress = newProgress
+            )
+        }
+    }
 }
