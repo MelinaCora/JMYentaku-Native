@@ -244,4 +244,38 @@ class AnimeListRepository {
             Result.failure(e)
         }
     }
+
+
+    // =====================================
+    // Obtener anime especifico de firestore
+    // =====================================
+    suspend fun getUserAnime(
+        animeId: Int
+    ): Result<UserAnime> {
+
+        return try {
+
+            val userId =
+                auth.currentUser?.uid
+                    ?: throw Exception("Usuario no autenticado")
+
+            val document =
+                db.collection("users")
+                    .document(userId)
+                    .collection("anime_lists")
+                    .document(animeId.toString())
+                    .get()
+                    .await()
+
+            val anime =
+                document.toObject(UserAnime::class.java)
+                    ?: throw Exception("Anime no encontrado")
+
+            Result.success(anime)
+
+        } catch (e: Exception) {
+
+            Result.failure(e)
+        }
+    }
 }

@@ -53,6 +53,7 @@ import com.jmyentaku.app.ui.components.GeneralComponent.AnimeStatusMenu
 import com.jmyentaku.app.ui.components.GeneralComponent.CustomButton
 import com.jmyentaku.app.viewmodel.detail.DetailViewModel
 import com.jmyentaku.app.viewmodel.home.HomeViewModel
+import com.jmyentaku.app.data.model.UserAnime
 
 @Composable
 fun DetailScreen(
@@ -192,10 +193,25 @@ fun AnimeDetailContent(
     onBack: () -> Unit
 ) {
 
+    var userAnime by remember {
+
+        mutableStateOf<UserAnime?>(null)
+    }
+
     val context =
         LocalContext.current
 
     val homeViewModel: HomeViewModel = viewModel()
+
+    LaunchedEffect(anime.mal_id) {
+
+        homeViewModel.getUserAnime(
+            anime.mal_id
+        ) {
+
+            userAnime = it
+        }
+    }
 
     var expanded by remember {
         mutableStateOf(false)
@@ -426,6 +442,20 @@ fun AnimeDetailContent(
                 StatItem(
                     value = "#${anime.rank ?: "?"}",
                     label = "Rank"
+                )
+
+                Spacer(
+                    modifier = Modifier.height(24.dp)
+                )
+
+                SectionTitle(
+                    title = "Your Progress"
+                )
+
+                Text(
+                    text = "${userAnime?.progress ?: 0} / ${userAnime?.total ?: anime.episodes ?: 0}",
+                    color = Color.White,
+                    fontSize = 18.sp
                 )
             }
 

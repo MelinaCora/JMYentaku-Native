@@ -179,4 +179,20 @@ class HomeViewModel : ViewModel() {
             )
         }
     }
+
+    fun getUserAnime(
+        animeId: Int,
+        onResult: (UserAnime?) -> Unit
+    ) {
+
+        viewModelScope.launch {
+
+            val result =
+                animeListRepository.getUserAnime(animeId)
+
+            onResult(
+                result.getOrNull()
+            )
+        }
+    }
 }
