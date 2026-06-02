@@ -443,83 +443,59 @@ fun AnimeDetailContent(
                     value = "#${anime.rank ?: "?"}",
                     label = "Rank"
                 )
+            }
 
-                Spacer(
-                    modifier = Modifier.height(24.dp)
+            Spacer(modifier = Modifier.height(24.dp))
+
+            SectionTitle(title = "Your Progress")
+
+            if (userAnime == null) {
+
+                Text(
+                    text = "Add this anime to your list first.",
+                    color = Color.LightGray
                 )
-                if (userAnime == null) {
 
-                } else {
+            } else {
 
-                    val progress = userAnime?.progress ?: 0
-                    val total = userAnime?.total ?: anime.episodes ?: 0
+                val progress = userAnime?.progress ?: 0
+                val total = userAnime?.total ?: anime.episodes ?: 0
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
 
-                        IconButton(
-                            onClick = {
-                                userAnime?.let {
-
-                                    if (it.progress > 0) {
-
-                                        val newProgress = it.progress - 1
-
-                                        homeViewModel.updateProgress(
-                                            animeId = anime.mal_id,
-                                            newProgress = newProgress
-                                        )
-
-                                        userAnime = it.copy(progress = newProgress)
-                                    }
-                                }
+                    IconButton(onClick = {
+                        userAnime?.let {
+                            if (it.progress > 0) {
+                                val newProgress = it.progress - 1
+                                homeViewModel.updateProgress(anime.mal_id, newProgress)
+                                userAnime = it.copy(progress = newProgress)
                             }
-                        ) {
-                            Text("-", fontSize = 28.sp, color = Color.White)
                         }
+                    }) {
+                        Text("-", fontSize = 28.sp, color = Color.White)
+                    }
 
-                        Text(
-                            text = "$progress / $total",
-                            color = Color.White,
-                            fontSize = 20.sp,
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                        )
+                    Text(
+                        text = "$progress / $total",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
 
-                        IconButton(
-                            onClick = {
-                                userAnime?.let {
-
-                                    if (it.progress < total) {
-
-                                        val newProgress = it.progress + 1
-
-                                        homeViewModel.updateProgress(
-                                            animeId = anime.mal_id,
-                                            newProgress = newProgress
-                                        )
-
-                                        val isCompleted = newProgress >= total
-
-                                        if (isCompleted) {
-                                            homeViewModel.updateStatus(
-                                                animeId = anime.mal_id,
-                                                status = "completed"
-                                            )
-                                        }
-
-                                        userAnime = it.copy(
-                                            progress = newProgress,
-                                            status = if (isCompleted) "completed" else it.status
-                                        )
-                                    }
-                                }
+                    IconButton(onClick = {
+                        userAnime?.let {
+                            if (it.progress < total) {
+                                val newProgress = it.progress + 1
+                                homeViewModel.updateProgress(anime.mal_id, newProgress)
+                                userAnime = it.copy(progress = newProgress)
                             }
-                        ) {
-                            Text("+", fontSize = 28.sp, color = Color.White)
                         }
+                    }) {
+                        Text("+", fontSize = 28.sp, color = Color.White)
                     }
                 }
             }
