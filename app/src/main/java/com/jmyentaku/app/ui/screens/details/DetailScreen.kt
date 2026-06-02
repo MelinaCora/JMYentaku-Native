@@ -451,12 +451,102 @@ fun AnimeDetailContent(
                 SectionTitle(
                     title = "Your Progress"
                 )
+                //debe estar en la lista primero
+                if (userAnime == null) {
 
-                Text(
-                    text = "${userAnime?.progress ?: 0} / ${userAnime?.total ?: anime.episodes ?: 0}",
-                    color = Color.White,
-                    fontSize = 18.sp
-                )
+                    Text(
+
+                        text = "Add this anime to your list first.",
+
+                        color = Color.LightGray
+                    )
+                }
+                //boton + para caps
+                Row(
+
+                    modifier = Modifier.fillMaxWidth(),
+
+                    horizontalArrangement = Arrangement.Center,
+
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    IconButton(
+
+                        onClick = {
+
+                            userAnime?.let {
+
+                                if (it.progress > 0) {
+
+                                    homeViewModel.updateProgress(
+
+                                        animeId = anime.mal_id,
+
+                                        newProgress = it.progress - 1
+                                    )
+
+                                    userAnime = it.copy(
+
+                                        progress = it.progress - 1
+                                    )
+                                }
+                            }
+                        }
+                    ) {
+
+                        Text(
+                            text = "-",
+                            fontSize = 28.sp,
+                            color = Color.White
+                        )
+                    }
+
+                    Text(
+
+                        text = "${userAnime?.progress ?: 0} / ${userAnime?.total ?: anime.episodes ?: 0}",
+
+                        color = Color.White,
+
+                        fontSize = 20.sp,
+
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+
+                    IconButton(
+
+                        onClick = {
+
+                            userAnime?.let {
+
+                                val total =
+                                    it.total
+
+                                if (it.progress < total) {
+
+                                    homeViewModel.updateProgress(
+
+                                        animeId = anime.mal_id,
+
+                                        newProgress = it.progress + 1
+                                    )
+
+                                    userAnime = it.copy(
+
+                                        progress = it.progress + 1
+                                    )
+                                }
+                            }
+                        }
+                    ) {
+
+                        Text(
+                            text = "+",
+                            fontSize = 28.sp,
+                            color = Color.White
+                        )
+                    }
+                }
             }
 
             Spacer(
