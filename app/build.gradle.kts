@@ -85,6 +85,9 @@ dependencies {
     implementation("org.osmdroid:osmdroid-android:6.1.18")
     implementation("androidx.preference:preference-ktx:1.2.1")
 
+    //worker
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
     coreLibraryDesugaring(
         "com.android.tools:desugar_jdk_libs:2.1.5"
     )
