@@ -278,4 +278,36 @@ class AnimeListRepository {
             Result.failure(e)
         }
     }
+
+    //================================================================
+    //Metodo para actualizar status cuando el usuario completa un anime
+    //=================================================================
+    suspend fun updateStatus(
+        animeId: Int,
+        newStatus: String
+    ): Result<Unit> {
+
+        return try {
+
+            val userId =
+                auth.currentUser?.uid
+                    ?: throw Exception("Usuario no autenticado")
+
+            db.collection("users")
+                .document(userId)
+                .collection("anime_lists")
+                .document(animeId.toString())
+                .update(
+                    "status",
+                    newStatus
+                )
+                .await()
+
+            Result.success(Unit)
+
+        } catch (e: Exception) {
+
+            Result.failure(e)
+        }
+    }
 }

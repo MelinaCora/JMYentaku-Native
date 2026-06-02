@@ -479,16 +479,34 @@ fun AnimeDetailContent(
 
                                 if (it.progress > 0) {
 
+                                    val newProgress =
+                                        it.progress + 1
+
                                     homeViewModel.updateProgress(
 
                                         animeId = anime.mal_id,
 
-                                        newProgress = it.progress - 1
+                                        newProgress = newProgress
                                     )
+
+                                    if (newProgress >= total) {
+
+                                        homeViewModel.updateStatus(
+
+                                            animeId = anime.mal_id,
+
+                                            status = "completed"
+                                        )
+                                    }
 
                                     userAnime = it.copy(
 
-                                        progress = it.progress - 1
+                                        progress = newProgress,
+
+                                        status = if (newProgress >= total)
+                                            "completed"
+                                        else
+                                            it.status
                                     )
                                 }
                             }

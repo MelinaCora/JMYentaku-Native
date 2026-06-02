@@ -195,4 +195,21 @@ class HomeViewModel : ViewModel() {
             )
         }
     }
+
+    //metodo para actualizar status
+    fun updateStatus(
+        animeId: Int,
+        status: String
+    ) {
+
+        viewModelScope.launch {
+
+            animeListRepository.updateStatus(
+
+                animeId = animeId,
+
+                newStatus = status
+            )
+        }
+    }
 }
