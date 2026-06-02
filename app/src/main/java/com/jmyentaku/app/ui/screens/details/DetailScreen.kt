@@ -55,6 +55,9 @@ import com.jmyentaku.app.viewmodel.detail.DetailViewModel
 import com.jmyentaku.app.viewmodel.home.HomeViewModel
 import com.jmyentaku.app.data.model.UserAnime
 
+import com.jmyentaku.app.notifications.NotificationHelper
+import android.content.Context
+
 @Composable
 fun DetailScreen(
     navController: NavController,
@@ -492,6 +495,22 @@ fun AnimeDetailContent(
                                 val newProgress = it.progress + 1
                                 homeViewModel.updateProgress(anime.mal_id, newProgress)
                                 userAnime = it.copy(progress = newProgress)
+
+                                context.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+                                    .edit()
+                                    .putLong("last_activity", System.currentTimeMillis())
+                                    .apply()
+
+
+                                val remaining = total - newProgress
+
+                                if (remaining == 2) {
+                                    NotificationHelper.show(
+                                        context,
+                                        "Casi terminas 🎯",
+                                        "Te faltan solo 2 capítulos de ${anime.title}"
+                                    )
+                                }
                             }
                         }
                     }) {
