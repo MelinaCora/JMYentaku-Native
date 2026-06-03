@@ -39,6 +39,7 @@ import kotlinx.coroutines.launch
 
 import com.jmyentaku.app.ui.components.home.DashboardCard
 import com.jmyentaku.app.ui.components.home.ContinueWatchingCard
+import com.jmyentaku.app.ui.components.home.AchievementProgressCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -203,8 +204,27 @@ fun HomeScreen(navController: NavController) {
                                         )
                                     }
 
+                                Text(
+                                    text = "Next Achievement",
+                                    color = Color.White,
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+
                                 Spacer(
-                                    modifier = Modifier.height(28.dp)
+                                    modifier = Modifier.height(20.dp)
+                                )
+
+                                AchievementProgressCard(
+
+                                    achievementName =
+                                        viewModel.uiState.nextAchievementName,
+
+                                    current =
+                                        viewModel.uiState.nextAchievementProgress,
+
+                                    target =
+                                        viewModel.uiState.nextAchievementTarget
                                 )
 
                                 SectionAnimeRow(

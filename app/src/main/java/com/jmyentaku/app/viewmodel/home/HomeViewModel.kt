@@ -266,6 +266,13 @@ class HomeViewModel : ViewModel() {
                                 plannedCount = planned
                             )
 
+                    val nextAchievement =
+
+                        achievements.firstOrNull {
+
+                            !it.unlocked
+                        }
+
                     val level =
                         LevelEngine.calculateLevel(
 
@@ -293,6 +300,15 @@ class HomeViewModel : ViewModel() {
 
                         xpForNextLevel =
                             level.xpForNextLevel,
+
+                        nextAchievementName =
+                            nextAchievement?.title ?: "",
+
+                        nextAchievementProgress =
+                            nextAchievement?.progress ?: 0,
+
+                        nextAchievementTarget =
+                            nextAchievement?.target ?: 0,
 
                         continueWatching =
                             animeList.filter {
