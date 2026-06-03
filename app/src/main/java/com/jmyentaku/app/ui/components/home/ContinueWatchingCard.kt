@@ -2,6 +2,7 @@ package com.jmyentaku.app.ui.components.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,11 +13,18 @@ import com.jmyentaku.app.data.model.UserAnime
 
 @Composable
 fun ContinueWatchingCard(
-    anime: UserAnime
+    anime: UserAnime,
+    onClick: () -> Unit
 ) {
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+
+                onClick()
+            },
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF1E293B)
         ),

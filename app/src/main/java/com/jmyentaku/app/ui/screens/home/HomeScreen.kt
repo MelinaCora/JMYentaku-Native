@@ -197,7 +197,21 @@ fun HomeScreen(navController: NavController) {
                                     .forEach { anime ->
 
                                         ContinueWatchingCard(
-                                            anime = anime
+
+                                            anime = anime,
+
+                                            onClick = {
+
+                                                navController.navigate(
+
+                                                    passIdAndType(
+
+                                                        anime.animeId,
+
+                                                        anime.type
+                                                    )
+                                                )
+                                            }
                                         )
 
                                         Spacer(
