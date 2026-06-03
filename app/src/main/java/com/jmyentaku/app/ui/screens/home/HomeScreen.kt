@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 import com.jmyentaku.app.ui.components.home.DashboardCard
 import com.jmyentaku.app.ui.components.home.ContinueWatchingCard
 import com.jmyentaku.app.ui.components.home.AchievementProgressCard
+import com.jmyentaku.app.ui.components.home.DailyGoalsCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -225,6 +226,21 @@ fun HomeScreen(navController: NavController) {
 
                                     target =
                                         viewModel.uiState.nextAchievementTarget
+                                )
+                                Spacer(
+                                    modifier = Modifier.height(16.dp)
+                                )
+
+                                DailyGoalsCard(
+
+                                    watchedEpisode =
+                                        viewModel.uiState.dailyGoalWatchEpisode,
+
+                                    maintainedStreak =
+                                        viewModel.uiState.dailyGoalMaintainStreak,
+
+                                    completedAnime =
+                                        viewModel.uiState.dailyGoalCompleteAnime
                                 )
                             }
                         }

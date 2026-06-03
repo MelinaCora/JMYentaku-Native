@@ -287,6 +287,20 @@ class HomeViewModel : ViewModel() {
                             currentStreak = streak.currentStreak
                         )
 
+                    val watchedEpisodeToday =
+
+                        activities.any {
+
+                            it.type == "episode_watched"
+                        }
+
+                    val completedAnimeToday =
+
+                        activities.any {
+
+                            it.type == "anime_completed"
+                        }
+
                     uiState = uiState.copy(
 
                         currentStreak =
@@ -314,7 +328,16 @@ class HomeViewModel : ViewModel() {
                             animeList.filter {
 
                                 it.status == "in_progress"
-                            }
+                            },
+
+                        dailyGoalWatchEpisode =
+                            watchedEpisodeToday,
+
+                        dailyGoalMaintainStreak =
+                            streak.currentStreak > 0,
+
+                        dailyGoalCompleteAnime =
+                            completedAnimeToday
                     )
                 }
             },

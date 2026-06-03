@@ -25,6 +25,12 @@ data class HomeUiState(
 
     val nextAchievementTarget: Int = 0,
 
+    val dailyGoalWatchEpisode: Boolean = false,
+
+    val dailyGoalMaintainStreak: Boolean = false,
+
+    val dailyGoalCompleteAnime: Boolean = false,
+
     val continueWatching: List<UserAnime> = emptyList(),
 
     val isLoading: Boolean = false,
