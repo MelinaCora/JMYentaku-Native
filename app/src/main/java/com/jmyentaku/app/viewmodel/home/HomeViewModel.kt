@@ -16,10 +16,20 @@ import com.jmyentaku.app.data.model.Anime
 import com.jmyentaku.app.data.firebase.AnimeListRepository
 import com.jmyentaku.app.data.model.UserAnime
 
+import com.jmyentaku.app.data.firebase.ActivityRepository
+import com.jmyentaku.app.data.achievements.AchievementEngine
+import com.jmyentaku.app.data.challenges.ChallengeEngine
+import com.jmyentaku.app.data.streaks.StreakEngine
+import com.jmyentaku.app.data.levels.LevelEngine
+
 class HomeViewModel : ViewModel() {
 
     // Repository de animes
     private val repository = AnimeRepository()
+
+    //repository de activity
+    private val activityRepository =
+        ActivityRepository()
 
     // Repository de mangas
     private val mangaRepository = MangaRepository()
@@ -39,7 +49,7 @@ class HomeViewModel : ViewModel() {
         private set
 
     init {
-
+        loadDashboardData()
         getHomeData()
     }
 
@@ -211,5 +221,91 @@ class HomeViewModel : ViewModel() {
                 newStatus = status
             )
         }
+    }
+
+    //metodo para cargar la dashboard
+    private fun loadDashboardData() {
+
+        animeListRepository.observeUserAnime(
+
+            onUpdate = { animeList ->
+
+                viewModelScope.launch {
+
+                    val activities =
+                        activityRepository.getActivities()
+
+                    val streak =
+                        StreakEngine.calculateStreak(
+                            activities
+                        )
+
+                    val watching =
+                        animeList.count {
+                            it.status == "in_progress"
+                        }
+
+                    val completed =
+                        animeList.count {
+                            it.status == "completed"
+                        }
+
+                    val planned =
+                        animeList.count {
+                            it.status == "planned"
+                        }
+
+                    val achievements =
+                        AchievementEngine
+                            .calculateAchievements(
+
+                                completedCount = completed,
+
+                                watchingCount = watching,
+
+                                plannedCount = planned
+                            )
+
+                    val level =
+                        LevelEngine.calculateLevel(
+
+                            completedCount = completed,
+
+                            watchingCount = watching,
+
+                            plannedCount = planned,
+
+                            achievementCount = achievements.size,
+
+                            currentStreak = streak.currentStreak
+                        )
+
+                    uiState = uiState.copy(
+
+                        currentStreak =
+                            streak.currentStreak,
+
+                        level =
+                            level.level,
+
+                        currentXp =
+                            level.currentXp,
+
+                        xpForNextLevel =
+                            level.xpForNextLevel,
+
+                        continueWatching =
+                            animeList.filter {
+
+                                it.status == "in_progress"
+                            }
+                    )
+                }
+            },
+
+            onError = {
+
+            }
+        )
     }
 }

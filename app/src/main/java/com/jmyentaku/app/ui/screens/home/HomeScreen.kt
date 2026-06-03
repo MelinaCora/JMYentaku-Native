@@ -35,7 +35,9 @@ import com.jmyentaku.app.ui.navigation.passIdAndType
 import com.jmyentaku.app.viewmodel.home.HomeViewModel
 import kotlinx.coroutines.launch
 
-import com.jmyentaku.app.ui.components.workerTest.TestWorkerButton
+//import com.jmyentaku.app.ui.components.workerTest.TestWorkerButton
+
+import com.jmyentaku.app.ui.components.home.DashboardCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -158,6 +160,24 @@ fun HomeScreen(navController: NavController) {
                                         )
                                     }
                                 }
+                                Spacer(
+                                    modifier = Modifier.height(24.dp)
+                                )
+
+                                DashboardCard(
+
+                                    streak = viewModel.uiState.currentStreak,
+
+                                    level = viewModel.uiState.level,
+
+                                    xp = viewModel.uiState.currentXp,
+
+                                    nextLevelXp = viewModel.uiState.xpForNextLevel
+                                )
+
+                                Spacer(
+                                    modifier = Modifier.height(24.dp)
+                                )
 
                                 Spacer(
                                     modifier = Modifier.height(28.dp)
