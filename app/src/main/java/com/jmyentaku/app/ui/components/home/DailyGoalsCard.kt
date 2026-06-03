@@ -36,17 +36,6 @@ fun DailyGoalsCard(
             modifier = Modifier.padding(20.dp)
         ) {
 
-            Text(
-
-                text = "🎯 Today's Goals",
-
-                color = Color.White,
-
-                style = MaterialTheme.typography.titleLarge,
-
-                fontWeight = FontWeight.Bold
-            )
-
             Spacer(
                 modifier = Modifier.height(16.dp)
             )

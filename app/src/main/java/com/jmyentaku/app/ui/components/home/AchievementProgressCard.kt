@@ -37,17 +37,6 @@ fun AchievementProgressCard(
             modifier = Modifier.padding(20.dp)
         ) {
 
-            Text(
-
-                text = "🎯 Next Achievement",
-
-                color = Color.White,
-
-                fontSize = 18.sp,
-
-                fontWeight = FontWeight.Bold
-            )
-
             Spacer(
                 modifier = Modifier.height(12.dp)
             )

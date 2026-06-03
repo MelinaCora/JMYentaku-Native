@@ -245,6 +245,17 @@ fun HomeScreen(navController: NavController) {
                                     modifier = Modifier.height(16.dp)
                                 )
 
+                                Text(
+                                    text = "Today's Goals",
+                                    color = Color.White,
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+
+                                Spacer(
+                                    modifier = Modifier.height(16.dp)
+                                )
+
                                 DailyGoalsCard(
 
                                     watchedEpisode =
