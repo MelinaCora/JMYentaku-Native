@@ -73,7 +73,11 @@ fun DashboardCard(
                     xp.toFloat() / nextLevelXp
                 },
 
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+
+                color = Color(0xFF38BDF8),
+
+                trackColor = Color(0xFF334155)
             )
 
             Spacer(
