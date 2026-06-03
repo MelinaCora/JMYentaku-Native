@@ -38,6 +38,7 @@ import kotlinx.coroutines.launch
 //import com.jmyentaku.app.ui.components.workerTest.TestWorkerButton
 
 import com.jmyentaku.app.ui.components.home.DashboardCard
+import com.jmyentaku.app.ui.components.home.ContinueWatchingCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -178,6 +179,29 @@ fun HomeScreen(navController: NavController) {
                                 Spacer(
                                     modifier = Modifier.height(24.dp)
                                 )
+
+                                Text(
+                                    text = "Continue Watching",
+                                    color = Color.White,
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+
+                                Spacer(
+                                    modifier = Modifier.height(12.dp)
+                                )
+                                viewModel.uiState.continueWatching
+                                    .take(3)
+                                    .forEach { anime ->
+
+                                        ContinueWatchingCard(
+                                            anime = anime
+                                        )
+
+                                        Spacer(
+                                            modifier = Modifier.height(12.dp)
+                                        )
+                                    }
 
                                 Spacer(
                                     modifier = Modifier.height(28.dp)
