@@ -11,4 +11,13 @@ class MangaRepository {
             .getTopManga()
             .data
     }
+
+    suspend fun searchManga(
+        query: String
+    ): List<Anime> {
+
+        return RetrofitInstance.api
+            .searchManga(query)
+            .data
+    }
 }

@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import com.jmyentaku.app.ui.components.camera.CameraPreview
 import coil.compose.AsyncImage
+import androidx.compose.ui.graphics.Color
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jmyentaku.app.viewmodel.scan.ScanViewModel
@@ -125,6 +126,24 @@ fun ScanMangaScreen() {
                         text = "📸 Capture"
                     )
                 }
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
+
+                Button(
+
+                    onClick = {
+
+                        scanViewModel.recognizeText(
+                            context
+                        )
+                    }
+                ) {
+
+                    Text(
+                        text = "🔍 Detect Text"
+                    )
+                }
 
                 scanViewModel.capturedImageUri?.let { imageUri ->
 
@@ -142,6 +161,74 @@ fun ScanMangaScreen() {
                             .fillMaxWidth()
                             .height(250.dp)
                     )
+                    if (scanViewModel.detectedText.isNotBlank()) {
+
+                        Spacer(
+                            modifier = Modifier.height(16.dp)
+                        )
+
+                        Text(
+
+                            text = "Detected text:",
+
+                            style = MaterialTheme.typography.titleMedium
+                        )
+
+                        Text(
+                            text = "Found: ${scanViewModel.foundManga?.title ?: "NULL"}",
+                            color = Color.Red
+                        )
+
+                        Spacer(
+                            modifier = Modifier.height(8.dp)
+                        )
+
+                        Text(
+                            text = scanViewModel.detectedText
+                        )
+                    }
+                }
+                scanViewModel.foundManga?.let { manga ->
+
+                    Spacer(
+                        modifier = Modifier.height(24.dp)
+                    )
+
+                    Card(
+
+                        modifier = Modifier.fillMaxWidth(),
+
+                        colors = CardDefaults.cardColors(
+
+                            containerColor =
+                                Color(0xFF1E293B)
+                        )
+                    ) {
+
+                        Column(
+
+                            modifier = Modifier.padding(16.dp)
+                        ) {
+
+                            Text(
+
+                                text = "📚 Manga Found",
+
+                                color = Color.White
+                            )
+
+                            Spacer(
+                                modifier = Modifier.height(8.dp)
+                            )
+
+                            Text(
+
+                                text = manga.title,
+
+                                color = Color(0xFF38BDF8)
+                            )
+                        }
+                    }
                 }
 
             } else {
@@ -151,7 +238,6 @@ fun ScanMangaScreen() {
                     text = "❌ Camera permission required"
                 )
             }
-
 
 
         }
