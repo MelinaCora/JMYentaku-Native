@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import com.jmyentaku.app.ui.components.camera.CameraPreview
+import coil.compose.AsyncImage
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jmyentaku.app.viewmodel.scan.ScanViewModel
@@ -106,6 +107,42 @@ fun ScanMangaScreen() {
                         scanViewModel.updateImageCapture(it)
                     }
                 )
+                Spacer(
+                    modifier = Modifier.height(16.dp)
+                )
+
+                Button(
+
+                    onClick = {
+
+                        scanViewModel.takePhoto(
+                            context
+                        )
+                    }
+                ) {
+
+                    Text(
+                        text = "📸 Capture"
+                    )
+                }
+
+                scanViewModel.capturedImageUri?.let { imageUri ->
+
+                    Spacer(
+                        modifier = Modifier.height(16.dp)
+                    )
+
+                    AsyncImage(
+
+                        model = imageUri,
+
+                        contentDescription = "Captured Manga",
+
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp)
+                    )
+                }
 
             } else {
 
