@@ -9,7 +9,7 @@ class ScanViewModel : ViewModel() {
     var imageCapture by mutableStateOf<ImageCapture?>(null)
         private set
 
-    fun setImageCapture(
+    fun updateImageCapture(
         capture: ImageCapture
     ) {
         imageCapture = capture

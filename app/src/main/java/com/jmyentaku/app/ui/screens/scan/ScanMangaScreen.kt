@@ -103,7 +103,7 @@ fun ScanMangaScreen() {
 
                     onImageCaptureReady = {
 
-                        scanViewModel.setImageCapture(it)
+                        scanViewModel.updateImageCapture(it)
                     }
                 )
 
