@@ -1,6 +1,7 @@
 package com.jmyentaku.app.ui.components.camera
 
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -16,7 +17,10 @@ import androidx.core.content.ContextCompat
 @Composable
 fun CameraPreview(
 
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+
+    onImageCaptureReady: (ImageCapture) -> Unit
+
 ) {
 
     val context =
@@ -46,6 +50,14 @@ fun CameraPreview(
                     Preview.Builder()
                         .build()
 
+                val imageCapture =
+                    ImageCapture.Builder()
+                        .build()
+
+                onImageCaptureReady(
+                    imageCapture
+                )
+
                 preview.surfaceProvider =
                     previewView.surfaceProvider
 
@@ -59,7 +71,9 @@ fun CameraPreview(
 
                         CameraSelector.DEFAULT_BACK_CAMERA,
 
-                        preview
+                        preview,
+
+                        imageCapture
                     )
 
                 } catch (e: Exception) {

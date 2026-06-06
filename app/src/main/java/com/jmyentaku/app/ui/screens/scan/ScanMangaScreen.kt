@@ -14,8 +14,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import com.jmyentaku.app.ui.components.camera.CameraPreview
+
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.jmyentaku.app.viewmodel.scan.ScanViewModel
+
 @Composable
 fun ScanMangaScreen() {
+
+    val scanViewModel: ScanViewModel = viewModel()
 
     val context = LocalContext.current
 
@@ -93,7 +99,12 @@ fun ScanMangaScreen() {
 
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(400.dp)
+                        .height(400.dp),
+
+                    onImageCaptureReady = {
+
+                        scanViewModel.setImageCapture(it)
+                    }
                 )
 
             } else {
