@@ -19,6 +19,10 @@ class ScanViewModel : ViewModel() {
     var imageCapture by mutableStateOf<ImageCapture?>(null)
         private set
 
+    //instancia para el texto detectado en la imagen
+    var detectedText by mutableStateOf("")
+        private set
+
     // ==========================================
     // Guarda la foto que YA fue tomada.
     // Se utiliza para mostrar la imagen capturada
@@ -47,7 +51,6 @@ class ScanViewModel : ViewModel() {
     ) {
         imageCapture = capture
     }
-
 
     fun takePhoto(
         context: Context
@@ -96,5 +99,11 @@ class ScanViewModel : ViewModel() {
                 }
             }
         )
+    }
+
+    fun updateDetectedText(
+        text: String
+    ) {
+        detectedText = text
     }
 }
