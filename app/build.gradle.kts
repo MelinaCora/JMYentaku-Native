@@ -77,6 +77,11 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     //Coil (imagenes)
     implementation("io.coil-kt:coil-compose:2.6.0")
+    //CameraX
+    implementation("androidx.camera:camera-core:1.4.2")
+    implementation("androidx.camera:camera-camera2:1.4.2")
+    implementation("androidx.camera:camera-lifecycle:1.4.2")
+    implementation("androidx.camera:camera-view:1.4.2")
     //Await - corrutinas
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     //para iconos
@@ -84,7 +89,6 @@ dependencies {
     //mapa
     implementation("org.osmdroid:osmdroid-android:6.1.18")
     implementation("androidx.preference:preference-ktx:1.2.1")
-
     //worker
     implementation("androidx.work:work-runtime-ktx:2.9.0")
 
