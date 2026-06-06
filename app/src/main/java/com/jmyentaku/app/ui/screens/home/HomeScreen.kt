@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalNavigationDrawer
@@ -99,7 +100,20 @@ fun HomeScreen(navController: NavController) {
                         .padding(paddingValues)
                         .padding(top = 64.dp)
                 ) {
+                    //boton temporal para camara
+                    Button(
 
+                        onClick = {
+
+                            navController.navigate(
+                                Routes.ScanManga.route
+                            )
+                        }
+                    ) {
+
+                        Text("📷 Scan Manga")
+                    }
+                    //------------------------------------
                     if (viewModel.uiState.isLoading) {
 
                         Text(
