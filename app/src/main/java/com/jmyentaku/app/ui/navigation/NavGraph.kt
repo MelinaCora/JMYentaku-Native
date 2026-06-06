@@ -14,6 +14,7 @@ import com.jmyentaku.app.ui.screens.splash.SplashScreen
 import com.jmyentaku.app.ui.screens.profile.ProfileScreen
 import com.jmyentaku.app.ui.screens.bookmarks.BookmarksScreen
 import com.jmyentaku.app.ui.screens.contact.ContactScreen
+import com.jmyentaku.app.ui.screens.scan.ScanMangaScreen
 
 @Composable
 fun NavGraph() {
@@ -67,6 +68,13 @@ fun NavGraph() {
         ) {
 
             BookmarksScreen(navController)
+        }
+
+        composable(
+            Routes.ScanManga.route
+        ) {
+
+            ScanMangaScreen()
         }
     }
 }

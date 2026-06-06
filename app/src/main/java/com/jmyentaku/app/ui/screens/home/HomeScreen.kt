@@ -4,9 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalNavigationDrawer
@@ -28,19 +25,14 @@ import androidx.navigation.NavController
 import com.jmyentaku.app.R
 import com.jmyentaku.app.ui.components.GeneralComponent.DrawerContent
 import com.jmyentaku.app.ui.components.GeneralComponent.MainTopBar
-import com.jmyentaku.app.ui.components.GeneralComponent.SectionAnimeRow
-import com.jmyentaku.app.ui.components.GeneralComponent.VoiceActorCard
+import com.jmyentaku.app.ui.components.home.AchievementProgressCard
+import com.jmyentaku.app.ui.components.home.ContinueWatchingCard
+import com.jmyentaku.app.ui.components.home.DailyGoalsCard
+import com.jmyentaku.app.ui.components.home.DashboardCard
 import com.jmyentaku.app.ui.navigation.Routes
 import com.jmyentaku.app.ui.navigation.passIdAndType
 import com.jmyentaku.app.viewmodel.home.HomeViewModel
 import kotlinx.coroutines.launch
-
-//import com.jmyentaku.app.ui.components.workerTest.TestWorkerButton
-
-import com.jmyentaku.app.ui.components.home.DashboardCard
-import com.jmyentaku.app.ui.components.home.ContinueWatchingCard
-import com.jmyentaku.app.ui.components.home.AchievementProgressCard
-import com.jmyentaku.app.ui.components.home.DailyGoalsCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -107,8 +99,6 @@ fun HomeScreen(navController: NavController) {
                         .padding(paddingValues)
                         .padding(top = 64.dp)
                 ) {
-
-                    //TestWorkerButton()
 
                     if (viewModel.uiState.isLoading) {
 

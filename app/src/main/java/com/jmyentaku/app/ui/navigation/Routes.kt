@@ -7,12 +7,9 @@ sealed class Routes(val route: String) {
     object Detail : Routes("detail/{id}/{type}")
     object Splash : Routes("splash")
     object Contact : Routes("contact")
-
     object Profile : Routes("profile")
-
-    object Bookmarks : Routes(
-        "bookmarks"
-    )
+    object ScanManga : Routes("scan_manga")
+    object Bookmarks : Routes("bookmarks")
 
 }
 //funcion aux
