@@ -19,9 +19,14 @@ import com.jmyentaku.app.ui.screens.scan.ScanMangaScreen
 import com.jmyentaku.app.ui.screens.scan.OCRResultScreen
 import com.jmyentaku.app.ui.screens.scan.ManualMangaScreen
 
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.jmyentaku.app.viewmodel.scan.ScanViewModel
+
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
+
+    val scanViewModel: ScanViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -77,14 +82,20 @@ fun NavGraph() {
             Routes.ScanManga.route
         ) {
 
-            ScanMangaScreen(navController)
+            ScanMangaScreen(
+                navController = navController,
+                scanViewModel = scanViewModel
+            )
         }
 
         composable(
             Routes.OCRResults.route
         ) {
 
-            OCRResultScreen()
+            OCRResultScreen(
+                navController = navController,
+                scanViewModel = scanViewModel
+            )
         }
 
         composable(

@@ -25,10 +25,9 @@ import com.jmyentaku.app.ui.navigation.Routes
 
 @Composable
 fun ScanMangaScreen(
-    navController: NavController
+    navController: NavController,
+    scanViewModel: ScanViewModel
 ) {
-
-    val scanViewModel: ScanViewModel = viewModel()
 
     val context = LocalContext.current
 
