@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+
 import com.jmyentaku.app.ui.screens.details.DetailScreen
 import com.jmyentaku.app.ui.screens.home.HomeScreen
 import com.jmyentaku.app.ui.screens.login.LoginScreen
@@ -15,6 +16,8 @@ import com.jmyentaku.app.ui.screens.profile.ProfileScreen
 import com.jmyentaku.app.ui.screens.bookmarks.BookmarksScreen
 import com.jmyentaku.app.ui.screens.contact.ContactScreen
 import com.jmyentaku.app.ui.screens.scan.ScanMangaScreen
+import com.jmyentaku.app.ui.screens.scan.OCRResultScreen
+import com.jmyentaku.app.ui.screens.scan.ManualMangaScreen
 
 @Composable
 fun NavGraph() {
@@ -74,7 +77,23 @@ fun NavGraph() {
             Routes.ScanManga.route
         ) {
 
-            ScanMangaScreen()
+            ScanMangaScreen(navController)
+        }
+
+        composable(
+            Routes.OCRResults.route
+        ) {
+
+            OCRResultScreen()
+        }
+
+        composable(
+            Routes.ManualManga.route
+        ) {
+
+            ManualMangaScreen(
+                navController = navController
+            )
         }
     }
 }

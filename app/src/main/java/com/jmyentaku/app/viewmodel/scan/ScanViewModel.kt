@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.*
 import android.content.Context
 import android.net.Uri
+import android.widget.Toast
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.core.content.ContextCompat
@@ -38,7 +39,7 @@ class ScanViewModel : ViewModel() {
         private set
 
     // Manga encontrado mediante OCR + búsqueda Jikan
-    var foundManga by mutableStateOf<Anime?>(null)
+    var foundMangas by mutableStateOf<List<Anime>>(emptyList())
         private set
 
 
@@ -107,6 +108,12 @@ class ScanViewModel : ViewModel() {
                     updateCapturedImage(
                         Uri.fromFile(photoFile)
                     )
+
+                    Toast.makeText(
+                        context,
+                        "Imagen capturada correctamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 override fun onError(
@@ -127,7 +134,8 @@ class ScanViewModel : ViewModel() {
     }
 
     fun recognizeText(
-        context: Context
+        context: Context,
+        onFinished: (Boolean) -> Unit
     ) {
 
         val imageUri =
@@ -166,10 +174,15 @@ class ScanViewModel : ViewModel() {
                             ?.trim()
                             ?: text
 
-                    searchDetectedManga(query)
-
                     println("QUERY SENT TO JIKAN:")
                     println(query)
+
+                    searchDetectedManga(
+
+                        query = query,
+
+                        onFinished = onFinished
+                    )
 
                 }
 
@@ -189,7 +202,8 @@ class ScanViewModel : ViewModel() {
     }
 
     fun searchDetectedManga(
-        query: String
+        query: String,
+        onFinished: (Boolean) -> Unit
     ) {
 
         viewModelScope.launch {
@@ -208,8 +222,11 @@ class ScanViewModel : ViewModel() {
                     println(" OCR MANGA: ${it.title}")
                 }
 
-                foundManga =
-                    results.firstOrNull()
+                foundMangas = results
+
+                onFinished(
+                    results.isNotEmpty()
+                )
 
             } catch (e: Exception) {
 

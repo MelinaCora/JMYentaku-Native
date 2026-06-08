@@ -1,31 +1,38 @@
 package com.jmyentaku.app.ui.screens.scan
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import android.Manifest
 import android.content.pm.PackageManager
+
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+
 import androidx.core.content.ContextCompat
-import com.jmyentaku.app.ui.components.camera.CameraPreview
-import coil.compose.AsyncImage
-import androidx.compose.ui.graphics.Color
 
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+
+import com.jmyentaku.app.ui.components.camera.CameraPreview
 import com.jmyentaku.app.viewmodel.scan.ScanViewModel
+import com.jmyentaku.app.ui.navigation.Routes
 
 @Composable
-fun ScanMangaScreen() {
+fun ScanMangaScreen(
+    navController: NavController
+) {
 
     val scanViewModel: ScanViewModel = viewModel()
 
     val context = LocalContext.current
+
+    val capturedImageUri = scanViewModel.capturedImageUri
 
     var hasCameraPermission by remember {
 
@@ -61,41 +68,40 @@ fun ScanMangaScreen() {
 
         Column(
 
+            modifier = Modifier.fillMaxWidth(),
+
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Text(
 
-                text = "📷 Scan Manga"
+                text = "📷 Scan Manga",
+
+                style = MaterialTheme.typography.headlineSmall
             )
 
             Spacer(
                 modifier = Modifier.height(16.dp)
             )
 
-            Button(
+            if (!hasCameraPermission) {
 
-                onClick = {
+                Button(
 
-                    if (!hasCameraPermission) {
+                    onClick = {
 
                         permissionLauncher.launch(
                             Manifest.permission.CAMERA
                         )
                     }
+                ) {
 
+                    Text(
+                        text = "Open Camera"
+                    )
                 }
-            ) {
 
-                Text(
-                    text = "Open Camera"
-                )
-            }
-            Spacer(
-                modifier = Modifier.height(16.dp)
-            )
-
-            if (hasCameraPermission) {
+            } else {
 
                 CameraPreview(
 
@@ -108,6 +114,7 @@ fun ScanMangaScreen() {
                         scanViewModel.updateImageCapture(it)
                     }
                 )
+
                 Spacer(
                     modifier = Modifier.height(16.dp)
                 )
@@ -126,120 +133,71 @@ fun ScanMangaScreen() {
                         text = "📸 Capture"
                     )
                 }
+
                 Spacer(
                     modifier = Modifier.height(12.dp)
                 )
 
-                Button(
+                //miniatura
+                if (capturedImageUri != null) {
 
+                    Spacer(
+                        modifier = Modifier.height(12.dp)
+                    )
+
+                    Text(
+                        text = "✅ Imagen capturada correctamente"
+                    )
+
+                    Spacer(
+                        modifier = Modifier.height(8.dp)
+                    )
+
+                    androidx.compose.foundation.Image(
+                        painter = coil.compose.rememberAsyncImagePainter(
+                            capturedImageUri
+                        ),
+                        contentDescription = "Captured Image",
+                        modifier = Modifier
+                            .size(150.dp)
+                    )
+
+                    Spacer(
+                        modifier = Modifier.height(12.dp)
+                    )
+                }
+
+                Button(
+                    enabled = capturedImageUri != null,
                     onClick = {
 
                         scanViewModel.recognizeText(
+
                             context
-                        )
+
+                        ) { found ->
+
+                            if (found) {
+
+                                navController.navigate(
+                                    Routes.OCRResults.route
+                                )
+
+                            } else {
+
+                                navController.navigate(
+                                    Routes.ManualManga.route
+                                )
+                            }
+                        }
                     }
                 ) {
 
                     Text(
-                        text = "🔍 Detect Text"
+                        text = "🔍 Detect"
                     )
                 }
-
-                scanViewModel.capturedImageUri?.let { imageUri ->
-
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
-                    )
-
-                    AsyncImage(
-
-                        model = imageUri,
-
-                        contentDescription = "Captured Manga",
-
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(250.dp)
-                    )
-                    if (scanViewModel.detectedText.isNotBlank()) {
-
-                        Spacer(
-                            modifier = Modifier.height(16.dp)
-                        )
-
-                        Text(
-
-                            text = "Detected text:",
-
-                            style = MaterialTheme.typography.titleMedium
-                        )
-
-                        Text(
-                            text = "Found: ${scanViewModel.foundManga?.title ?: "NULL"}",
-                            color = Color.Red
-                        )
-
-                        Spacer(
-                            modifier = Modifier.height(8.dp)
-                        )
-
-                        Text(
-                            text = scanViewModel.detectedText
-                        )
-                    }
-                }
-                scanViewModel.foundManga?.let { manga ->
-
-                    Spacer(
-                        modifier = Modifier.height(24.dp)
-                    )
-
-                    Card(
-
-                        modifier = Modifier.fillMaxWidth(),
-
-                        colors = CardDefaults.cardColors(
-
-                            containerColor =
-                                Color(0xFF1E293B)
-                        )
-                    ) {
-
-                        Column(
-
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-
-                            Text(
-
-                                text = "📚 Manga Found",
-
-                                color = Color.White
-                            )
-
-                            Spacer(
-                                modifier = Modifier.height(8.dp)
-                            )
-
-                            Text(
-
-                                text = manga.title,
-
-                                color = Color(0xFF38BDF8)
-                            )
-                        }
-                    }
-                }
-
-            } else {
-
-                Text(
-
-                    text = "❌ Camera permission required"
-                )
             }
-
-
         }
     }
 }
