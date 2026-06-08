@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.ui.graphics.Color
 
 import androidx.core.content.ContextCompat
 
@@ -86,18 +88,14 @@ fun ScanMangaScreen(
             if (!hasCameraPermission) {
 
                 Button(
-
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ),
                     onClick = {
-
-                        permissionLauncher.launch(
-                            Manifest.permission.CAMERA
-                        )
+                        permissionLauncher.launch(Manifest.permission.CAMERA)
                     }
                 ) {
-
-                    Text(
-                        text = "Open Camera"
-                    )
+                    Text("Open Camera")
                 }
 
             } else {
@@ -119,18 +117,14 @@ fun ScanMangaScreen(
                 )
 
                 Button(
-
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ),
                     onClick = {
-
-                        scanViewModel.takePhoto(
-                            context
-                        )
+                        scanViewModel.takePhoto(context)
                     }
                 ) {
-
-                    Text(
-                        text = "📸 Capture"
-                    )
+                    Text("📸 Capture")
                 }
 
                 Spacer(
@@ -142,14 +136,6 @@ fun ScanMangaScreen(
 
                     Spacer(
                         modifier = Modifier.height(12.dp)
-                    )
-
-                    Text(
-                        text = "✅ Imagen capturada correctamente"
-                    )
-
-                    Spacer(
-                        modifier = Modifier.height(8.dp)
                     )
 
                     androidx.compose.foundation.Image(
@@ -168,33 +154,22 @@ fun ScanMangaScreen(
 
                 Button(
                     enabled = capturedImageUri != null,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        disabledContainerColor = Color(0xFF334155)
+                    ),
                     onClick = {
 
-                        scanViewModel.recognizeText(
-
-                            context
-
-                        ) { found ->
-
+                        scanViewModel.recognizeText(context) { found ->
                             if (found) {
-
-                                navController.navigate(
-                                    Routes.OCRResults.route
-                                )
-
+                                navController.navigate(Routes.OCRResults.route)
                             } else {
-
-                                navController.navigate(
-                                    Routes.ManualManga.route
-                                )
+                                navController.navigate(Routes.ManualManga.route)
                             }
                         }
                     }
                 ) {
-
-                    Text(
-                        text = "🔍 Detect"
-                    )
+                    Text("🔍 Detect")
                 }
             }
         }
