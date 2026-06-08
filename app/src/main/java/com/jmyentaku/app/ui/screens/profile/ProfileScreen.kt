@@ -101,6 +101,23 @@ fun ProfileScreen(
                     navController.navigate(
                         Routes.Home.route
                     )
+                },
+                onAddedMangaClick = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+
+                    navController.navigate(
+                        Routes.AddedManga.route
+                    )
+                },
+                onScanMangaClick = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                    navController.navigate(
+                        Routes.ScanManga.route
+                    )
                 }
             )
         }

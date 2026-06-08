@@ -32,6 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jmyentaku.app.R
+import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.LibraryAdd
 
 @Composable
 fun DrawerContent(
@@ -40,7 +42,9 @@ fun DrawerContent(
     onProfileClick: () -> Unit,
     onBookmarksClick: () -> Unit,
     onContactClick: () -> Unit,
-    onHomeClick: () -> Unit
+    onHomeClick: () -> Unit,
+    onScanMangaClick: () -> Unit,
+    onAddedMangaClick: () -> Unit
 ) {
 
     Column(
@@ -169,6 +173,40 @@ fun DrawerContent(
             modifier = Modifier.height(20.dp)
         )
 
+        //SCAN MANGA
+        DrawerItem(
+            icon = Icons.Default.CameraAlt,
+
+            title = "Scan Manga",
+
+            onClick = {
+
+                onScanMangaClick()
+            }
+        )
+
+        Spacer(
+            modifier = Modifier.height(20.dp)
+        )
+
+        //ADDED MANGA
+        DrawerItem(
+
+            icon = Icons.Default.LibraryAdd,
+
+            title = "Added Manga",
+
+            onClick = {
+
+                onAddedMangaClick()
+            }
+        )
+
+        Spacer(
+            modifier = Modifier.height(20.dp)
+        )
+
+        //CONTACT
         DrawerItem(
 
             icon = Icons.Default.ContactSupport,

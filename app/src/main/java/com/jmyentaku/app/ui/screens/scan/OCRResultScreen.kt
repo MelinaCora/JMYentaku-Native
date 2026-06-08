@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.padding
 
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
@@ -109,13 +112,28 @@ fun OCRResultScreen(
                 },
 
                 onBookmarksClick = {
-
+                    scope.launch {
+                        drawerState.close()
+                    }
+                    navController.navigate(
+                        Routes.Bookmarks.route
+                    )
+                },
+                onAddedMangaClick = {
                     scope.launch {
                         drawerState.close()
                     }
 
                     navController.navigate(
-                        Routes.Bookmarks.route
+                        Routes.AddedManga.route
+                    )
+                },
+                onScanMangaClick = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                    navController.navigate(
+                        Routes.ScanManga.route
                     )
                 }
             )
@@ -213,6 +231,52 @@ fun OCRResultScreen(
                                         // Próximo paso:
                                         // navegar a DetailScreen
                                     }
+                                )
+                            }
+                        }
+                    }
+                    Spacer(
+                        modifier = Modifier.height(24.dp)
+                    )
+
+                    Card(
+
+                        modifier = Modifier.fillMaxWidth(),
+
+                        colors = CardDefaults.cardColors(
+
+                            containerColor = Color(0xFF1E293B)
+                        )
+                    ) {
+
+                        Column(
+
+                            modifier = Modifier.padding(16.dp)
+                        ) {
+
+                            Text(
+
+                                text = "Didn't find your manga?",
+
+                                color = Color.White
+                            )
+
+                            Spacer(
+                                modifier = Modifier.height(8.dp)
+                            )
+
+                            Button(
+
+                                onClick = {
+
+                                    navController.navigate(
+                                        Routes.ManualManga.route
+                                    )
+                                }
+                            ) {
+
+                                Text(
+                                    text = "➕ Add Manually"
                                 )
                             }
                         }

@@ -12,6 +12,7 @@ sealed class Routes(val route: String) {
     object Bookmarks : Routes("bookmarks")
     object OCRResults : Routes("ocr_results")
     object ManualManga : Routes("manual_manga")
+    object AddedManga:Routes("added_manga")
 
 }
 //funcion aux

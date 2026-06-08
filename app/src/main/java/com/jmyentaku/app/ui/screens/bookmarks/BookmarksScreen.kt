@@ -68,6 +68,24 @@ fun BookmarksScreen(navController: NavController) {
                 },
                 onBookmarksClick = {
                     scope.launch { drawerState.close() }
+                },
+
+                onAddedMangaClick = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+
+                    navController.navigate(
+                        Routes.AddedManga.route
+                    )
+                },
+                onScanMangaClick = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                    navController.navigate(
+                        Routes.ScanManga.route
+                    )
                 }
             )
         }

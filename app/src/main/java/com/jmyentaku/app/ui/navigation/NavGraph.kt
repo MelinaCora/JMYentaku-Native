@@ -18,6 +18,7 @@ import com.jmyentaku.app.ui.screens.contact.ContactScreen
 import com.jmyentaku.app.ui.screens.scan.ScanMangaScreen
 import com.jmyentaku.app.ui.screens.scan.OCRResultScreen
 import com.jmyentaku.app.ui.screens.scan.ManualMangaScreen
+import com.jmyentaku.app.ui.screens.scan.AddedMangaScreen
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jmyentaku.app.viewmodel.scan.ScanViewModel
@@ -103,6 +104,14 @@ fun NavGraph() {
         ) {
 
             ManualMangaScreen(
+                navController = navController
+            )
+        }
+
+        composable(
+            Routes.AddedManga.route
+        ){
+            AddedMangaScreen(
                 navController = navController
             )
         }

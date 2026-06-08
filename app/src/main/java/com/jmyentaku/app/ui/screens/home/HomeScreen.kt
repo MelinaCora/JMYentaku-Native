@@ -72,6 +72,14 @@ fun HomeScreen(navController: NavController) {
                 onBookmarksClick = {
                     scope.launch { drawerState.close() }
                     navController.navigate(Routes.Bookmarks.route)
+                },
+                onScanMangaClick = {
+                    scope.launch { drawerState.close() }
+                    navController.navigate(Routes.ScanManga.route)
+                },
+                onAddedMangaClick = {
+                    scope.launch { drawerState.close() }
+                    navController.navigate(Routes.AddedManga.route)
                 }
             )
         }
@@ -100,20 +108,7 @@ fun HomeScreen(navController: NavController) {
                         .padding(paddingValues)
                         .padding(top = 64.dp)
                 ) {
-                    //boton temporal para camara
-                    Button(
 
-                        onClick = {
-
-                            navController.navigate(
-                                Routes.ScanManga.route
-                            )
-                        }
-                    ) {
-
-                        Text("📷 Scan Manga")
-                    }
-                    //------------------------------------
                     if (viewModel.uiState.isLoading) {
 
                         Text(
