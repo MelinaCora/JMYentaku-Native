@@ -9,11 +9,16 @@ class ManualMangaRepository {
     private val firestore = FirebaseFirestore.getInstance()
 
     // SAVE manga manual
-    suspend fun saveManualManga(manga: ManualManga) {
-        firestore
+    fun saveManualManga(manga: ManualManga) {
+        FirebaseFirestore.getInstance()
             .collection("added_manga")
             .add(manga)
-            .await()
+            .addOnSuccessListener {
+                println("🔥 MANGA GUARDADO OK")
+            }
+            .addOnFailureListener {
+                println("❌ ERROR: ${it.message}")
+            }
     }
 
     // GET mangas
