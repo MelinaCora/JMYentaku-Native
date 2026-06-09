@@ -22,6 +22,20 @@ import com.jmyentaku.app.ui.navigation.Routes
 import com.jmyentaku.app.ui.navigation.passIdAndType
 import com.jmyentaku.app.viewmodel.profile.ProfileViewModel
 import kotlinx.coroutines.launch
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.LocationManager
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 
 @Composable
 fun ProfileScreen(
@@ -29,6 +43,7 @@ fun ProfileScreen(
 ) {
 
     val viewModel: ProfileViewModel = viewModel()
+    val context = LocalContext.current
 
     val uiState = viewModel.uiState
 
@@ -39,19 +54,6 @@ fun ProfileScreen(
 
     val scope =
         rememberCoroutineScope()
-
-    val challenges = listOf(
-        "Watch 5 anime episodes",
-        "Read 10 manga chapters",
-        "Maintain your streak"
-    )
-
-    val lists = listOf(
-        "Watching",
-        "Completed",
-        "Plan To Watch",
-        "Dropped"
-    )
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -221,6 +223,71 @@ fun ProfileScreen(
                                     )
                                 }
                             }
+                        }
+
+                        // UBICACIÓN - APARTADO
+                        item {
+                            Text(
+                                text = "My Location",
+                                color = Color.White,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(top = 16.dp)
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
+
+                        item {
+                            AndroidView(
+                                factory = { ctx ->
+                                    Configuration.getInstance().load(
+                                        ctx,
+                                        androidx.preference.PreferenceManager.getDefaultSharedPreferences(ctx)
+                                    )
+
+                                    MapView(ctx).apply {
+                                        setTileSource(TileSourceFactory.MAPNIK)
+                                        setMultiTouchControls(true)
+
+                                        if (ContextCompat.checkSelfPermission(
+                                                ctx,
+                                                Manifest.permission.ACCESS_FINE_LOCATION
+                                            ) == PackageManager.PERMISSION_GRANTED
+                                        ) {
+                                            try {
+                                                val locationManager = ctx.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                                                val lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                                                    ?: locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+                                                if (lastLocation != null) {
+                                                    val userLocation = GeoPoint(lastLocation.latitude, lastLocation.longitude)
+                                                    controller.setZoom(15.0)
+                                                    controller.setCenter(userLocation)
+
+                                                    val marker = Marker(this)
+                                                    marker.position = userLocation
+                                                    marker.title = "You are here"
+                                                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                                                    overlays.add(marker)
+                                                } else {
+                                                    controller.setZoom(10.0)
+                                                    controller.setCenter(GeoPoint(-34.6037, -58.3816))
+                                                }
+                                            } catch (e: Exception) {
+                                                controller.setZoom(10.0)
+                                                controller.setCenter(GeoPoint(-34.6037, -58.3816))
+                                            }
+                                        } else {
+                                            controller.setZoom(5.0)
+                                            controller.setCenter(GeoPoint(-34.6037, -58.3816))
+                                        }
+                                    }
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp)
+                                    .clip(RoundedCornerShape(16.dp))
+                            )
                         }
 
                         // CHALLENGES

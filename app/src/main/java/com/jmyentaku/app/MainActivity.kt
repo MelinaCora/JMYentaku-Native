@@ -15,6 +15,10 @@ import com.jmyentaku.app.workers.scheduleStreakCheck
 import com.jmyentaku.app.notifications.NotificationHelper
 
 import android.os.Build
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class MainActivity : ComponentActivity() {
 
@@ -35,6 +39,26 @@ class MainActivity : ComponentActivity() {
         scheduleDailyReminder(this)
         scheduleStreakCheck(this)
 
+        // Permisos de ubicación (para el mapa en Profile)
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                1001
+            )
+        }
+
         setContent {
             JMYentakuTheme {
                 Surface(
@@ -44,12 +68,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
         NotificationHelper.show(
             this,
             "TEST AUTOMÁTICO 🔔",
             "Se ejecuta al abrir la app"
         )
     }
-
-
 }
