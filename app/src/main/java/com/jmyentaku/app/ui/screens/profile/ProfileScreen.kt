@@ -225,16 +225,56 @@ fun ProfileScreen(
                             }
                         }
 
-                        // UBICACIÓN - APARTADO
+                        // CHALLENGES
                         item {
+
+                            Text(
+                                text = "Daily Challenges",
+                                color = Color.White,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
+
+                        items(uiState.challenges) { challenge ->
+                            ChallengeProgressCard(
+                                challenge = challenge
+                            )
+                        }
+
+                        // ACHIEVEMENTS
+                        item {
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            Text(
+                                text = "Achievements",
+                                color = Color.White,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            Spacer(modifier = Modifier.height(14.dp))
+                        }
+
+                        items(uiState.achievements) { achievement ->
+                            AchievementCard(
+                                achievement = achievement
+                            )
+                        }
+
+                        // UBICACIÓN
+                        item {
+                            Spacer(modifier = Modifier.height(8.dp))
                             Text(
                                 text = "My Location",
                                 color = Color.White,
                                 fontSize = 22.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(top = 16.dp)
+                                fontWeight = FontWeight.Bold
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(5.dp))
                         }
 
                         item {
@@ -287,46 +327,6 @@ fun ProfileScreen(
                                     .fillMaxWidth()
                                     .height(200.dp)
                                     .clip(RoundedCornerShape(16.dp))
-                            )
-                        }
-
-                        // CHALLENGES
-                        item {
-
-                            Text(
-                                text = "Daily Challenges",
-                                color = Color.White,
-                                fontSize = 22.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-
-                            Spacer(modifier = Modifier.height(12.dp))
-                        }
-
-                        items(uiState.challenges) { challenge ->
-                            ChallengeProgressCard(
-                                challenge = challenge
-                            )
-                        }
-
-                        // ACHIEVEMENTS
-                        item {
-
-                            Spacer(modifier = Modifier.height(10.dp))
-
-                            Text(
-                                text = "Achievements",
-                                color = Color.White,
-                                fontSize = 22.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-
-                            Spacer(modifier = Modifier.height(14.dp))
-                        }
-
-                        items(uiState.achievements) { achievement ->
-                            AchievementCard(
-                                achievement = achievement
                             )
                         }
                     }
