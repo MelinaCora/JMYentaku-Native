@@ -39,6 +39,7 @@ import com.jmyentaku.app.ui.components.GeneralComponent.DrawerContent
 import com.jmyentaku.app.ui.components.GeneralComponent.MainTopBar
 import com.jmyentaku.app.ui.navigation.Routes
 import com.jmyentaku.app.viewmodel.scan.ScanViewModel
+import com.jmyentaku.app.ui.navigation.passIdAndType
 
 import kotlinx.coroutines.launch
 
@@ -227,9 +228,13 @@ fun OCRResultScreen(
                                     type = "manga",
 
                                     onClick = {
-
-                                        // Próximo paso:
-                                        // navegar a DetailScreen
+                                        
+                                        navController.navigate(
+                                            passIdAndType(
+                                                manga.mal_id,
+                                                "manga"
+                                            )
+                                        )
                                     }
                                 )
                             }

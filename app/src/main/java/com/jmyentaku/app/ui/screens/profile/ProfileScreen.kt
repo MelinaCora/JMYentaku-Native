@@ -270,6 +270,10 @@ fun ProfileScreen(
                         item {
                             AndroidView(
                                 factory = { ctx ->
+
+                                    //debug
+                                    println("MAP FACTORY CREATED")
+
                                     Configuration.getInstance().load(
                                         ctx,
                                         androidx.preference.PreferenceManager.getDefaultSharedPreferences(ctx)
@@ -287,6 +291,12 @@ fun ProfileScreen(
                                             ) {
                                                 try {
                                                     val location = GoogleLocationHelper.getCurrentLocation(ctx)
+
+                                                    //debug
+                                                    android.util.Log.d(
+                                                        "LOCATION_TEST",
+                                                        "LOCATION RESULT: $location"
+                                                    )
 
                                                     if (location != null) {
                                                         val userLocation = GeoPoint(location.latitude, location.longitude)
