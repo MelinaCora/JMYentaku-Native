@@ -12,5 +12,10 @@ data class ManualManga(
 
     val genre: String = "",
 
-    val description: String = ""
+    val description: String = "",
+
+    //tracker
+    val currentChapter: Int = 0,
+
+    val status: String = "reading"
 )
