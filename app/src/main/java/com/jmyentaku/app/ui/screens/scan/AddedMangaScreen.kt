@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import androidx.compose.runtime.*
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.foundation.clickable
 
 
 import com.jmyentaku.app.data.model.ManualManga
@@ -88,68 +89,150 @@ fun MangaTrackerDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
+        containerColor = Color(0xFF0F172A), // fondo oscuro moderno
 
         title = {
-            Text(text = manga.title)
+            Text(
+                text = manga.title,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
         },
 
         text = {
 
             Column {
 
-                Text(
-                    text = "Status: ${manga.status}",
-                    color = Color.White
-                )
+                // 📊 PROGRESS CARD
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            Color(0xFF1E293B),
+                            shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+                        )
+                        .padding(12.dp)
+                ) {
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    Column {
 
-                Text(
-                    text = "Progress: ${manga.currentChapter} / ${manga.chapters}",
-                    color = Color(0xFF38BDF8)
-                )
+                        Text(
+                            text = "Progress",
+                            color = Color.LightGray
+                        )
+
+                        Text(
+                            text = "${manga.currentChapter} / ${manga.chapters}",
+                            color = Color(0xFF38BDF8),
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        Text(
+                            text = "Status: ${manga.status}",
+                            color = when (manga.status) {
+                                "completed" -> Color(0xFF22C55E)
+                                "reading" -> Color(0xFF38BDF8)
+                                "in_progress" -> Color(0xFFFACC15)
+                                else -> Color.Gray
+                            },
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text("Change status:")
+                Text(
+                    text = "Change status",
+                    color = Color.LightGray
+                )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Row {
+                // 🎯 CHIPS DE ESTADO
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
 
-                    Button(onClick = { onStatusChange("reading") }) {
-                        Text("Reading")
-                    }
+                    StatusChip(
+                        text = "Reading",
+                        color = Color(0xFF38BDF8),
+                        onClick = { onStatusChange("reading") }
+                    )
 
-                    Spacer(modifier = Modifier.width(6.dp))
+                    StatusChip(
+                        text = "In Progress",
+                        color = Color(0xFFFACC15),
+                        onClick = { onStatusChange("in_progress") }
+                    )
 
-                    Button(onClick = { onStatusChange("in_progress") }) {
-                        Text("In Progress")
-                    }
-
-                    Spacer(modifier = Modifier.width(6.dp))
-
-                    Button(onClick = { onStatusChange("completed") }) {
-                        Text("Completed")
-                    }
+                    StatusChip(
+                        text = "Completed",
+                        color = Color(0xFF22C55E),
+                        onClick = { onStatusChange("completed") }
+                    )
                 }
             }
         },
 
         confirmButton = {
 
-            Row {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
 
-                Button(onClick = onRemove) {
-                    Text("-")
-                }
+                ActionButton("-", onRemove)
 
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Button(onClick = onAdd) {
-                    Text("+")
-                }
+                ActionButton("+", onAdd)
             }
         }
     )
+}
+
+@Composable
+fun StatusChip(
+    text: String,
+    color: Color,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .background(
+                color.copy(alpha = 0.15f),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp)
+            )
+            .clickable { onClick() }
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+    ) {
+        Text(
+            text = text,
+            color = color,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+@Composable
+fun ActionButton(
+    text: String,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .background(
+                Color(0xFF38BDF8),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+            )
+            .clickable { onClick() }
+            .padding(horizontal = 18.dp, vertical = 10.dp)
+    ) {
+        Text(
+            text = text,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
+        )
+    }
 }
