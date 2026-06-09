@@ -23,9 +23,7 @@ import com.jmyentaku.app.ui.navigation.passIdAndType
 import com.jmyentaku.app.viewmodel.profile.ProfileViewModel
 import kotlinx.coroutines.launch
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -36,6 +34,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import com.jmyentaku.app.ui.components.location.GoogleLocationHelper
 
 @Composable
 fun ProfileScreen(
@@ -44,6 +43,7 @@ fun ProfileScreen(
 
     val viewModel: ProfileViewModel = viewModel()
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     val uiState = viewModel.uiState
 
@@ -51,9 +51,6 @@ fun ProfileScreen(
         rememberDrawerState(
             initialValue = DrawerValue.Closed
         )
-
-    val scope =
-        rememberCoroutineScope()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -156,7 +153,6 @@ fun ProfileScreen(
 
                         // HEADER
                         item {
-
                             ProfileHeader(
                                 username = uiState.username,
                                 title = uiState.title,
@@ -169,7 +165,6 @@ fun ProfileScreen(
 
                         // STATS
                         item {
-
                             Text(
                                 text = "Your Stats",
                                 color = Color.White,
@@ -182,12 +177,10 @@ fun ProfileScreen(
                             Column(
                                 verticalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
-
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                                 ) {
-
                                     ProfileStatCard(
                                         title = "Watching",
                                         value = uiState.watchingCount.toString(),
@@ -207,7 +200,6 @@ fun ProfileScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                                 ) {
-
                                     ProfileStatCard(
                                         title = "Planned",
                                         value = uiState.plannedCount.toString(),
@@ -227,7 +219,6 @@ fun ProfileScreen(
 
                         // CHALLENGES
                         item {
-
                             Text(
                                 text = "Daily Challenges",
                                 color = Color.White,
@@ -246,7 +237,6 @@ fun ProfileScreen(
 
                         // ACHIEVEMENTS
                         item {
-
                             Spacer(modifier = Modifier.height(10.dp))
 
                             Text(
@@ -265,7 +255,7 @@ fun ProfileScreen(
                             )
                         }
 
-                        // UBICACIÓN
+                        // UBI  CON GOOGLE
                         item {
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
@@ -289,37 +279,37 @@ fun ProfileScreen(
                                         setTileSource(TileSourceFactory.MAPNIK)
                                         setMultiTouchControls(true)
 
-                                        if (ContextCompat.checkSelfPermission(
-                                                ctx,
-                                                Manifest.permission.ACCESS_FINE_LOCATION
-                                            ) == PackageManager.PERMISSION_GRANTED
-                                        ) {
-                                            try {
-                                                val locationManager = ctx.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                                                val lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                                                    ?: locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                                        scope.launch {
+                                            if (ContextCompat.checkSelfPermission(
+                                                    ctx,
+                                                    Manifest.permission.ACCESS_FINE_LOCATION
+                                                ) == PackageManager.PERMISSION_GRANTED
+                                            ) {
+                                                try {
+                                                    val location = GoogleLocationHelper.getCurrentLocation(ctx)
 
-                                                if (lastLocation != null) {
-                                                    val userLocation = GeoPoint(lastLocation.latitude, lastLocation.longitude)
-                                                    controller.setZoom(15.0)
-                                                    controller.setCenter(userLocation)
+                                                    if (location != null) {
+                                                        val userLocation = GeoPoint(location.latitude, location.longitude)
+                                                        controller.setZoom(15.0)
+                                                        controller.setCenter(userLocation)
 
-                                                    val marker = Marker(this)
-                                                    marker.position = userLocation
-                                                    marker.title = "You are here"
-                                                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                                                    overlays.add(marker)
-                                                } else {
+                                                        val marker = Marker(this@apply)
+                                                        marker.position = userLocation
+                                                        marker.title = "You are here"
+                                                        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                                                        overlays.add(marker)
+                                                    } else {
+                                                        controller.setZoom(10.0)
+                                                        controller.setCenter(GeoPoint(-34.6037, -58.3816))
+                                                    }
+                                                } catch (e: Exception) {
                                                     controller.setZoom(10.0)
                                                     controller.setCenter(GeoPoint(-34.6037, -58.3816))
                                                 }
-                                            } catch (e: Exception) {
-                                                controller.setZoom(10.0)
+                                            } else {
+                                                controller.setZoom(5.0)
                                                 controller.setCenter(GeoPoint(-34.6037, -58.3816))
                                             }
-                                        } else {
-                                            controller.setZoom(5.0)
-                                            controller.setCenter(GeoPoint(-34.6037, -58.3816))
                                         }
                                     }
                                 },

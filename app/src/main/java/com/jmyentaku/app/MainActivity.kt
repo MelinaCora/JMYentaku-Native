@@ -19,6 +19,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.jmyentaku.app.ui.components.location.GoogleLocationHelper
 
 class MainActivity : ComponentActivity() {
 
@@ -39,7 +40,10 @@ class MainActivity : ComponentActivity() {
         scheduleDailyReminder(this)
         scheduleStreakCheck(this)
 
-        // Permisos de ubicación (para el mapa en Profile)
+        // Inicializar GoogleLocationHelper
+        GoogleLocationHelper.init(this)
+
+        // Permisos de ubicación
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
